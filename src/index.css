@@ -37,6 +37,7 @@ html {
   font-size: 16px;
   background-color: var(--bg-primary);
   color: var(--text-heading);
+  -webkit-tap-highlight-color: transparent;
 }
 
 body {
@@ -64,6 +65,15 @@ h1, h2, h3, h4, h5, h6 {
   padding: 0 2rem;
 }
 
+/* Responsive Visibility Helpers */
+.mobile-only {
+  display: none !important;
+}
+
+.desktop-only {
+  display: flex;
+}
+
 /* Luxury Editorial Buttons */
 .btn-luxury {
   display: inline-flex;
@@ -83,6 +93,7 @@ h1, h2, h3, h4, h5, h6 {
   cursor: pointer;
   transition: all 0.4s var(--ease-luxury);
   text-decoration: none;
+  min-height: 44px;
 }
 
 .btn-luxury:hover {
@@ -110,6 +121,7 @@ h1, h2, h3, h4, h5, h6 {
   transition: all 0.4s var(--ease-luxury);
   text-decoration: none;
   backdrop-filter: blur(8px);
+  min-height: 44px;
 }
 
 .btn-luxury-outline:hover {
@@ -147,9 +159,47 @@ h1, h2, h3, h4, h5, h6 {
   transform: scale(1.06);
 }
 
+/* Hide scrollbar helper */
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+.no-scrollbar {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+/* Keyframe Animations */
+@keyframes slideInRight {
+  from { transform: translateX(100%); }
+  to { transform: translateX(0); }
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes slideUp {
+  from { transform: translateY(100%); }
+  to { transform: translateY(0); }
+}
+
+.animate-slide-right {
+  animation: slideInRight 0.35s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+.animate-fade-in {
+  animation: fadeIn 0.3s ease forwards;
+}
+
+.animate-slide-up {
+  animation: slideUp 0.35s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
 /* Custom Scrollbar */
 ::-webkit-scrollbar {
   width: 6px;
+  height: 6px;
 }
 ::-webkit-scrollbar-track {
   background: var(--bg-primary);
@@ -159,4 +209,127 @@ h1, h2, h3, h4, h5, h6 {
 }
 ::-webkit-scrollbar-thumb:hover {
   background: var(--text-muted);
+}
+
+/* ==========================================================================
+   MEDIA QUERIES FOR TABLETS & MOBILE DEVICES
+   ========================================================================== */
+
+@media (max-width: 992px) {
+  .desktop-only {
+    display: none !important;
+  }
+  .mobile-only {
+    display: flex !important;
+  }
+
+  .container {
+    padding: 0 1.25rem;
+  }
+
+  /* Hero Section Grid */
+  .hero-grid {
+    grid-template-columns: 1fr !important;
+    gap: 2.5rem !important;
+  }
+  .hero-left-col {
+    grid-column: span 12 !important;
+  }
+  .hero-right-col {
+    grid-column: span 12 !important;
+  }
+
+  /* Grid Layout Overrides */
+  .loupe-container,
+  .bespoke-grid,
+  .checkout-grid {
+    grid-template-columns: 1fr !important;
+    padding: 1.5rem !important;
+    gap: 2rem !important;
+  }
+
+  .lookbook-grid,
+  .reviews-grid {
+    grid-template-columns: 1fr !important;
+    gap: 1.5rem !important;
+  }
+
+  .footer-links {
+    grid-template-columns: 1fr 1fr !important;
+    gap: 2rem !important;
+  }
+
+  /* Modal grids */
+  .modal-content {
+    grid-template-columns: 1fr !important;
+  }
+}
+
+@media (max-width: 768px) {
+  html {
+    font-size: 15px;
+  }
+
+  .container {
+    padding: 0 1rem;
+  }
+
+  /* Mobile Section Paddings */
+  section {
+    padding-top: 3.5rem !important;
+    padding-bottom: 3.5rem !important;
+  }
+
+  /* Buttons on Mobile */
+  .btn-luxury,
+  .btn-luxury-outline {
+    width: 100%;
+    padding: 1rem 1.5rem;
+    font-size: 0.78rem;
+  }
+
+  /* 2-Column Responsive Product Grid on Mobile */
+  .product-grid-responsive {
+    grid-template-columns: repeat(2, 1fr) !important;
+    gap: 1rem !important;
+  }
+
+  .product-card-image-wrapper {
+    height: 230px !important;
+  }
+
+  .footer-links {
+    grid-template-columns: 1fr !important;
+    gap: 2rem !important;
+  }
+
+  /* Mobile Spec Bar */
+  .hero-spec-bar {
+    grid-template-columns: repeat(3, 1fr) !important;
+    gap: 0.8rem !important;
+    margin-top: 2rem !important;
+    padding-top: 1.5rem !important;
+  }
+
+  .hero-spec-number {
+    font-size: 1.3rem !important;
+  }
+  .hero-spec-label {
+    font-size: 0.6rem !important;
+  }
+}
+
+@media (max-width: 480px) {
+  .product-grid-responsive {
+    grid-template-columns: repeat(2, 1fr) !important;
+    gap: 0.8rem !important;
+  }
+
+  .product-card-image-wrapper {
+    height: 200px !important;
+  }
+
+  .cart-drawer {
+    max-width: 100% !important;
+  }
 }

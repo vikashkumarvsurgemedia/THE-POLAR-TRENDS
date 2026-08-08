@@ -1,8 +1,14 @@
 import React, { useState } from 'react';
-import { ShoppingBag, Search, X } from 'lucide-react';
+import { ShoppingBag, Search, X, Menu, Sparkles, ChevronRight } from 'lucide-react';
 
 export default function Header({ cartCount, wishlistCount, onOpenCart, searchTerm, setSearchTerm, activeCategory, setActiveCategory }) {
   const [searchOpen, setSearchOpen] = useState(false);
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+
+  const handleMobileCategorySelect = (cat) => {
+    setActiveCategory(cat);
+    setMobileMenuOpen(false);
+  };
 
   return (
     <header style={{
@@ -18,50 +24,71 @@ export default function Header({ cartCount, wishlistCount, onOpenCart, searchTer
       <div style={{
         backgroundColor: '#000000',
         color: '#A1A1AA',
-        padding: '0.4rem 1rem',
-        fontSize: '0.72rem',
+        padding: '0.4rem 0.8rem',
+        fontSize: '0.65rem',
         fontWeight: 600,
-        letterSpacing: '0.2em',
+        letterSpacing: '0.15em',
         textTransform: 'uppercase',
         borderBottom: '1px solid rgba(0,0,0,0.05)',
-        textAlign: 'center'
+        textAlign: 'center',
+        whiteSpace: 'nowrap',
+        overflow: 'hidden',
+        textOverflow: 'ellipsis'
       }}>
-        ATELIER EDITION • 100% PIMA & GIZA COTTON • COMPLIMENTARY EXPRESS WORLDWIDE & INDIA SHIPPING
+        ATELIER EDITION • 100% PIMA & GIZA COTTON • COMPLIMENTARY EXPRESS SHIPPING
       </div>
 
-      {/* Main High Fashion Navbar */}
-      <div className="container" style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '1.2rem 2rem' }}>
+      {/* Main Navbar */}
+      <div className="container" style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '0.9rem 1.25rem' }}>
         
-        {/* Brand Logo Identity: High-Fashion Luxury Emblem */}
-        <a href="#" style={{ textDecoration: 'none', display: 'flex', alignItems: 'center', gap: '0.9rem' }}>
+        {/* Mobile Hamburger Menu Toggle */}
+        <button
+          onClick={() => setMobileMenuOpen(true)}
+          className="mobile-only"
+          style={{
+            background: 'none',
+            border: 'none',
+            color: '#111111',
+            cursor: 'pointer',
+            padding: '0.3rem',
+            marginRight: '0.5rem'
+          }}
+          aria-label="Open Mobile Menu"
+        >
+          <Menu size={22} />
+        </button>
+
+        {/* Brand Logo Identity */}
+        <a href="#" style={{ textDecoration: 'none', display: 'flex', alignItems: 'center', gap: '0.7rem' }}>
           <div style={{
             backgroundColor: '#111111',
             color: '#FFFFFF',
-            width: '42px',
-            height: '42px',
-            borderRadius: '0px', // Architectural sharp corners
+            width: '38px',
+            height: '38px',
+            borderRadius: '0px',
             display: 'flex',
             alignItems: 'center',
             justifyContent: 'center',
             fontFamily: 'Cinzel, serif',
             fontWeight: 800,
-            fontSize: '1.2rem',
-            letterSpacing: '0.05em'
+            fontSize: '1.15rem',
+            letterSpacing: '0.05em',
+            flexShrink: 0
           }}>
             P
           </div>
           <div style={{ display: 'flex', flexDirection: 'column' }}>
-            <span style={{ fontFamily: 'Cinzel, serif', fontWeight: 700, fontSize: '1.35rem', color: '#111111', letterSpacing: '0.18em' }}>
+            <span style={{ fontFamily: 'Cinzel, serif', fontWeight: 700, fontSize: '1.15rem', color: '#111111', letterSpacing: '0.15em', lineHeight: 1.1 }}>
               THE POLAR TREND
             </span>
-            <span style={{ fontFamily: 'Plus Jakarta Sans, sans-serif', fontSize: '0.6rem', fontWeight: 700, color: '#999999', letterSpacing: '0.3em', textTransform: 'uppercase' }}>
-              COTTON ATELIER • HAUTE EMBROIDERY
+            <span style={{ fontFamily: 'Plus Jakarta Sans, sans-serif', fontSize: '0.55rem', fontWeight: 700, color: '#999999', letterSpacing: '0.25em', textTransform: 'uppercase' }}>
+              COTTON ATELIER
             </span>
           </div>
         </a>
 
-        {/* Center High-Fashion Links */}
-        <nav style={{ display: 'flex', gap: '2.5rem', alignItems: 'center' }} className="desktop-only">
+        {/* Desktop Navigation Links */}
+        <nav style={{ display: 'flex', gap: '2rem', alignItems: 'center' }} className="desktop-only">
           <a
             href="#catalog"
             onClick={() => setActiveCategory('All Products')}
@@ -69,8 +96,8 @@ export default function Header({ cartCount, wishlistCount, onOpenCart, searchTer
               textDecoration: 'none',
               color: activeCategory === 'All Products' ? '#111111' : '#777777',
               fontWeight: 700,
-              fontSize: '0.78rem',
-              letterSpacing: '0.22em',
+              fontSize: '0.75rem',
+              letterSpacing: '0.2em',
               textTransform: 'uppercase',
               transition: 'color 0.3s'
             }}
@@ -84,12 +111,9 @@ export default function Header({ cartCount, wishlistCount, onOpenCart, searchTer
               textDecoration: 'none',
               color: activeCategory === 'Embroidery Edit' ? '#111111' : '#777777',
               fontWeight: 700,
-              fontSize: '0.78rem',
-              letterSpacing: '0.22em',
+              fontSize: '0.75rem',
+              letterSpacing: '0.2em',
               textTransform: 'uppercase',
-              display: 'flex',
-              alignItems: 'center',
-              gap: '0.4rem',
               transition: 'color 0.3s'
             }}
           >
@@ -102,8 +126,8 @@ export default function Header({ cartCount, wishlistCount, onOpenCart, searchTer
               textDecoration: 'none',
               color: activeCategory === 'Pure Whites' ? '#111111' : '#777777',
               fontWeight: 700,
-              fontSize: '0.78rem',
-              letterSpacing: '0.22em',
+              fontSize: '0.75rem',
+              letterSpacing: '0.2em',
               textTransform: 'uppercase',
               transition: 'color 0.3s'
             }}
@@ -116,8 +140,8 @@ export default function Header({ cartCount, wishlistCount, onOpenCart, searchTer
               textDecoration: 'none',
               color: '#777777',
               fontWeight: 700,
-              fontSize: '0.78rem',
-              letterSpacing: '0.22em',
+              fontSize: '0.75rem',
+              letterSpacing: '0.2em',
               textTransform: 'uppercase',
               transition: 'color 0.3s'
             }}
@@ -130,11 +154,11 @@ export default function Header({ cartCount, wishlistCount, onOpenCart, searchTer
               textDecoration: 'none',
               color: '#111111',
               fontWeight: 700,
-              fontSize: '0.78rem',
-              letterSpacing: '0.22em',
+              fontSize: '0.75rem',
+              letterSpacing: '0.2em',
               textTransform: 'uppercase',
               border: '1px solid rgba(0,0,0,0.2)',
-              padding: '0.4rem 0.9rem',
+              padding: '0.4rem 0.8rem',
               transition: 'all 0.3s'
             }}
           >
@@ -143,27 +167,27 @@ export default function Header({ cartCount, wishlistCount, onOpenCart, searchTer
         </nav>
 
         {/* Right Actions */}
-        <div style={{ display: 'flex', alignItems: 'center', gap: '1.5rem' }}>
+        <div style={{ display: 'flex', alignItems: 'center', gap: '1rem' }}>
           
           {/* Search Toggle */}
           <div style={{ position: 'relative' }}>
             {searchOpen ? (
-              <div style={{ display: 'flex', alignItems: 'center', backgroundColor: '#F0EDE8', border: '1px solid #E0DDD8', padding: '0.4rem 0.8rem' }}>
+              <div style={{ display: 'flex', alignItems: 'center', backgroundColor: '#F0EDE8', border: '1px solid #E0DDD8', padding: '0.35rem 0.6rem' }}>
                 <Search size={15} color="#111111" />
                 <input
                   type="text"
-                  placeholder="SEARCH ATELIER..."
+                  placeholder="SEARCH..."
                   value={searchTerm}
                   onChange={(e) => setSearchTerm(e.target.value)}
                   autoFocus
-                  style={{ border: 'none', background: 'transparent', outline: 'none', paddingLeft: '0.5rem', fontSize: '0.78rem', color: '#111111', letterSpacing: '0.1em', width: '160px' }}
+                  style={{ border: 'none', background: 'transparent', outline: 'none', paddingLeft: '0.4rem', fontSize: '0.75rem', color: '#111111', letterSpacing: '0.1em', width: '110px' }}
                 />
                 <X size={15} color="#111111" style={{ cursor: 'pointer' }} onClick={() => { setSearchOpen(false); setSearchTerm(''); }} />
               </div>
             ) : (
               <button
                 onClick={() => setSearchOpen(true)}
-                style={{ background: 'transparent', border: 'none', color: '#111111', cursor: 'pointer', display: 'flex', alignItems: 'center', gap: '0.4rem', fontSize: '0.78rem', letterSpacing: '0.15em', fontWeight: 700 }}
+                style={{ background: 'transparent', border: 'none', color: '#111111', cursor: 'pointer', display: 'flex', alignItems: 'center', gap: '0.4rem', fontSize: '0.75rem', letterSpacing: '0.15em', fontWeight: 700, padding: '0.4rem' }}
               >
                 <Search size={18} />
                 <span className="desktop-only">SEARCH</span>
@@ -178,25 +202,197 @@ export default function Header({ cartCount, wishlistCount, onOpenCart, searchTer
               backgroundColor: '#111111',
               color: '#FFFFFF',
               border: 'none',
-              padding: '0.65rem 1.4rem',
+              padding: '0.55rem 1.1rem',
               fontFamily: 'Plus Jakarta Sans, sans-serif',
               fontWeight: 800,
-              fontSize: '0.78rem',
-              letterSpacing: '0.2em',
+              fontSize: '0.75rem',
+              letterSpacing: '0.15em',
               display: 'flex',
               alignItems: 'center',
-              gap: '0.6rem',
+              gap: '0.5rem',
               cursor: 'pointer',
-              transition: 'all 0.3s'
+              minHeight: '40px'
             }}
           >
-            <ShoppingBag size={16} />
+            <ShoppingBag size={15} />
             <span>BAG ({cartCount})</span>
           </button>
 
         </div>
 
       </div>
+
+      {/* Mobile Menu Overlay Drawer */}
+      {mobileMenuOpen && (
+        <div style={{
+          position: 'fixed',
+          inset: 0,
+          zIndex: 450,
+          backgroundColor: 'rgba(0,0,0,0.6)',
+          backdropFilter: 'blur(8px)',
+          display: 'flex',
+          justifyContent: 'flex-start'
+        }} className="animate-fade-in">
+          <div style={{
+            width: '85%',
+            maxWidth: '340px',
+            backgroundColor: '#FAF9F6',
+            height: '100%',
+            display: 'flex',
+            flexDirection: 'column',
+            justifyContent: 'space-between',
+            boxShadow: '10px 0 30px rgba(0,0,0,0.5)',
+            padding: '1.5rem'
+          }} className="animate-slide-right">
+            
+            <div>
+              {/* Menu Header */}
+              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', paddingBottom: '1.2rem', borderBottom: '1px solid rgba(0,0,0,0.1)' }}>
+                <div style={{ fontFamily: 'Cinzel, serif', fontWeight: 700, fontSize: '1.1rem', letterSpacing: '0.15em', color: '#111111' }}>
+                  ATELIER NAVIGATION
+                </div>
+                <button
+                  onClick={() => setMobileMenuOpen(false)}
+                  style={{ background: 'none', border: 'none', color: '#111111', cursor: 'pointer', padding: '0.4rem' }}
+                >
+                  <X size={22} />
+                </button>
+              </div>
+
+              {/* Mobile Search Box */}
+              <div style={{ marginTop: '1.2rem', marginBottom: '1.5rem' }}>
+                <div style={{ display: 'flex', alignItems: 'center', backgroundColor: '#FFFFFF', border: '1px solid rgba(0,0,0,0.15)', padding: '0.6rem 0.8rem' }}>
+                  <Search size={16} color="#777777" />
+                  <input
+                    type="text"
+                    placeholder="Search Pima Cotton, Embroidery..."
+                    value={searchTerm}
+                    onChange={(e) => setSearchTerm(e.target.value)}
+                    style={{ border: 'none', background: 'transparent', outline: 'none', paddingLeft: '0.6rem', fontSize: '0.82rem', color: '#111111', width: '100%' }}
+                  />
+                </div>
+              </div>
+
+              {/* Nav Category Links */}
+              <div style={{ display: 'flex', flexDirection: 'column', gap: '0.3rem' }}>
+                <a
+                  href="#catalog"
+                  onClick={() => handleMobileCategorySelect('All Products')}
+                  style={{
+                    display: 'flex',
+                    justifyContent: 'space-between',
+                    alignItems: 'center',
+                    padding: '0.9rem 0.5rem',
+                    textDecoration: 'none',
+                    color: '#111111',
+                    fontFamily: 'Cinzel, serif',
+                    fontWeight: 700,
+                    fontSize: '0.95rem',
+                    borderBottom: '1px solid rgba(0,0,0,0.06)'
+                  }}
+                >
+                  <span>ALL COTTON SHIRTS</span>
+                  <ChevronRight size={16} color="#999" />
+                </a>
+
+                <a
+                  href="#catalog"
+                  onClick={() => handleMobileCategorySelect('Embroidery Edit')}
+                  style={{
+                    display: 'flex',
+                    justifyContent: 'space-between',
+                    alignItems: 'center',
+                    padding: '0.9rem 0.5rem',
+                    textDecoration: 'none',
+                    color: '#111111',
+                    fontFamily: 'Cinzel, serif',
+                    fontWeight: 700,
+                    fontSize: '0.95rem',
+                    borderBottom: '1px solid rgba(0,0,0,0.06)'
+                  }}
+                >
+                  <span>EMBROIDERY EDIT</span>
+                  <ChevronRight size={16} color="#999" />
+                </a>
+
+                <a
+                  href="#catalog"
+                  onClick={() => handleMobileCategorySelect('Pure Whites')}
+                  style={{
+                    display: 'flex',
+                    justifyContent: 'space-between',
+                    alignItems: 'center',
+                    padding: '0.9rem 0.5rem',
+                    textDecoration: 'none',
+                    color: '#111111',
+                    fontFamily: 'Cinzel, serif',
+                    fontWeight: 700,
+                    fontSize: '0.95rem',
+                    borderBottom: '1px solid rgba(0,0,0,0.06)'
+                  }}
+                >
+                  <span>PURE WHITES COLLECTION</span>
+                  <ChevronRight size={16} color="#999" />
+                </a>
+
+                <a
+                  href="#custom-embroidery"
+                  onClick={() => setMobileMenuOpen(false)}
+                  style={{
+                    display: 'flex',
+                    justifyContent: 'space-between',
+                    alignItems: 'center',
+                    padding: '0.9rem 0.5rem',
+                    textDecoration: 'none',
+                    color: '#D97706',
+                    fontFamily: 'Cinzel, serif',
+                    fontWeight: 700,
+                    fontSize: '0.95rem',
+                    borderBottom: '1px solid rgba(0,0,0,0.06)'
+                  }}
+                >
+                  <span style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
+                    <Sparkles size={16} /> BESPOKE MONOGRAMMING
+                  </span>
+                  <ChevronRight size={16} color="#D97706" />
+                </a>
+
+                <a
+                  href="#fabric-story"
+                  onClick={() => setMobileMenuOpen(false)}
+                  style={{
+                    display: 'flex',
+                    justifyContent: 'space-between',
+                    alignItems: 'center',
+                    padding: '0.9rem 0.5rem',
+                    textDecoration: 'none',
+                    color: '#111111',
+                    fontFamily: 'Cinzel, serif',
+                    fontWeight: 700,
+                    fontSize: '0.95rem',
+                    borderBottom: '1px solid rgba(0,0,0,0.06)'
+                  }}
+                >
+                  <span>COTTON SCIENCE & LOUPE</span>
+                  <ChevronRight size={16} color="#999" />
+                </a>
+              </div>
+            </div>
+
+            {/* Bottom Info */}
+            <div style={{ paddingTop: '1.5rem', borderTop: '1px solid rgba(0,0,0,0.1)' }}>
+              <div style={{ fontSize: '0.72rem', color: '#777777', letterSpacing: '0.1em', marginBottom: '0.4rem' }}>
+                FLAGSHIP ATELIERS
+              </div>
+              <div style={{ fontSize: '0.8rem', fontWeight: 700, color: '#111111' }}>
+                Mumbai • New Delhi • Bengaluru
+              </div>
+            </div>
+
+          </div>
+        </div>
+      )}
+
     </header>
   );
 }

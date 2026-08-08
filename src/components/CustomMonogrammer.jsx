@@ -1,5 +1,4 @@
 import React, { useState } from 'react';
-import { ShoppingBag } from 'lucide-react';
 
 export default function CustomMonogrammer({ products, onAddToCart }) {
   const [selectedShirtId, setSelectedShirtId] = useState(products[0]?.id || 'polar-001');
@@ -12,10 +11,10 @@ export default function CustomMonogrammer({ products, onAddToCart }) {
   const currentShirt = products.find(p => p.id === selectedShirtId) || products[0];
 
   const threadColors = [
-    { name: 'Saffron Gold', hex: '#D97706' },
-    { name: 'Pure White', hex: '#FFFFFF' },
-    { name: 'Midnight Black', hex: '#000000' },
-    { name: 'Royal Silver', hex: '#E4E4E7' }
+    { name: 'Gold', hex: '#D97706' },
+    { name: 'White', hex: '#FFFFFF' },
+    { name: 'Black', hex: '#000000' },
+    { name: 'Silver', hex: '#E4E4E7' }
   ];
 
   const fonts = [
@@ -38,18 +37,18 @@ export default function CustomMonogrammer({ products, onAddToCart }) {
   };
 
   return (
-    <section id="custom-embroidery" style={{ padding: '7rem 0', backgroundColor: '#FAF9F6', borderTop: '1px solid rgba(0,0,0,0.08)' }}>
+    <section id="custom-embroidery" style={{ padding: '4.5rem 0', backgroundColor: '#FAF9F6', borderTop: '1px solid rgba(0,0,0,0.08)' }}>
       <div className="container">
         
         {/* Header */}
-        <div style={{ textAlign: 'center', maxWidth: '800px', margin: '0 auto 4rem auto' }}>
-          <span className="editorial-tag" style={{ marginBottom: '1rem' }}>
+        <div style={{ textAlign: 'center', maxWidth: '800px', margin: '0 auto 3rem auto' }}>
+          <span className="editorial-tag" style={{ marginBottom: '0.8rem' }}>
             BESPOKE EMBROIDERED INITIALS STUDIO
           </span>
-          <h2 style={{ fontFamily: 'Cinzel, serif', fontSize: '2.8rem', fontWeight: 600, color: '#111111', marginTop: '0.8rem', marginBottom: '1rem' }}>
+          <h2 style={{ fontFamily: 'Cinzel, serif', fontSize: 'clamp(1.8rem, 4vw, 2.8rem)', fontWeight: 600, color: '#111111', marginTop: '0.6rem', marginBottom: '0.8rem' }}>
             Personalized Monogram Atelier
           </h2>
-          <p style={{ fontSize: '1.05rem', color: '#555555', lineHeight: 1.7 }}>
+          <p style={{ fontSize: 'clamp(0.9rem, 1.8vw, 1.05rem)', color: '#555555', lineHeight: 1.65 }}>
             Personalize any 100% cotton shirt with your bespoke initials hand-stitched by Jaipur master embroiderers. Live studio preview below.
           </p>
         </div>
@@ -58,18 +57,18 @@ export default function CustomMonogrammer({ products, onAddToCart }) {
         <div style={{
           display: 'grid',
           gridTemplateColumns: '1fr 1fr',
-          gap: '4rem',
+          gap: '3rem',
           backgroundColor: '#FFFFFF',
-          padding: '3.5rem',
+          padding: '2.5rem',
           border: '1px solid rgba(0, 0, 0, 0.08)'
         }} className="bespoke-grid">
 
           {/* Left Controls */}
-          <div style={{ display: 'flex', flexDirection: 'column', gap: '2rem' }}>
+          <div style={{ display: 'flex', flexDirection: 'column', gap: '1.5rem' }}>
             
             {/* 1. Shirt Selection */}
             <div>
-              <label style={{ display: 'block', fontSize: '0.72rem', fontWeight: 800, color: '#777777', letterSpacing: '0.2em', textTransform: 'uppercase', marginBottom: '0.6rem' }}>
+              <label style={{ display: 'block', fontSize: '0.68rem', fontWeight: 800, color: '#777777', letterSpacing: '0.18em', textTransform: 'uppercase', marginBottom: '0.4rem' }}>
                 1. SELECT COTTON SHIRT CANVAS
               </label>
               <select
@@ -77,14 +76,15 @@ export default function CustomMonogrammer({ products, onAddToCart }) {
                 onChange={(e) => setSelectedShirtId(e.target.value)}
                 style={{
                   width: '100%',
-                  padding: '0.9rem 1rem',
+                  padding: '0.8rem',
                   backgroundColor: '#FAF9F6',
                   border: '1px solid rgba(0,0,0,0.15)',
                   color: '#111111',
                   fontFamily: 'Cinzel, serif',
-                  fontSize: '0.9rem',
+                  fontSize: '0.85rem',
                   outline: 'none',
-                  cursor: 'pointer'
+                  cursor: 'pointer',
+                  minHeight: '44px'
                 }}
               >
                 {products.map(p => (
@@ -97,7 +97,7 @@ export default function CustomMonogrammer({ products, onAddToCart }) {
 
             {/* 2. Initials Input */}
             <div>
-              <label style={{ display: 'block', fontSize: '0.72rem', fontWeight: 800, color: '#777777', letterSpacing: '0.2em', textTransform: 'uppercase', marginBottom: '0.6rem' }}>
+              <label style={{ display: 'block', fontSize: '0.68rem', fontWeight: 800, color: '#777777', letterSpacing: '0.18em', textTransform: 'uppercase', marginBottom: '0.4rem' }}>
                 2. ENTER MONOGRAM INITIALS (MAX 3)
               </label>
               <input
@@ -107,25 +107,26 @@ export default function CustomMonogrammer({ products, onAddToCart }) {
                 onChange={(e) => setInitials(e.target.value.toUpperCase())}
                 style={{
                   width: '100%',
-                  padding: '0.9rem 1rem',
+                  padding: '0.8rem',
                   backgroundColor: '#FAF9F6',
                   border: '1px solid rgba(0,0,0,0.2)',
                   color: '#111111',
                   fontFamily: 'Cinzel, serif',
-                  fontSize: '1.4rem',
+                  fontSize: '1.2rem',
                   letterSpacing: '0.2em',
                   textTransform: 'uppercase',
-                  outline: 'none'
+                  outline: 'none',
+                  minHeight: '44px'
                 }}
               />
             </div>
 
             {/* 3. Thread Color */}
             <div>
-              <label style={{ display: 'block', fontSize: '0.72rem', fontWeight: 800, color: '#777777', letterSpacing: '0.2em', textTransform: 'uppercase', marginBottom: '0.6rem' }}>
+              <label style={{ display: 'block', fontSize: '0.68rem', fontWeight: 800, color: '#777777', letterSpacing: '0.18em', textTransform: 'uppercase', marginBottom: '0.4rem' }}>
                 3. SELECT SILK THREAD COLOR
               </label>
-              <div style={{ display: 'flex', gap: '0.8rem' }}>
+              <div style={{ display: 'flex', gap: '0.5rem', flexWrap: 'wrap' }}>
                 {threadColors.map(c => (
                   <button
                     key={c.name}
@@ -133,17 +134,18 @@ export default function CustomMonogrammer({ products, onAddToCart }) {
                     style={{
                       display: 'flex',
                       alignItems: 'center',
-                      gap: '0.5rem',
-                      padding: '0.6rem 1rem',
+                      gap: '0.4rem',
+                      padding: '0.5rem 0.8rem',
                       border: threadColor === c.hex ? '1px solid #111111' : '1px solid rgba(0,0,0,0.12)',
                       backgroundColor: threadColor === c.hex ? 'rgba(0,0,0,0.05)' : 'transparent',
                       color: '#111111',
                       cursor: 'pointer',
-                      fontSize: '0.78rem',
-                      letterSpacing: '0.1em'
+                      fontSize: '0.75rem',
+                      letterSpacing: '0.08em',
+                      minHeight: '38px'
                     }}
                   >
-                    <span style={{ width: '14px', height: '14px', borderRadius: '50%', backgroundColor: c.hex, border: '1px solid #CCC' }} />
+                    <span style={{ width: '14px', height: '14px', borderRadius: '50%', backgroundColor: c.hex, border: '1px solid #CCC', flexShrink: 0 }} />
                     <span>{c.name}</span>
                   </button>
                 ))}
@@ -152,24 +154,25 @@ export default function CustomMonogrammer({ products, onAddToCart }) {
 
             {/* 4. Font Typography */}
             <div>
-              <label style={{ display: 'block', fontSize: '0.72rem', fontWeight: 800, color: '#777777', letterSpacing: '0.2em', textTransform: 'uppercase', marginBottom: '0.6rem' }}>
+              <label style={{ display: 'block', fontSize: '0.68rem', fontWeight: 800, color: '#777777', letterSpacing: '0.18em', textTransform: 'uppercase', marginBottom: '0.4rem' }}>
                 4. SELECT TYPOGRAPHY STYLE
               </label>
-              <div style={{ display: 'flex', flexDirection: 'column', gap: '0.6rem' }}>
+              <div style={{ display: 'flex', flexDirection: 'column', gap: '0.4rem' }}>
                 {fonts.map(f => (
                   <button
                     key={f.name}
                     onClick={() => setFontStyle(f.font)}
                     style={{
                       textAlign: 'left',
-                      padding: '0.8rem 1rem',
+                      padding: '0.7rem 0.9rem',
                       border: fontStyle === f.font ? '1px solid #111111' : '1px solid rgba(0,0,0,0.12)',
                       backgroundColor: fontStyle === f.font ? '#111111' : 'transparent',
                       color: fontStyle === f.font ? '#FFFFFF' : '#111111',
                       fontFamily: f.font,
-                      fontSize: '1rem',
+                      fontSize: '0.9rem',
                       fontWeight: 600,
-                      cursor: 'pointer'
+                      cursor: 'pointer',
+                      minHeight: '40px'
                     }}
                   >
                     {f.name} — "{initials || 'TPT'}"
@@ -180,24 +183,25 @@ export default function CustomMonogrammer({ products, onAddToCart }) {
 
             {/* 5. Placement */}
             <div>
-              <label style={{ display: 'block', fontSize: '0.72rem', fontWeight: 800, color: '#777777', letterSpacing: '0.2em', textTransform: 'uppercase', marginBottom: '0.6rem' }}>
+              <label style={{ display: 'block', fontSize: '0.68rem', fontWeight: 800, color: '#777777', letterSpacing: '0.18em', textTransform: 'uppercase', marginBottom: '0.4rem' }}>
                 5. EMBROIDERED PLACEMENT
               </label>
-              <div style={{ display: 'flex', gap: '0.8rem' }}>
+              <div style={{ display: 'flex', gap: '0.5rem' }}>
                 {['Cuff', 'Chest Pocket', 'Lower Hem'].map(p => (
                   <button
                     key={p}
                     onClick={() => setPlacement(p)}
                     style={{
                       flex: 1,
-                      padding: '0.6rem 0',
+                      padding: '0.5rem 0.2rem',
                       border: placement === p ? '1px solid #111111' : '1px solid rgba(0,0,0,0.12)',
                       backgroundColor: placement === p ? '#111111' : 'transparent',
                       color: placement === p ? '#FFFFFF' : '#111111',
                       fontWeight: 800,
-                      fontSize: '0.75rem',
-                      letterSpacing: '0.1em',
-                      cursor: 'pointer'
+                      fontSize: '0.7rem',
+                      letterSpacing: '0.08em',
+                      cursor: 'pointer',
+                      minHeight: '38px'
                     }}
                   >
                     {p}
@@ -214,7 +218,7 @@ export default function CustomMonogrammer({ products, onAddToCart }) {
             <div style={{
               position: 'relative',
               width: '100%',
-              height: '440px',
+              height: 'clamp(300px, 40vh, 420px)',
               border: '1px solid rgba(0,0,0,0.15)',
               backgroundColor: '#F5F3EF',
               overflow: 'hidden'
@@ -230,29 +234,29 @@ export default function CustomMonogrammer({ products, onAddToCart }) {
                 top: placement === 'Chest Pocket' ? '38%' : placement === 'Cuff' ? '68%' : '82%',
                 left: placement === 'Chest Pocket' ? '32%' : placement === 'Cuff' ? '70%' : '50%',
                 transform: 'translate(-50%, -50%)',
-                backgroundColor: 'rgba(250, 249, 246, 0.9)',
+                backgroundColor: 'rgba(250, 249, 246, 0.92)',
                 backdropFilter: 'blur(8px)',
-                padding: '0.6rem 1.4rem',
+                padding: '0.5rem 1.1rem',
                 border: `1px solid ${threadColor}`,
                 color: threadColor,
                 fontFamily: fontStyle,
-                fontSize: '1.8rem',
+                fontSize: '1.4rem',
                 fontWeight: 700,
                 letterSpacing: '0.15em'
               }}>
                 {initials || 'TPT'}
               </div>
 
-              <div style={{ position: 'absolute', top: '16px', right: '16px', backgroundColor: '#111111', color: '#FFFFFF', padding: '0.35rem 0.8rem', fontSize: '0.68rem', fontWeight: 800, letterSpacing: '0.2em', border: '1px solid rgba(0,0,0,0.1)' }}>
+              <div style={{ position: 'absolute', top: '12px', right: '12px', backgroundColor: '#111111', color: '#FFFFFF', padding: '0.3rem 0.6rem', fontSize: '0.6rem', fontWeight: 800, letterSpacing: '0.18em', border: '1px solid rgba(0,0,0,0.1)' }}>
                 ATELIER LIVE PREVIEW
               </div>
             </div>
 
-            <div style={{ width: '100%', marginTop: '2rem' }}>
+            <div style={{ width: '100%', marginTop: '1.5rem' }}>
               <button
                 onClick={handleCustomAdd}
                 className="btn-luxury"
-                style={{ width: '100%', padding: '1.2rem' }}
+                style={{ width: '100%', padding: '1.1rem' }}
               >
                 {orderedToast ? 'BESPOKE MONOGRAM ADDED!' : `ORDER BESPOKE PIECE • ₹${(currentShirt.price + 499).toLocaleString('en-IN')}`}
               </button>

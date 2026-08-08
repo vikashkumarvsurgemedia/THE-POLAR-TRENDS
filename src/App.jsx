@@ -10,6 +10,7 @@ import CartDrawer from './components/CartDrawer';
 import ProductModal from './components/ProductModal';
 import CheckoutModal from './components/CheckoutModal';
 import Footer from './components/Footer';
+import MobileBottomBar from './components/MobileBottomBar';
 import { PRODUCTS } from './data/products';
 
 export default function App() {
@@ -158,6 +159,15 @@ export default function App() {
         cartItems={cartItems}
         checkoutTotals={checkoutTotals}
         onClearCart={handleClearCart}
+      />
+
+      {/* Mobile Sticky Bottom Navigation Bar */}
+      <MobileBottomBar
+        cartCount={cartItems.reduce((sum, item) => sum + item.quantity, 0)}
+        wishlistCount={wishlist.length}
+        onOpenCart={() => setCartOpen(true)}
+        activeCategory={activeCategory}
+        setActiveCategory={setActiveCategory}
       />
 
     </div>
