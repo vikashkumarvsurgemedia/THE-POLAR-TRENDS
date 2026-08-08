@@ -1,0 +1,162 @@
+/* ==========================================================================
+   THE POLAR TREND - Ultra-Luxury Editorial E-Commerce Design System
+   Inspired by Incroy & Merv, Zauv, Atarasva & High-Fashion Luxury Ateliers
+   ========================================================================== */
+
+:root {
+  --bg-primary: #FAF9F6;
+  --bg-secondary: #F0EDE8;
+  --bg-feature: #1C1C1C;
+  --bg-card: #FFFFFF;
+  --bg-footer: #1A1A1A;
+  --text-heading: #111111;
+  --text-body: #555555;
+  --text-muted: #999999;
+  --text-on-dark: #FFFFFF;
+  --accent-gold: #D97706;
+  --border-light: rgba(0, 0, 0, 0.08);
+  --border-medium: rgba(0, 0, 0, 0.15);
+
+  /* Fonts */
+  --font-serif: 'Cinzel', 'Cormorant Garamond', Georgia, serif;
+  --font-sans: 'Plus Jakarta Sans', -apple-system, sans-serif;
+  --font-display: 'Syne', sans-serif;
+
+  /* Transitions */
+  --ease-luxury: cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  scroll-behavior: smooth;
+  font-size: 16px;
+  background-color: var(--bg-primary);
+  color: var(--text-heading);
+}
+
+body {
+  font-family: var(--font-sans);
+  background-color: var(--bg-primary);
+  color: var(--text-body);
+  line-height: 1.6;
+  overflow-x: hidden;
+  -webkit-font-smoothing: antialiased;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-family: var(--font-serif);
+  font-weight: 600;
+  color: var(--text-heading);
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+
+/* Container */
+.container {
+  width: 100%;
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 0 2rem;
+}
+
+/* Luxury Editorial Buttons */
+.btn-luxury {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.75rem;
+  padding: 1.1rem 2.5rem;
+  font-family: var(--font-sans);
+  font-size: 0.82rem;
+  font-weight: 700;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  border-radius: 0px;
+  border: 1px solid #111111;
+  background-color: #111111;
+  color: #FFFFFF;
+  cursor: pointer;
+  transition: all 0.4s var(--ease-luxury);
+  text-decoration: none;
+}
+
+.btn-luxury:hover {
+  background-color: transparent;
+  color: #111111;
+  transform: translateY(-2px);
+}
+
+.btn-luxury-outline {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.75rem;
+  padding: 1.1rem 2.5rem;
+  font-family: var(--font-sans);
+  font-size: 0.82rem;
+  font-weight: 700;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  border-radius: 0px;
+  border: 1px solid rgba(0,0,0,0.3);
+  background: transparent;
+  color: #111111;
+  cursor: pointer;
+  transition: all 0.4s var(--ease-luxury);
+  text-decoration: none;
+  backdrop-filter: blur(8px);
+}
+
+.btn-luxury-outline:hover {
+  border-color: #111111;
+  background: #111111;
+  color: #FFFFFF;
+  transform: translateY(-2px);
+}
+
+/* Editorial Tag */
+.editorial-tag {
+  display: inline-block;
+  font-family: var(--font-sans);
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.25em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+  border-bottom: 1px solid var(--accent-gold);
+  padding-bottom: 0.2rem;
+}
+
+/* Image Hover Zoom Container */
+.luxury-card-img-wrapper {
+  position: relative;
+  overflow: hidden;
+  background-color: #F5F3EF;
+}
+
+.luxury-card-img-wrapper img {
+  transition: transform 0.7s var(--ease-luxury), opacity 0.5s ease;
+}
+
+.luxury-card-img-wrapper:hover img.primary-img {
+  transform: scale(1.06);
+}
+
+/* Custom Scrollbar */
+::-webkit-scrollbar {
+  width: 6px;
+}
+::-webkit-scrollbar-track {
+  background: var(--bg-primary);
+}
+::-webkit-scrollbar-thumb {
+  background: var(--bg-secondary);
+}
+::-webkit-scrollbar-thumb:hover {
+  background: var(--text-muted);
+}
