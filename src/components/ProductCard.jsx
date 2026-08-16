@@ -1,188 +1,194 @@
 import React, { useState } from 'react';
-import { Eye, Heart, ShoppingBag } from 'lucide-react';
+import { Heart } from 'lucide-react';
 
 export default function ProductCard({ product, onQuickView, onAddToCart, onToggleWishlist, isWishlisted }) {
   const [hovered, setHovered] = useState(false);
+  const [btnHovered, setBtnHovered] = useState(false);
   const [addedToast, setAddedToast] = useState(false);
 
-  const handleQuickSizeAdd = (size, e) => {
+  const handleAdd = (e) => {
     e.stopPropagation();
-    onAddToCart({ ...product, selectedSize: size }, 1);
+    onAddToCart({ ...product, selectedSize: 'M' }, 1);
     setAddedToast(true);
     setTimeout(() => setAddedToast(false), 2000);
   };
+
+  const getBadgeBg = (badge) => {
+    const b = badge?.toLowerCase();
+    if (b === 'new') return '#000080';
+    if (b === 'limited') return '#D72C0D';
+    return '#1A1B18'; // Best Seller or others
+  };
+
+  const isDiscounted = product.originalPrice && product.originalPrice > product.price;
+  const discountPercent = isDiscounted 
+    ? Math.round(((product.originalPrice - product.price) / product.originalPrice) * 100) 
+    : 0;
 
   return (
     <div
       style={{
         backgroundColor: '#FFFFFF',
-        border: '1px solid rgba(0, 0, 0, 0.06)',
-        transition: 'all 0.4s cubic-bezier(0.16, 1, 0.3, 1)',
+        borderRadius: '10px',
+        overflow: 'hidden',
+        cursor: 'pointer',
+        boxShadow: hovered ? '0 4px 16px rgba(0,0,0,0.1)' : '0 1px 4px rgba(0,0,0,0.06)',
+        transform: hovered ? 'translateY(-2px)' : 'none',
+        transition: 'all 0.3s ease',
         display: 'flex',
-        flexDirection: 'column',
-        position: 'relative'
+        flexDirection: 'column'
       }}
       onMouseEnter={() => setHovered(true)}
       onMouseLeave={() => setHovered(false)}
+      onClick={() => onQuickView(product)}
     >
-      {/* Product Image Box */}
+      <style>{`
+        .product-card-image-wrapper { height: 300px; }
+        @media (max-width: 768px) {
+          .product-card-image-wrapper { height: 220px; }
+        }
+      `}</style>
+      
+      {/* IMAGE AREA */}
       <div
-        className="luxury-card-img-wrapper product-card-image-wrapper"
-        style={{ position: 'relative', width: '100%', height: '340px', cursor: 'pointer' }}
-        onClick={() => onQuickView(product)}
+        className="product-card-image-wrapper"
+        style={{
+          position: 'relative',
+          overflow: 'hidden',
+          width: '100%'
+        }}
       >
         <img
           src={product.image}
           alt={product.name}
-          className="primary-img"
-          style={{ width: '100%', height: '100%', objectFit: 'cover' }}
+          style={{
+            width: '100%',
+            height: '100%',
+            objectFit: 'cover',
+            transform: hovered ? 'scale(1.05)' : 'scale(1)',
+            transition: 'transform 0.5s ease'
+          }}
         />
 
-        {/* Top Badges */}
-        <div style={{ position: 'absolute', top: '10px', left: '10px', zIndex: 2 }}>
-          {product.badge && (
-            <span style={{
-              backgroundColor: '#111111',
-              color: '#FFFFFF',
-              padding: '0.25rem 0.6rem',
-              fontSize: '0.6rem',
-              fontWeight: 800,
-              letterSpacing: '0.15em',
-              textTransform: 'uppercase',
-              border: '1px solid rgba(0,0,0,0.1)'
-            }}>
-              {product.badge}
-            </span>
-          )}
-        </div>
+        {product.badge && (
+          <span style={{
+            position: 'absolute',
+            top: '10px',
+            left: '10px',
+            backgroundColor: getBadgeBg(product.badge),
+            color: '#FFFFFF',
+            fontFamily: "'Poppins', sans-serif",
+            fontSize: '10px',
+            fontWeight: 600,
+            padding: '4px 10px',
+            borderRadius: '4px',
+            zIndex: 2
+          }}>
+            {product.badge}
+          </span>
+        )}
 
-        {/* Wishlist Icon */}
         <button
           onClick={(e) => { e.stopPropagation(); onToggleWishlist(product.id); }}
           style={{
             position: 'absolute',
             top: '10px',
             right: '10px',
-            width: '36px',
-            height: '36px',
-            backgroundColor: 'rgba(255, 255, 255, 0.9)',
-            backdropFilter: 'blur(6px)',
-            border: '1px solid rgba(0,0,0,0.1)',
+            width: '32px',
+            height: '32px',
+            backgroundColor: '#FFFFFF',
+            borderRadius: '50%',
+            boxShadow: '0 2px 6px rgba(0,0,0,0.1)',
             display: 'flex',
             alignItems: 'center',
             justifyContent: 'center',
+            border: 'none',
             cursor: 'pointer',
-            zIndex: 3
+            zIndex: 2
           }}
-          aria-label="Wishlist"
         >
-          <Heart size={16} fill={isWishlisted ? '#111111' : 'none'} color={isWishlisted ? '#111111' : '#999999'} />
+          <Heart size={16} fill={isWishlisted ? '#D72C0D' : 'none'} color={isWishlisted ? '#D72C0D' : '#999'} />
         </button>
-
-        {/* Hover / Touch Quick Size Selector Overlay */}
-        <div
-          style={{
-            position: 'absolute',
-            bottom: 0,
-            left: 0,
-            right: 0,
-            backgroundColor: 'rgba(250, 249, 246, 0.97)',
-            backdropFilter: 'blur(10px)',
-            padding: '0.6rem 0.8rem',
-            borderTop: '1px solid rgba(0,0,0,0.1)',
-            display: 'flex',
-            flexDirection: 'column',
-            gap: '0.4rem',
-            transform: hovered ? 'translateY(0)' : 'translateY(100%)',
-            opacity: hovered ? 1 : 0,
-            transition: 'all 0.35s cubic-bezier(0.16, 1, 0.3, 1)',
-            zIndex: 3
-          }}
-          className="desktop-only"
-        >
-          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-            <span style={{ fontSize: '0.62rem', fontWeight: 800, color: '#777777', letterSpacing: '0.12em' }}>
-              {addedToast ? '✓ ADDED TO BAG!' : 'QUICK ADD SIZE:'}
-            </span>
-            <button
-              onClick={(e) => { e.stopPropagation(); onQuickView(product); }}
-              style={{ background: 'none', border: 'none', color: '#111111', fontSize: '0.62rem', fontWeight: 700, letterSpacing: '0.08em', cursor: 'pointer', display: 'flex', alignItems: 'center', gap: '2px' }}
-            >
-              <Eye size={12} /> DETAILS
-            </button>
-          </div>
-
-          <div style={{ display: 'flex', gap: '0.3rem' }}>
-            {product.sizes.map(size => (
-              <button
-                key={size}
-                onClick={(e) => handleQuickSizeAdd(size, e)}
-                style={{
-                  flex: 1,
-                  padding: '0.3rem 0',
-                  border: '1px solid rgba(0,0,0,0.15)',
-                  backgroundColor: 'rgba(0,0,0,0.03)',
-                  color: '#111111',
-                  fontSize: '0.7rem',
-                  fontWeight: 800,
-                  cursor: 'pointer',
-                  transition: 'all 0.2s',
-                  minHeight: '32px'
-                }}
-              >
-                {size}
-              </button>
-            ))}
-          </div>
-        </div>
       </div>
 
-      {/* Card Details */}
-      <div style={{ padding: '1rem', display: 'flex', flexDirection: 'column', flex: 1, justifyContent: 'space-between' }}>
-        <div>
-          <div style={{ fontSize: '0.62rem', fontWeight: 800, color: '#999999', letterSpacing: '0.18em', textTransform: 'uppercase', marginBottom: '0.3rem' }}>
-            {product.category}
+      {/* DETAILS AREA */}
+      <div style={{ padding: '14px', flex: 1, display: 'flex', flexDirection: 'column' }}>
+        <h3 style={{
+          fontFamily: "'Work Sans', sans-serif",
+          fontSize: '14px',
+          fontWeight: 500,
+          color: '#212326',
+          margin: '0 0 4px 0',
+          display: '-webkit-box',
+          WebkitLineClamp: 2,
+          WebkitBoxOrient: 'vertical',
+          overflow: 'hidden'
+        }}>
+          {product.name}
+        </h3>
+        
+        <p style={{
+          fontFamily: "'Poppins', sans-serif",
+          fontSize: '12px',
+          color: '#777777',
+          margin: '0 0 6px 0',
+          whiteSpace: 'nowrap',
+          overflow: 'hidden',
+          textOverflow: 'ellipsis'
+        }}>
+          {product.embroidery || product.description}
+        </p>
+
+        {/* Rating */}
+        <div style={{ display: 'flex', alignItems: 'center', gap: '4px', marginBottom: '6px' }}>
+          <div style={{ display: 'flex', color: '#FBBC04', fontSize: '12px' }}>
+            {'★'.repeat(Math.round(product.rating || 5))}
+            <span style={{ color: '#eee' }}>{'★'.repeat(5 - Math.round(product.rating || 5))}</span>
           </div>
-
-          <h3 style={{ fontFamily: 'Cinzel, serif', fontSize: '0.95rem', fontWeight: 600, color: '#111111', lineHeight: 1.25, marginBottom: '0.3rem' }}>
-            {product.name}
-          </h3>
-
-          <p style={{ fontSize: '0.75rem', color: '#777777', lineHeight: 1.35, marginBottom: '0.8rem', height: '2.7em', overflow: 'hidden' }}>
-            {product.embroidery}
-          </p>
+          <span style={{ fontFamily: "'Poppins', sans-serif", fontSize: '12px', color: '#777' }}>
+            ({product.reviews || 0})
+          </span>
         </div>
 
-        <div style={{ paddingTop: '0.6rem', borderTop: '1px solid rgba(0, 0, 0, 0.06)', display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
-          <div style={{ fontFamily: 'Cinzel, serif', fontSize: '1.05rem', fontWeight: 700, color: '#111111' }}>
+        {/* Price Row */}
+        <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginTop: 'auto' }}>
+          <span style={{ fontFamily: "'Work Sans', sans-serif", fontSize: '16px', fontWeight: 600, color: '#212326' }}>
             ₹{product.price.toLocaleString('en-IN')}
-          </div>
-
-          {/* Touch-Friendly Action Button */}
-          <button
-            onClick={() => onQuickView(product)}
-            style={{
-              backgroundColor: 'transparent',
-              color: '#111111',
-              border: '1px solid rgba(0,0,0,0.2)',
-              padding: '0.45rem 0.8rem',
-              fontSize: '0.68rem',
-              fontWeight: 800,
-              letterSpacing: '0.12em',
-              textTransform: 'uppercase',
-              cursor: 'pointer',
-              transition: 'all 0.3s',
-              minHeight: '36px',
-              display: 'flex',
-              alignItems: 'center',
-              gap: '0.3rem'
-            }}
-          >
-            <ShoppingBag size={13} />
-            <span>VIEW</span>
-          </button>
+          </span>
+          {isDiscounted && (
+            <>
+              <span style={{ fontFamily: "'Poppins', sans-serif", fontSize: '13px', color: '#999', textDecoration: 'line-through' }}>
+                ₹{product.originalPrice.toLocaleString('en-IN')}
+              </span>
+              <span style={{ fontFamily: "'Poppins', sans-serif", fontSize: '11px', color: '#D72C0D', fontWeight: 600 }}>
+                {discountPercent}% OFF
+              </span>
+            </>
+          )}
         </div>
       </div>
+
+      {/* ACTION AREA */}
+      <button
+        onClick={handleAdd}
+        onMouseEnter={() => setBtnHovered(true)}
+        onMouseLeave={() => setBtnHovered(false)}
+        style={{
+          width: '100%',
+          backgroundColor: btnHovered ? '#000066' : '#000080',
+          color: '#FFFFFF',
+          fontFamily: "'Poppins', sans-serif",
+          fontSize: '13px',
+          fontWeight: 500,
+          borderRadius: '0 0 10px 10px',
+          padding: '10px',
+          border: 'none',
+          cursor: 'pointer',
+          transition: 'background-color 0.2s ease'
+        }}
+      >
+        {addedToast ? 'Added!' : 'ADD TO CART'}
+      </button>
     </div>
   );
 }

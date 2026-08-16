@@ -1,80 +1,104 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { CITY_LOOKBOOKS } from '../data/products';
-import { ArrowUpRight } from 'lucide-react';
+
+function LookbookCard({ lb }) {
+  const [isHovered, setIsHovered] = useState(false);
+
+  return (
+    <div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
+      <div 
+        onMouseEnter={() => setIsHovered(true)}
+        onMouseLeave={() => setIsHovered(false)}
+        style={{
+          position: 'relative',
+          height: '340px',
+          borderRadius: '10px',
+          overflow: 'hidden',
+          cursor: 'pointer'
+        }}
+      >
+        <img 
+          src={lb.image} 
+          alt={lb.city} 
+          style={{
+            width: '100%',
+            height: '100%',
+            objectFit: 'cover',
+            transform: isHovered ? 'scale(1.05)' : 'scale(1)',
+            transition: 'transform 0.4s ease'
+          }}
+        />
+        <div style={{
+          position: 'absolute',
+          bottom: 0,
+          left: 0,
+          right: 0,
+          background: 'linear-gradient(to top, rgba(0,0,0,0.8), transparent)',
+          padding: '20px'
+        }}>
+          <h3 style={{
+            fontFamily: "'Work Sans', sans-serif",
+            fontSize: '20px',
+            fontWeight: 600,
+            color: '#FFFFFF',
+            margin: 0
+          }}>
+            {lb.city}
+          </h3>
+        </div>
+      </div>
+      
+      <div style={{ padding: '0 4px' }}>
+        <p style={{
+          fontFamily: "'Poppins', sans-serif",
+          fontSize: '13px',
+          color: '#555555',
+          margin: '0 0 8px 0',
+          lineHeight: 1.5
+        }}>
+          {lb.description}
+        </p>
+        <a 
+          href="#catalog"
+          style={{
+            fontFamily: "'Work Sans', sans-serif",
+            fontSize: '14px',
+            fontWeight: 600,
+            color: '#000080',
+            textDecoration: 'none',
+            display: 'inline-block'
+          }}
+        >
+          Explore &rarr;
+        </a>
+      </div>
+    </div>
+  );
+}
 
 export default function Lookbook() {
   return (
-    <section id="lookbook" style={{ padding: '4.5rem 0', backgroundColor: '#F0EDE8', color: '#111111', borderTop: '1px solid rgba(0,0,0,0.08)' }}>
-      <div className="container">
+    <section style={{ backgroundColor: '#FDFFF0', padding: '80px 20px' }}>
+      <div className="container" style={{ maxWidth: '1200px', margin: '0 auto' }}>
         
-        {/* Header */}
-        <div style={{ textAlign: 'center', maxWidth: '800px', margin: '0 auto 3rem auto' }}>
-          <span className="editorial-tag" style={{ marginBottom: '0.8rem' }}>
-            URBAN EDITORIAL LOOKBOOK
-          </span>
-          <h2 style={{ fontFamily: 'Cinzel, serif', fontSize: 'clamp(1.8rem, 4vw, 2.8rem)', fontWeight: 600, color: '#111111', marginTop: '0.6rem', marginBottom: '0.8rem' }}>
-            Cities of Cotton & Culture
-          </h2>
-          <p style={{ fontSize: 'clamp(0.9rem, 1.8vw, 1.05rem)', color: '#555555', lineHeight: 1.65 }}>
-            An editorial visual journey across Kala Ghoda in Mumbai, Hauz Khas in Delhi, and Indiranagar in Bengaluru.
-          </p>
-        </div>
+        <h2 style={{
+          fontFamily: "'Work Sans', sans-serif",
+          fontSize: '32px',
+          fontWeight: 600,
+          color: '#212326',
+          textAlign: 'center',
+          margin: '0 0 40px 0'
+        }}>
+          Shop By Collection
+        </h2>
 
-        {/* Lookbook Grid */}
-        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '2rem' }} className="lookbook-grid">
+        <div style={{
+          display: 'grid',
+          gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))',
+          gap: '30px'
+        }}>
           {CITY_LOOKBOOKS.map((lb, idx) => (
-            <div
-              key={idx}
-              style={{
-                backgroundColor: '#FFFFFF',
-                border: '1px solid rgba(0, 0, 0, 0.06)',
-                display: 'flex',
-                flexDirection: 'column'
-              }}
-            >
-              <div style={{ position: 'relative', height: 'clamp(280px, 40vh, 380px)', overflow: 'hidden' }}>
-                <img
-                  src={lb.image}
-                  alt={lb.city}
-                  style={{ width: '100%', height: '100%', objectFit: 'cover' }}
-                />
-                <div style={{ position: 'absolute', top: '14px', left: '14px', backgroundColor: '#111111', color: '#FFFFFF', padding: '0.35rem 0.8rem', fontSize: '0.65rem', fontWeight: 800, letterSpacing: '0.18em', border: '1px solid rgba(0,0,0,0.1)' }}>
-                  {lb.city}
-                </div>
-              </div>
-
-              <div style={{ padding: '1.5rem', display: 'flex', flexDirection: 'column', justifyContent: 'space-between', flex: 1 }}>
-                <div>
-                  <div style={{ fontSize: '0.68rem', fontWeight: 800, color: '#999999', letterSpacing: '0.15em', textTransform: 'uppercase', marginBottom: '0.3rem' }}>
-                    {lb.location}
-                  </div>
-                  <p style={{ fontSize: '0.85rem', color: '#555555', lineHeight: 1.6, marginBottom: '1.2rem' }}>
-                    {lb.description}
-                  </p>
-                </div>
-
-                <div style={{ paddingTop: '0.8rem', borderTop: '1px solid rgba(0,0,0,0.06)', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                  <span style={{ fontSize: '0.75rem', fontWeight: 700, color: '#111111', letterSpacing: '0.08em' }}>
-                    {lb.item}
-                  </span>
-                  <a
-                    href="#catalog"
-                    style={{
-                      width: '36px',
-                      height: '36px',
-                      border: '1px solid rgba(0,0,0,0.15)',
-                      color: '#111111',
-                      display: 'flex',
-                      alignItems: 'center',
-                      justifyContent: 'center',
-                      textDecoration: 'none'
-                    }}
-                  >
-                    <ArrowUpRight size={16} />
-                  </a>
-                </div>
-              </div>
-            </div>
+            <LookbookCard key={idx} lb={lb} />
           ))}
         </div>
 

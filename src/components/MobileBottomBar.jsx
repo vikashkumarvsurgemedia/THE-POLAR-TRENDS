@@ -1,134 +1,145 @@
 import React from 'react';
-import { ShoppingBag, Sparkles, Grid, Heart } from 'lucide-react';
+import { Home, Grid, Heart, ShoppingBag } from 'lucide-react';
 
 export default function MobileBottomBar({ cartCount, wishlistCount, onOpenCart, activeCategory, setActiveCategory }) {
   return (
-    <nav
-      className="mobile-only"
-      style={{
-        position: 'fixed',
-        bottom: 0,
-        left: 0,
-        right: 0,
-        zIndex: 90,
-        backgroundColor: 'rgba(255, 255, 255, 0.96)',
-        backdropFilter: 'blur(16px)',
-        WebkitBackdropFilter: 'blur(16px)',
-        borderTop: '1px solid rgba(0, 0, 0, 0.1)',
-        padding: '0.5rem 0.8rem calc(0.5rem + env(safe-area-inset-bottom, 0px)) 0.8rem',
-        justifyContent: 'space-around',
-        alignItems: 'center',
-        boxShadow: '0 -10px 25px rgba(0,0,0,0.06)'
-      }}
-    >
-      {/* Catalog / Shop */}
-      <a
-        href="#catalog"
-        onClick={() => setActiveCategory('All Products')}
+    <>
+      <nav
+        className="mobile-only"
         style={{
+          position: 'fixed',
+          bottom: 0,
+          left: 0,
+          right: 0,
+          zIndex: 90,
+          backgroundColor: '#FDFFF0',
+          borderTop: '1px solid rgba(0,0,0,0.08)',
+          padding: '8px 10px calc(8px + env(safe-area-inset-bottom, 0px)) 10px',
           display: 'flex',
-          flexDirection: 'column',
-          alignItems: 'center',
-          gap: '2px',
-          textDecoration: 'none',
-          color: activeCategory === 'All Products' ? '#111111' : '#888888',
-          fontSize: '0.62rem',
-          fontWeight: 700,
-          letterSpacing: '0.08em',
-          padding: '0.3rem'
+          justifyContent: 'space-around',
+          alignItems: 'center'
         }}
       >
-        <Grid size={18} />
-        <span>ATELIER</span>
-      </a>
+        {/* Home */}
+        <a
+          href="#"
+          onClick={() => setActiveCategory('')}
+          style={{
+            display: 'flex',
+            flexDirection: 'column',
+            alignItems: 'center',
+            gap: '4px',
+            textDecoration: 'none',
+            color: activeCategory === '' ? '#000080' : '#777777',
+          }}
+        >
+          <Home size={22} />
+          <span style={{ fontFamily: "'Poppins', sans-serif", fontSize: '10px' }}>Home</span>
+        </a>
 
-      {/* Bespoke Monogramming */}
-      <a
-        href="#custom-embroidery"
-        style={{
-          display: 'flex',
-          flexDirection: 'column',
-          alignItems: 'center',
-          gap: '2px',
-          textDecoration: 'none',
-          color: '#D97706',
-          fontSize: '0.62rem',
-          fontWeight: 800,
-          letterSpacing: '0.08em',
-          padding: '0.3rem'
-        }}
-      >
-        <Sparkles size={18} />
-        <span>BESPOKE</span>
-      </a>
+        {/* Shop */}
+        <a
+          href="#collection"
+          onClick={() => setActiveCategory('All Shirts')}
+          style={{
+            display: 'flex',
+            flexDirection: 'column',
+            alignItems: 'center',
+            gap: '4px',
+            textDecoration: 'none',
+            color: activeCategory === 'All Shirts' ? '#000080' : '#777777',
+          }}
+        >
+          <Grid size={22} />
+          <span style={{ fontFamily: "'Poppins', sans-serif", fontSize: '10px' }}>Shop</span>
+        </a>
 
-      {/* Wishlist */}
-      <a
-        href="#catalog"
-        onClick={() => setActiveCategory('All Products')}
-        style={{
-          display: 'flex',
-          flexDirection: 'column',
-          alignItems: 'center',
-          gap: '2px',
-          textDecoration: 'none',
-          color: wishlistCount > 0 ? '#111111' : '#888888',
-          fontSize: '0.62rem',
-          fontWeight: 700,
-          letterSpacing: '0.08em',
-          position: 'relative',
-          padding: '0.3rem'
-        }}
-      >
-        <Heart size={18} />
-        <span>SAVED ({wishlistCount})</span>
-      </a>
-
-      {/* Cart Bag */}
-      <button
-        onClick={onOpenCart}
-        style={{
-          display: 'flex',
-          flexDirection: 'column',
-          alignItems: 'center',
-          gap: '2px',
-          background: 'none',
-          border: 'none',
-          color: '#111111',
-          fontSize: '0.62rem',
-          fontWeight: 800,
-          letterSpacing: '0.08em',
-          position: 'relative',
-          cursor: 'pointer',
-          padding: '0.3rem'
-        }}
-      >
-        <div style={{ position: 'relative' }}>
-          <ShoppingBag size={18} color="#111111" />
-          {cartCount > 0 && (
-            <span
-              style={{
+        {/* Wishlist */}
+        <a
+          href="#collection"
+          style={{
+            display: 'flex',
+            flexDirection: 'column',
+            alignItems: 'center',
+            gap: '4px',
+            textDecoration: 'none',
+            color: '#777777',
+            position: 'relative'
+          }}
+        >
+          <div style={{ position: 'relative' }}>
+            <Heart size={22} />
+            {wishlistCount > 0 && (
+              <span style={{
                 position: 'absolute',
                 top: '-5px',
                 right: '-8px',
-                backgroundColor: '#111111',
+                backgroundColor: '#000080',
                 color: '#FFFFFF',
                 borderRadius: '50%',
-                width: '15px',
-                height: '15px',
-                fontSize: '0.55rem',
-                fontWeight: 800,
+                width: '14px',
+                height: '14px',
+                fontSize: '8px',
+                fontFamily: "'Poppins', sans-serif",
                 display: 'flex',
                 alignItems: 'center',
-                justifyContent: 'center'
-              }}
-            >
-              {cartCount}
-            </span>
-          )}
-        </div>
-        <span>BAG ({cartCount})</span>
-      </button>
-    </nav>
+                justifyContent: 'center',
+                fontWeight: 'bold'
+              }}>
+                {wishlistCount}
+              </span>
+            )}
+          </div>
+          <span style={{ fontFamily: "'Poppins', sans-serif", fontSize: '10px' }}>Wishlist</span>
+        </a>
+
+        {/* Bag */}
+        <button
+          onClick={onOpenCart}
+          style={{
+            display: 'flex',
+            flexDirection: 'column',
+            alignItems: 'center',
+            gap: '4px',
+            background: 'none',
+            border: 'none',
+            color: '#777777',
+            cursor: 'pointer',
+            padding: 0
+          }}
+        >
+          <div style={{ position: 'relative' }}>
+            <ShoppingBag size={22} />
+            {cartCount > 0 && (
+              <span style={{
+                position: 'absolute',
+                top: '-5px',
+                right: '-8px',
+                backgroundColor: '#000080',
+                color: '#FFFFFF',
+                borderRadius: '50%',
+                width: '14px',
+                height: '14px',
+                fontSize: '8px',
+                fontFamily: "'Poppins', sans-serif",
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                fontWeight: 'bold'
+              }}>
+                {cartCount}
+              </span>
+            )}
+          </div>
+          <span style={{ fontFamily: "'Poppins', sans-serif", fontSize: '10px' }}>Bag</span>
+        </button>
+      </nav>
+
+      <style dangerouslySetInnerHTML={{__html: `
+        @media (min-width: 769px) {
+          .mobile-only { display: none !important; }
+        }
+      `}} />
+    </>
   );
 }

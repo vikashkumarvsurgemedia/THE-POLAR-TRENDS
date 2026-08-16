@@ -2,150 +2,228 @@ import React, { useState } from 'react';
 import { X } from 'lucide-react';
 
 export default function ProductModal({ product, onClose, onAddToCart }) {
-  const [selectedSize, setSelectedSize] = useState(product?.sizes ? product.sizes[1] || product.sizes[0] : 'M');
-  const [quantity, setQuantity] = useState(1);
+  const [selectedSize, setSelectedSize] = useState(product?.sizes ? product.sizes[0] : 'M');
+  const [btnHovered, setBtnHovered] = useState(false);
   const [addedToast, setAddedToast] = useState(false);
 
   if (!product) return null;
 
   const handleAdd = () => {
-    onAddToCart({ ...product, selectedSize }, quantity);
+    onAddToCart({ ...product, selectedSize }, 1);
     setAddedToast(true);
     setTimeout(() => setAddedToast(false), 2000);
   };
+
+  const isDiscounted = product.originalPrice && product.originalPrice > product.price;
 
   return (
     <div style={{
       position: 'fixed',
       inset: 0,
-      zIndex: 350,
-      backgroundColor: 'rgba(0, 0, 0, 0.65)',
-      backdropFilter: 'blur(10px)',
+      zIndex: 300,
+      backgroundColor: 'rgba(0, 0, 0, 0.5)',
       display: 'flex',
       alignItems: 'center',
       justifyContent: 'center',
-      padding: '1rem'
-    }} className="animate-fade-in">
-      <div style={{
-        backgroundColor: '#FFFFFF',
-        border: '1px solid rgba(0, 0, 0, 0.1)',
-        maxWidth: '940px',
-        width: '100%',
-        maxHeight: '90vh',
-        overflowY: 'auto',
-        position: 'relative',
-        boxShadow: '0 25px 60px rgba(0,0,0,0.8)',
-        display: 'grid',
-        gridTemplateColumns: '1fr 1fr'
-      }} className="modal-content animate-slide-up">
+      padding: '20px'
+    }}>
+      <style>{`
+        .modal-container {
+          background-color: #FFFFFF;
+          border-radius: 12px;
+          max-width: 900px;
+          width: 100%;
+          max-height: 90vh;
+          overflow: auto;
+          display: grid;
+          grid-template-columns: 1fr 1fr;
+          position: relative;
+        }
+        .modal-image {
+          width: 100%;
+          height: 100%;
+          object-fit: cover;
+          border-radius: 12px 0 0 12px;
+        }
+        @media (max-width: 768px) {
+          .modal-container {
+            grid-template-columns: 1fr;
+          }
+          .modal-image {
+            height: 350px;
+            border-radius: 12px 12px 0 0;
+          }
+        }
+      `}</style>
+      
+      <div className="modal-container">
         
-        {/* Close Button */}
         <button
           onClick={onClose}
           style={{
             position: 'absolute',
             top: '16px',
             right: '16px',
-            width: '38px',
-            height: '38px',
-            backgroundColor: 'rgba(255,255,255,0.9)',
-            backdropFilter: 'blur(4px)',
-            border: '1px solid rgba(0,0,0,0.1)',
-            color: '#111111',
+            background: 'rgba(255,255,255,0.9)',
+            border: 'none',
+            borderRadius: '50%',
+            width: '32px',
+            height: '32px',
             display: 'flex',
             alignItems: 'center',
             justifyContent: 'center',
             cursor: 'pointer',
-            zIndex: 10
+            zIndex: 10,
+            boxShadow: '0 2px 8px rgba(0,0,0,0.1)'
           }}
-          aria-label="Close modal"
         >
-          <X size={20} />
+          <X size={18} color="#212326" />
         </button>
 
-        {/* Left Column: Image Box */}
-        <div style={{ backgroundColor: '#F5F3EF', padding: '1.5rem', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+        <div>
           <img
             src={product.image}
             alt={product.name}
-            style={{ width: '100%', maxHeight: '420px', objectFit: 'cover' }}
+            className="modal-image"
           />
         </div>
 
-        {/* Right Column: Details */}
-        <div style={{ padding: '2rem 1.8rem', display: 'flex', flexDirection: 'column', justifyContent: 'space-between' }}>
+        <div style={{ padding: '32px', display: 'flex', flexDirection: 'column' }}>
           
-          <div>
-            <div style={{ fontSize: '0.68rem', fontWeight: 800, color: '#999999', letterSpacing: '0.2em', textTransform: 'uppercase', marginBottom: '0.4rem' }}>
-              {product.category}
+          <div style={{
+            fontFamily: "'Poppins', sans-serif",
+            fontSize: '11px',
+            textTransform: 'uppercase',
+            color: '#000080',
+            letterSpacing: '1px',
+            fontWeight: 600,
+            marginBottom: '8px'
+          }}>
+            {product.category}
+          </div>
+
+          <h2 style={{
+            fontFamily: "'Work Sans', sans-serif",
+            fontSize: '24px',
+            fontWeight: 600,
+            color: '#212326',
+            margin: '0 0 12px 0'
+          }}>
+            {product.name}
+          </h2>
+
+          <div style={{ display: 'flex', alignItems: 'center', gap: '6px', marginBottom: '16px' }}>
+            <div style={{ display: 'flex', color: '#FBBC04', fontSize: '14px' }}>
+              {'★'.repeat(Math.round(product.rating || 5))}
+              <span style={{ color: '#eee' }}>{'★'.repeat(5 - Math.round(product.rating || 5))}</span>
             </div>
+            <span style={{ fontFamily: "'Poppins', sans-serif", fontSize: '13px', color: '#777' }}>
+              ({product.reviews || 0} reviews)
+            </span>
+          </div>
 
-            <h2 style={{ fontFamily: 'Cinzel, serif', fontSize: '1.5rem', fontWeight: 600, color: '#111111', lineHeight: 1.2, marginBottom: '0.8rem' }}>
-              {product.name}
-            </h2>
-
-            <div style={{ fontFamily: 'Cinzel, serif', fontSize: '1.5rem', fontWeight: 700, color: '#111111', marginBottom: '1.2rem' }}>
+          <div style={{ display: 'flex', alignItems: 'center', gap: '12px', marginBottom: '20px' }}>
+            <span style={{ fontFamily: "'Work Sans', sans-serif", fontSize: '28px', fontWeight: 600, color: '#212326' }}>
               ₹{product.price.toLocaleString('en-IN')}
+            </span>
+            {isDiscounted && (
+              <span style={{ fontFamily: "'Poppins', sans-serif", fontSize: '16px', color: '#999', textDecoration: 'line-through' }}>
+                ₹{product.originalPrice.toLocaleString('en-IN')}
+              </span>
+            )}
+          </div>
+
+          <p style={{
+            fontFamily: "'Poppins', sans-serif",
+            fontSize: '14px',
+            color: '#555555',
+            lineHeight: 1.7,
+            margin: '0 0 24px 0'
+          }}>
+            {product.description}
+          </p>
+
+          <div style={{ margin: '0 0 24px 0' }}>
+            <ul style={{ listStyle: 'none', padding: 0, margin: 0, display: 'flex', flexDirection: 'column', gap: '8px' }}>
+              {product.fabric && (
+                <li style={{ fontFamily: "'Poppins', sans-serif", fontSize: '13px', color: '#555' }}>
+                  <span style={{ fontFamily: "'Work Sans', sans-serif", fontWeight: 600, color: '#212326' }}>Fabric: </span>
+                  {product.fabric}
+                </li>
+              )}
+              {product.embroidery && (
+                <li style={{ fontFamily: "'Poppins', sans-serif", fontSize: '13px', color: '#555' }}>
+                  <span style={{ fontFamily: "'Work Sans', sans-serif", fontWeight: 600, color: '#212326' }}>Embroidery: </span>
+                  {product.embroidery}
+                </li>
+              )}
+            </ul>
+          </div>
+
+          <div style={{ marginBottom: '32px' }}>
+            <div style={{
+              fontFamily: "'Work Sans', sans-serif",
+              fontSize: '13px',
+              fontWeight: 600,
+              color: '#212326',
+              marginBottom: '10px'
+            }}>
+              Select Size
             </div>
-
-            <p style={{ fontSize: '0.88rem', color: '#555555', lineHeight: 1.6, marginBottom: '1.5rem' }}>
-              {product.description}
-            </p>
-
-            {/* Spec Box */}
-            <div style={{ backgroundColor: '#FAF9F6', padding: '0.9rem 1rem', border: '1px solid rgba(0,0,0,0.06)', marginBottom: '1.5rem' }}>
-              <div style={{ fontSize: '0.68rem', fontWeight: 800, color: '#D97706', letterSpacing: '0.15em', textTransform: 'uppercase', marginBottom: '0.3rem' }}>
-                ATELIER SPECIFICATIONS
-              </div>
-              <div style={{ fontSize: '0.8rem', color: '#555555', lineHeight: 1.5 }}>
-                • {product.fabric} <br />
-                • {product.embroidery}
-              </div>
-            </div>
-
-            {/* Size Selector */}
-            <div style={{ marginBottom: '1.8rem' }}>
-              <div style={{ fontSize: '0.68rem', fontWeight: 800, color: '#777777', letterSpacing: '0.18em', textTransform: 'uppercase', marginBottom: '0.6rem' }}>
-                SELECT SIZE
-              </div>
-              <div style={{ display: 'flex', gap: '0.5rem' }}>
-                {product.sizes.map(size => (
+            <div style={{ display: 'flex', gap: '10px' }}>
+              {(product.sizes || ['S', 'M', 'L', 'XL']).map(size => {
+                const isSelected = selectedSize === size;
+                return (
                   <button
                     key={size}
                     onClick={() => setSelectedSize(size)}
                     style={{
-                      flex: 1,
+                      width: '44px',
                       height: '44px',
-                      border: selectedSize === size ? '1px solid #111111' : '1px solid rgba(0,0,0,0.15)',
-                      backgroundColor: selectedSize === size ? '#111111' : 'transparent',
-                      color: selectedSize === size ? '#FFFFFF' : '#111111',
-                      fontFamily: 'Plus Jakarta Sans, sans-serif',
-                      fontWeight: 800,
-                      fontSize: '0.85rem',
+                      border: isSelected ? '1px solid #000080' : '1px solid #ddd',
+                      borderRadius: '6px',
+                      backgroundColor: isSelected ? '#000080' : '#FFFFFF',
+                      color: isSelected ? '#FFFFFF' : '#212326',
+                      fontFamily: "'Poppins', sans-serif",
+                      fontSize: '13px',
+                      fontWeight: 500,
+                      display: 'flex',
+                      alignItems: 'center',
+                      justifyContent: 'center',
                       cursor: 'pointer',
                       transition: 'all 0.2s'
                     }}
                   >
                     {size}
                   </button>
-                ))}
-              </div>
+                );
+              })}
             </div>
-
           </div>
 
-          <div>
-            <button
-              onClick={handleAdd}
-              className="btn-luxury"
-              style={{ width: '100%', padding: '1.1rem' }}
-            >
-              {addedToast ? '✓ ADDED TO BAG' : `ADD TO BAG • ₹${(product.price * quantity).toLocaleString('en-IN')}`}
-            </button>
-          </div>
+          <button
+            onClick={handleAdd}
+            onMouseEnter={() => setBtnHovered(true)}
+            onMouseLeave={() => setBtnHovered(false)}
+            style={{
+              width: '100%',
+              backgroundColor: btnHovered ? '#000066' : '#000080',
+              color: '#FFFFFF',
+              fontFamily: "'Poppins', sans-serif",
+              fontSize: '15px',
+              fontWeight: 600,
+              padding: '14px',
+              borderRadius: '6px',
+              border: 'none',
+              cursor: 'pointer',
+              transition: 'background-color 0.2s ease',
+              marginTop: 'auto'
+            }}
+          >
+            {addedToast ? '✓ Added to bag!' : 'ADD TO CART'}
+          </button>
 
         </div>
-
       </div>
     </div>
   );

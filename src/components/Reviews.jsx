@@ -1,61 +1,81 @@
 import React from 'react';
 import { REVIEWS } from '../data/products';
-import { Star, CheckCircle } from 'lucide-react';
 
 export default function Reviews() {
   return (
-    <section style={{ padding: '4.5rem 0', backgroundColor: '#FAF9F6', borderTop: '1px solid rgba(0,0,0,0.08)' }}>
-      <div className="container">
+    <section style={{ backgroundColor: '#F5F3EE', padding: '80px 20px' }}>
+      <div className="container" style={{ maxWidth: '1200px', margin: '0 auto' }}>
         
-        {/* Header */}
-        <div style={{ textAlign: 'center', maxWidth: '800px', margin: '0 auto 3rem auto' }}>
-          <span className="editorial-tag" style={{ marginBottom: '0.8rem' }}>
-            PATRON CRITIQUE & TESTIMONIALS
-          </span>
-          <h2 style={{ fontFamily: 'Cinzel, serif', fontSize: 'clamp(1.8rem, 4vw, 2.8rem)', fontWeight: 600, color: '#111111', marginTop: '0.6rem', marginBottom: '0.8rem' }}>
-            Acclaimed Across India
-          </h2>
-          <p style={{ fontSize: 'clamp(0.9rem, 1.8vw, 1.05rem)', color: '#555555', lineHeight: 1.65 }}>
-            Rated 4.9/5 stars by connoisseurs of fine cotton apparel in Mumbai, Delhi, and Bengaluru.
-          </p>
-        </div>
+        <h2 style={{
+          fontFamily: "'Work Sans', sans-serif",
+          fontSize: '32px',
+          fontWeight: 600,
+          color: '#212326',
+          textAlign: 'center',
+          margin: '0 0 40px 0'
+        }}>
+          What Our Customers Say
+        </h2>
 
-        {/* Reviews Grid */}
-        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '2rem' }} className="reviews-grid">
+        <div style={{
+          display: 'grid',
+          gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))',
+          gap: '30px'
+        }}>
           {REVIEWS.map(r => (
             <div
               key={r.id}
               style={{
                 backgroundColor: '#FFFFFF',
-                border: '1px solid rgba(0, 0, 0, 0.06)',
-                padding: '1.8rem',
+                borderRadius: '10px',
+                padding: '28px',
+                boxShadow: '0 2px 8px rgba(0,0,0,0.06)',
                 display: 'flex',
-                flexDirection: 'column',
-                justifyContent: 'space-between'
+                flexDirection: 'column'
               }}
             >
-              <div>
-                <div style={{ display: 'flex', gap: '3px', marginBottom: '1rem' }}>
-                  {[...Array(r.rating)].map((_, i) => (
-                    <Star key={i} size={14} fill="#D97706" color="#D97706" />
-                  ))}
-                </div>
-
-                <p style={{ fontFamily: 'Cormorant Garamond, serif', fontSize: '1.1rem', color: '#333333', lineHeight: 1.55, fontStyle: 'italic', marginBottom: '1.5rem' }}>
-                  "{r.comment}"
-                </p>
+              <div style={{ fontSize: '16px', color: '#FBBC04', marginBottom: '16px', letterSpacing: '2px' }}>
+                {'★'.repeat(r.rating)}{'☆'.repeat(5 - r.rating)}
               </div>
 
-              <div style={{ paddingTop: '1rem', borderTop: '1px solid rgba(0, 0, 0, 0.06)', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                <div>
-                  <div style={{ fontFamily: 'Cinzel, serif', fontWeight: 700, fontSize: '0.9rem', color: '#111111' }}>
-                    {r.name}
-                  </div>
-                  <div style={{ fontSize: '0.68rem', color: '#999999', letterSpacing: '0.08em', marginTop: '0.2rem' }}>
-                    {r.city} • VERIFIED PATRON
-                  </div>
+              <p style={{
+                fontFamily: "'Poppins', sans-serif",
+                fontSize: '14px',
+                color: '#555555',
+                lineHeight: 1.7,
+                margin: '0 0 20px 0',
+                flex: 1
+              }}>
+                "{r.comment}"
+              </p>
+
+              <div>
+                <div style={{
+                  fontFamily: "'Work Sans', sans-serif",
+                  fontSize: '14px',
+                  fontWeight: 600,
+                  color: '#212326',
+                  marginBottom: '2px'
+                }}>
+                  {r.name}
                 </div>
-                <CheckCircle size={16} color="#10B981" />
+                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                  <span style={{
+                    fontFamily: "'Poppins', sans-serif",
+                    fontSize: '12px',
+                    color: '#777777'
+                  }}>
+                    {r.city}
+                  </span>
+                  <span style={{
+                    fontFamily: "'Poppins', sans-serif",
+                    fontSize: '11px',
+                    color: '#000080',
+                    fontWeight: 500
+                  }}>
+                    Verified Purchase ✓
+                  </span>
+                </div>
               </div>
             </div>
           ))}

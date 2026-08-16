@@ -1,7 +1,9 @@
 import React, { useState } from 'react';
 import Header from './components/Header';
 import Hero from './components/Hero';
+import CategoryCircles from './components/CategoryCircles';
 import ProductGrid from './components/ProductGrid';
+import PromoBanners from './components/PromoBanners';
 import FabricStory from './components/FabricStory';
 import CustomMonogrammer from './components/CustomMonogrammer';
 import Lookbook from './components/Lookbook';
@@ -15,13 +17,7 @@ import { PRODUCTS } from './data/products';
 
 export default function App() {
   const [products] = useState(PRODUCTS);
-  const [cartItems, setCartItems] = useState([
-    {
-      ...PRODUCTS[0],
-      selectedSize: 'L',
-      quantity: 1
-    }
-  ]);
+  const [cartItems, setCartItems] = useState([]);
   const [wishlist, setWishlist] = useState(['polar-002']);
   const [cartOpen, setCartOpen] = useState(false);
   const [quickViewProduct, setQuickViewProduct] = useState(null);
@@ -90,7 +86,7 @@ export default function App() {
   });
 
   return (
-    <div style={{ minHeight: '100vh', display: 'flex', flexDirection: 'column', backgroundColor: '#FAF9F6' }}>
+    <div style={{ minHeight: '100vh', display: 'flex', flexDirection: 'column', backgroundColor: '#FDFFF0' }}>
       
       {/* Header */}
       <Header
@@ -106,6 +102,12 @@ export default function App() {
       {/* Hero Section */}
       <Hero />
 
+      {/* Category Circles Quick Shortcuts */}
+      <CategoryCircles
+        activeCategory={activeCategory}
+        setActiveCategory={setActiveCategory}
+      />
+
       {/* Main Catalog Section */}
       <ProductGrid
         products={displayedProducts}
@@ -115,6 +117,11 @@ export default function App() {
         onAddToCart={handleAddToCart}
         onToggleWishlist={handleToggleWishlist}
         wishlist={wishlist}
+      />
+
+      {/* Mid-Page Promo Banners */}
+      <PromoBanners
+        setActiveCategory={setActiveCategory}
       />
 
       {/* Fabric Craftsmanship Spotlight Section */}

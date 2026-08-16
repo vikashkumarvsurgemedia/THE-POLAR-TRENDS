@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { X, Trash2, ShoppingBag, ArrowRight, ShieldCheck } from 'lucide-react';
+import { X, Trash2, ShoppingBag } from 'lucide-react';
 
 export default function CartDrawer({ isOpen, onClose, cartItems, onUpdateQuantity, onRemoveItem, onProceedCheckout }) {
   const [couponCode, setCouponCode] = useState('');
@@ -17,13 +17,19 @@ export default function CartDrawer({ isOpen, onClose, cartItems, onUpdateQuantit
   const handleApplyCoupon = () => {
     if (couponCode.trim().toUpperCase() === 'POLAR10') {
       setDiscountPercent(10);
-      setCouponMessage('POLAR10 Applied! 10% Privileged Discount');
+      setCouponMessage('POLAR10 applied! 10% off.');
     } else if (couponCode.trim().toUpperCase() === 'FIRST20') {
       setDiscountPercent(20);
-      setCouponMessage('FIRST20 Applied! 20% Privileged Discount');
+      setCouponMessage('FIRST20 applied! 20% off.');
     } else {
-      setCouponMessage('Invalid code. Try "POLAR10"');
+      setDiscountPercent(0);
+      setCouponMessage('Invalid code.');
     }
+  };
+
+  const handleCheckoutClick = () => {
+    onClose();
+    onProceedCheckout({ subtotal, discountAmount, shippingFee, grandTotal });
   };
 
   return (
@@ -31,181 +37,224 @@ export default function CartDrawer({ isOpen, onClose, cartItems, onUpdateQuantit
       position: 'fixed',
       inset: 0,
       zIndex: 400,
-      backgroundColor: 'rgba(0, 0, 0, 0.65)',
-      backdropFilter: 'blur(10px)',
+      backgroundColor: 'rgba(0, 0, 0, 0.4)',
       display: 'flex',
-      justifyContent: 'flex-end'
-    }} className="animate-fade-in">
+      justifyContent: 'flex-end',
+      animation: 'fadeIn 0.2s ease-out'
+    }}>
       <div style={{
-        backgroundColor: '#FFFFFF',
-        color: '#111111',
+        backgroundColor: '#FDFFF0',
         width: '100%',
-        maxWidth: '460px',
-        height: '100%',
+        maxWidth: '420px',
+        height: '100vh',
         display: 'flex',
         flexDirection: 'column',
-        borderLeft: '1px solid rgba(0, 0, 0, 0.1)',
-        boxShadow: '-15px 0 40px rgba(0,0,0,0.6)'
-      }} className="cart-drawer animate-slide-right">
-        
+        animation: 'slideInRight 0.3s ease-out'
+      }}>
         {/* Header */}
-        <div style={{ padding: '1.25rem 1.5rem', borderBottom: '1px solid rgba(0,0,0,0.08)', display: 'flex', justifyContent: 'space-between', alignItems: 'center', backgroundColor: '#FAF9F6' }}>
-          <div style={{ display: 'flex', alignItems: 'center', gap: '0.6rem' }}>
-            <ShoppingBag size={18} color="#D97706" />
-            <span style={{ fontFamily: 'Cinzel, serif', fontWeight: 700, fontSize: '1rem', letterSpacing: '0.08em' }}>YOUR ATELIER BAG</span>
-            <span style={{ backgroundColor: '#111111', color: '#FFFFFF', borderRadius: '50%', width: '22px', height: '22px', display: 'inline-flex', alignItems: 'center', justifyContent: 'center', fontSize: '0.75rem', fontWeight: 800 }}>
-              {cartItems.reduce((acc, i) => acc + i.quantity, 0)}
-            </span>
-          </div>
-          <button
-            onClick={onClose}
-            style={{ background: 'transparent', border: 'none', color: '#111111', cursor: 'pointer', padding: '0.4rem' }}
-            aria-label="Close Bag"
-          >
-            <X size={22} />
+        <div style={{
+          display: 'flex',
+          justifyContent: 'space-between',
+          alignItems: 'center',
+          padding: '20px',
+          borderBottom: '1px solid rgba(0,0,0,0.08)'
+        }}>
+          <h2 style={{
+            fontFamily: "'Work Sans', sans-serif",
+            fontWeight: 600,
+            fontSize: '18px',
+            color: '#212326',
+            margin: 0
+          }}>
+            Your Bag ({cartItems.reduce((acc, i) => acc + i.quantity, 0)})
+          </h2>
+          <button onClick={onClose} style={{
+            background: 'none', border: 'none', cursor: 'pointer', color: '#212326', display: 'flex', alignItems: 'center'
+          }}>
+            <X size={24} />
           </button>
         </div>
 
-        {/* Free Shipping Meter */}
-        <div style={{ backgroundColor: '#FAF9F6', padding: '0.8rem 1.5rem', borderBottom: '1px solid rgba(0,0,0,0.08)' }}>
-          {subtotal >= freeShippingThreshold ? (
-            <div style={{ fontSize: '0.72rem', fontWeight: 800, color: '#10B981', textAlign: 'center', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '0.4rem', letterSpacing: '0.08em' }}>
-              <ShieldCheck size={16} /> UNLOCKED COMPLIMENTARY EXPRESS SHIPPING
-            </div>
-          ) : (
-            <div>
-              <div style={{ fontSize: '0.72rem', fontWeight: 700, color: '#777777', marginBottom: '0.3rem', textAlign: 'center', letterSpacing: '0.05em' }}>
-                ADD ₹{(freeShippingThreshold - subtotal).toLocaleString('en-IN')} MORE FOR COMPLIMENTARY SHIPPING
+        {/* Free Shipping Bar */}
+        {cartItems.length > 0 && (
+          <div style={{ padding: '15px 20px', borderBottom: '1px solid rgba(0,0,0,0.08)' }}>
+            {subtotal >= freeShippingThreshold ? (
+              <div style={{
+                fontFamily: "'Poppins', sans-serif",
+                fontSize: '12px',
+                color: '#008060',
+                fontWeight: 600,
+                textAlign: 'center'
+              }}>
+                ✓ You qualify for FREE shipping!
               </div>
-              <div style={{ height: '4px', backgroundColor: 'rgba(0,0,0,0.08)', overflow: 'hidden' }}>
-                <div style={{ height: '100%', backgroundColor: '#D97706', width: `${Math.min(100, (subtotal / freeShippingThreshold) * 100)}%`, transition: 'width 0.3s' }} />
-              </div>
-            </div>
-          )}
-        </div>
-
-        {/* Item List */}
-        <div style={{ flex: 1, overflowY: 'auto', padding: '1.25rem 1.5rem', display: 'flex', flexDirection: 'column', gap: '1rem' }}>
-          {cartItems.length === 0 ? (
-            <div style={{ textAlign: 'center', padding: '4rem 1rem', color: '#111111' }}>
-              <ShoppingBag size={44} color="#DDD" style={{ marginBottom: '1rem' }} />
-              <div style={{ fontFamily: 'Cinzel, serif', fontWeight: 700, fontSize: '1.1rem', color: '#111111' }}>Your Bag is Empty</div>
-              <p style={{ fontSize: '0.82rem', marginTop: '0.4rem', color: '#777777' }}>Explore our signature 100% cotton & embroidery shirts to begin.</p>
-            </div>
-          ) : (
-            cartItems.map((item, idx) => (
-              <div
-                key={`${item.id}-${idx}`}
-                style={{
-                  display: 'flex',
-                  gap: '1rem',
-                  padding: '1rem',
-                  border: '1px solid rgba(0, 0, 0, 0.06)',
-                  backgroundColor: '#FAF9F6'
-                }}
-              >
-                <img
-                  src={item.image}
-                  alt={item.name}
-                  style={{ width: '70px', height: '85px', objectFit: 'cover' }}
-                />
-                <div style={{ flex: 1, display: 'flex', flexDirection: 'column', justifyContent: 'space-between' }}>
-                  <div>
-                    <div style={{ fontFamily: 'Cinzel, serif', fontWeight: 600, fontSize: '0.88rem', color: '#111111', lineHeight: 1.25 }}>
-                      {item.name}
-                    </div>
-                    <div style={{ fontSize: '0.72rem', color: '#777777', marginTop: '0.2rem' }}>
-                      SIZE: <strong style={{ color: '#111111' }}>{item.selectedSize || 'M'}</strong>
-                    </div>
-                  </div>
-
-                  <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginTop: '0.6rem' }}>
-                    <div style={{ display: 'flex', alignItems: 'center', border: '1px solid rgba(0,0,0,0.15)', backgroundColor: '#FFFFFF' }}>
-                      <button onClick={() => onUpdateQuantity(item.id, item.selectedSize, item.quantity - 1)} style={{ width: '32px', height: '32px', border: 'none', background: 'transparent', color: '#111111', cursor: 'pointer', fontWeight: 800, fontSize: '0.9rem' }}>-</button>
-                      <span style={{ width: '28px', textAlign: 'center', fontSize: '0.8rem', fontWeight: 800 }}>{item.quantity}</span>
-                      <button onClick={() => onUpdateQuantity(item.id, item.selectedSize, item.quantity + 1)} style={{ width: '32px', height: '32px', border: 'none', background: 'transparent', color: '#111111', cursor: 'pointer', fontWeight: 800, fontSize: '0.9rem' }}>+</button>
-                    </div>
-
-                    <div style={{ fontFamily: 'Cinzel, serif', fontWeight: 700, fontSize: '0.95rem', color: '#111111' }}>
-                      ₹{(item.price * item.quantity).toLocaleString('en-IN')}
-                    </div>
-
-                    <button
-                      onClick={() => onRemoveItem(item.id, item.selectedSize)}
-                      style={{ background: 'none', border: 'none', color: '#EF4444', cursor: 'pointer', padding: '6px' }}
-                      aria-label="Remove item"
-                    >
-                      <Trash2 size={16} />
-                    </button>
-                  </div>
+            ) : (
+              <div>
+                <div style={{
+                  fontFamily: "'Poppins', sans-serif",
+                  fontSize: '12px',
+                  color: '#555555',
+                  marginBottom: '8px',
+                  textAlign: 'center'
+                }}>
+                  Add ₹{freeShippingThreshold - subtotal} more for FREE shipping!
+                </div>
+                <div style={{
+                  height: '4px',
+                  backgroundColor: 'rgba(0,0,128,0.08)',
+                  borderRadius: '2px',
+                  overflow: 'hidden'
+                }}>
+                  <div style={{
+                    height: '100%',
+                    backgroundColor: '#000080',
+                    width: `${Math.min(100, (subtotal / freeShippingThreshold) * 100)}%`,
+                    transition: 'width 0.3s'
+                  }} />
                 </div>
               </div>
-            ))
+            )}
+          </div>
+        )}
+
+        {/* Cart Items */}
+        <div style={{ flex: 1, overflowY: 'auto', padding: '20px' }}>
+          {cartItems.length === 0 ? (
+            <div style={{ textAlign: 'center', marginTop: '60px' }}>
+              <ShoppingBag size={48} color="#999" style={{ marginBottom: '16px' }} />
+              <div style={{ fontFamily: "'Poppins', sans-serif", fontSize: '16px', color: '#555', marginBottom: '24px' }}>
+                Your bag is empty
+              </div>
+              <button onClick={onClose} style={{
+                background: 'none',
+                border: 'none',
+                fontFamily: "'Poppins', sans-serif",
+                fontWeight: 600,
+                color: '#000080',
+                textDecoration: 'underline',
+                cursor: 'pointer',
+                fontSize: '14px'
+              }}>
+                CONTINUE SHOPPING
+              </button>
+            </div>
+          ) : (
+            <div style={{ display: 'flex', flexDirection: 'column', gap: '20px' }}>
+              {cartItems.map((item, idx) => (
+                <div key={`${item.id}-${idx}`}>
+                  <div style={{ display: 'flex', gap: '15px' }}>
+                    <img src={item.image} alt={item.name} style={{ width: '60px', height: '60px', borderRadius: '6px', objectFit: 'cover' }} />
+                    <div style={{ flex: 1, display: 'flex', flexDirection: 'column' }}>
+                      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start' }}>
+                        <div>
+                          <div style={{ fontFamily: "'Poppins', sans-serif", fontSize: '14px', color: '#212326', fontWeight: 500 }}>{item.name}</div>
+                          <div style={{ fontFamily: "'Poppins', sans-serif", fontSize: '12px', color: '#777777', marginTop: '4px' }}>Size: {item.selectedSize}</div>
+                        </div>
+                        <div style={{ fontFamily: "'Work Sans', sans-serif", fontSize: '14px', fontWeight: 600, color: '#212326' }}>
+                          ₹{item.price}
+                        </div>
+                      </div>
+                      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginTop: 'auto', paddingTop: '10px' }}>
+                        <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+                          <button onClick={() => onUpdateQuantity(item.id, item.selectedSize, item.quantity - 1)} style={{ width: '30px', height: '30px', border: '1px solid #ddd', borderRadius: '4px', background: '#fff', cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>-</button>
+                          <span style={{ fontFamily: "'Poppins', sans-serif", fontSize: '13px', width: '20px', textAlign: 'center' }}>{item.quantity}</span>
+                          <button onClick={() => onUpdateQuantity(item.id, item.selectedSize, item.quantity + 1)} style={{ width: '30px', height: '30px', border: '1px solid #ddd', borderRadius: '4px', background: '#fff', cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>+</button>
+                        </div>
+                        <button onClick={() => onRemoveItem(item.id, item.selectedSize)} style={{
+                          background: 'none', border: 'none', cursor: 'pointer', color: '#999', padding: '5px'
+                        }}
+                        onMouseEnter={(e) => e.currentTarget.style.color = '#D72C0D'}
+                        onMouseLeave={(e) => e.currentTarget.style.color = '#999'}
+                        >
+                          <Trash2 size={18} />
+                        </button>
+                      </div>
+                    </div>
+                  </div>
+                  {idx < cartItems.length - 1 && <div style={{ height: '1px', backgroundColor: 'rgba(0,0,0,0.08)', marginTop: '20px' }} />}
+                </div>
+              ))}
+            </div>
           )}
         </div>
 
-        {/* Footer */}
+        {/* Footer Area */}
         {cartItems.length > 0 && (
-          <div style={{ padding: '1.25rem 1.5rem', borderTop: '1px solid rgba(0,0,0,0.08)', backgroundColor: '#FFFFFF' }}>
+          <div style={{ padding: '20px', borderTop: '1px solid rgba(0,0,0,0.08)', backgroundColor: '#FDFFF0' }}>
             
-            {/* Promo Code Box */}
-            <div style={{ marginBottom: '1rem' }}>
-              <div style={{ display: 'flex', gap: '0' }}>
-                <input
-                  type="text"
-                  placeholder="PRIVILEGE CODE (POLAR10)"
+            {/* Coupon Section */}
+            <div style={{ marginBottom: '20px' }}>
+              <div style={{ display: 'flex', gap: '8px' }}>
+                <input 
+                  type="text" 
+                  placeholder="Coupon code" 
                   value={couponCode}
                   onChange={(e) => setCouponCode(e.target.value)}
-                  style={{ flex: 1, padding: '0.65rem 0.8rem', border: '1px solid rgba(0,0,0,0.15)', backgroundColor: '#FAF9F6', color: '#111111', fontSize: '0.75rem', letterSpacing: '0.08em' }}
+                  style={{ flex: 1, fontFamily: "'Poppins', sans-serif", fontSize: '13px', border: '1px solid #ddd', borderRadius: '6px', padding: '10px', outline: 'none' }}
                 />
-                <button
-                  onClick={handleApplyCoupon}
-                  style={{ backgroundColor: '#111111', color: '#FFFFFF', border: 'none', padding: '0.65rem 1rem', fontSize: '0.75rem', fontWeight: 800, letterSpacing: '0.1em', cursor: 'pointer', minHeight: '38px' }}
-                >
-                  APPLY
+                <button onClick={handleApplyCoupon} style={{
+                  backgroundColor: '#000080', color: '#fff', border: 'none', borderRadius: '6px', padding: '0 16px', fontFamily: "'Poppins', sans-serif", fontSize: '13px', fontWeight: 500, cursor: 'pointer'
+                }}>
+                  Apply
                 </button>
               </div>
               {couponMessage && (
-                <div style={{ fontSize: '0.72rem', fontWeight: 700, color: discountPercent > 0 ? '#10B981' : '#EF4444', marginTop: '0.3rem' }}>
+                <div style={{ fontFamily: "'Poppins', sans-serif", fontSize: '12px', marginTop: '8px', color: discountPercent > 0 ? '#008060' : '#D72C0D' }}>
                   {couponMessage}
                 </div>
               )}
             </div>
 
-            <div style={{ display: 'flex', flexDirection: 'column', gap: '0.4rem', fontSize: '0.8rem', marginBottom: '1.2rem', color: '#777777' }}>
-              <div style={{ display: 'flex', justifyContent: 'space-between' }}>
-                <span>SUBTOTAL</span>
-                <span>₹{subtotal.toLocaleString('en-IN')}</span>
+            {/* Order Summary */}
+            <div style={{ display: 'flex', flexDirection: 'column', gap: '8px', marginBottom: '20px' }}>
+              <div style={{ display: 'flex', justifyContent: 'space-between', fontFamily: "'Poppins', sans-serif", fontSize: '13px', color: '#555' }}>
+                <span>Subtotal</span>
+                <span style={{ fontFamily: "'Work Sans', sans-serif", fontSize: '14px', fontWeight: 600, color: '#212326' }}>₹{subtotal}</span>
               </div>
               {discountAmount > 0 && (
-                <div style={{ display: 'flex', justifyContent: 'space-between', color: '#10B981', fontWeight: 700 }}>
-                  <span>PRIVILEGE DISCOUNT ({discountPercent}%)</span>
-                  <span>-₹{discountAmount.toLocaleString('en-IN')}</span>
+                <div style={{ display: 'flex', justifyContent: 'space-between', fontFamily: "'Poppins', sans-serif", fontSize: '13px', color: '#008060' }}>
+                  <span>Discount</span>
+                  <span style={{ fontFamily: "'Work Sans', sans-serif", fontSize: '14px', fontWeight: 600 }}>-₹{discountAmount}</span>
                 </div>
               )}
-              <div style={{ display: 'flex', justifyContent: 'space-between' }}>
-                <span>EXPRESS SHIPPING</span>
-                <span>{shippingFee === 0 ? 'COMPLIMENTARY' : `₹${shippingFee}`}</span>
+              <div style={{ display: 'flex', justifyContent: 'space-between', fontFamily: "'Poppins', sans-serif", fontSize: '13px', color: '#555' }}>
+                <span>Shipping</span>
+                <span style={{ fontFamily: "'Work Sans', sans-serif", fontSize: '14px', fontWeight: 600, color: '#212326' }}>{shippingFee === 0 ? 'Free' : `₹${shippingFee}`}</span>
               </div>
-              <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: '1.15rem', fontWeight: 700, color: '#111111', paddingTop: '0.6rem', borderTop: '1px solid rgba(0,0,0,0.08)', fontFamily: 'Cinzel, serif' }}>
-                <span>TOTAL</span>
-                <span>₹{grandTotal.toLocaleString('en-IN')}</span>
+              <div style={{ display: 'flex', justifyContent: 'space-between', marginTop: '8px', paddingTop: '8px', borderTop: '1px solid rgba(0,0,0,0.08)' }}>
+                <span style={{ fontFamily: "'Poppins', sans-serif", fontSize: '15px', color: '#212326', fontWeight: 600 }}>Total</span>
+                <span style={{ fontFamily: "'Work Sans', sans-serif", fontSize: '18px', fontWeight: 700, color: '#212326' }}>₹{grandTotal}</span>
               </div>
             </div>
 
-            <button
-              onClick={() => { onClose(); onProceedCheckout({ subtotal, discountAmount, shippingFee, grandTotal }); }}
-              className="btn-luxury"
-              style={{ width: '100%', padding: '1.1rem' }}
+            {/* Checkout Button */}
+            <button 
+              onClick={handleCheckoutClick}
+              style={{
+                width: '100%',
+                backgroundColor: '#000080',
+                color: '#fff',
+                fontFamily: "'Poppins', sans-serif",
+                fontSize: '15px',
+                fontWeight: 600,
+                padding: '14px',
+                border: 'none',
+                borderRadius: '6px',
+                cursor: 'pointer',
+                transition: 'background-color 0.2s'
+              }}
+              onMouseEnter={(e) => e.currentTarget.style.backgroundColor = '#000066'}
+              onMouseLeave={(e) => e.currentTarget.style.backgroundColor = '#000080'}
             >
-              <span>PROCEED TO CHECKOUT</span>
-              <ArrowRight size={16} />
+              PROCEED TO CHECKOUT
             </button>
-
           </div>
         )}
-
       </div>
+      <style>{`
+        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+        @keyframes slideInRight { from { transform: translateX(100%); } to { transform: translateX(0); } }
+      `}</style>
     </div>
   );
 }
