@@ -50,7 +50,7 @@ export default function FabricStory() {
             
             <div style={{ display: 'flex', gap: '16px' }}>
               <div style={{ flexShrink: 0, marginTop: '2px' }}>
-                <Leaf size={24} color="var(--accent)" />
+                <Leaf size={24} color="var(--accent-ink)" />
               </div>
               <div>
                 <h3 style={{ fontFamily: "'Work Sans', sans-serif", fontSize: '16px', fontWeight: 600, color: 'var(--text-primary)', margin: '0 0 6px 0' }}>
@@ -64,7 +64,7 @@ export default function FabricStory() {
 
             <div style={{ display: 'flex', gap: '16px' }}>
               <div style={{ flexShrink: 0, marginTop: '2px' }}>
-                <Star size={24} color="var(--accent)" />
+                <Star size={24} color="var(--accent-ink)" />
               </div>
               <div>
                 <h3 style={{ fontFamily: "'Work Sans', sans-serif", fontSize: '16px', fontWeight: 600, color: 'var(--text-primary)', margin: '0 0 6px 0' }}>
@@ -78,7 +78,7 @@ export default function FabricStory() {
 
             <div style={{ display: 'flex', gap: '16px' }}>
               <div style={{ flexShrink: 0, marginTop: '2px' }}>
-                <Truck size={24} color="var(--accent)" />
+                <Truck size={24} color="var(--accent-ink)" />
               </div>
               <div>
                 <h3 style={{ fontFamily: "'Work Sans', sans-serif", fontSize: '16px', fontWeight: 600, color: 'var(--text-primary)', margin: '0 0 6px 0' }}>
@@ -92,7 +92,7 @@ export default function FabricStory() {
 
             <div style={{ display: 'flex', gap: '16px' }}>
               <div style={{ flexShrink: 0, marginTop: '2px' }}>
-                <Shield size={24} color="var(--accent)" />
+                <Shield size={24} color="var(--accent-ink)" />
               </div>
               <div>
                 <h3 style={{ fontFamily: "'Work Sans', sans-serif", fontSize: '16px', fontWeight: 600, color: 'var(--text-primary)', margin: '0 0 6px 0' }}>

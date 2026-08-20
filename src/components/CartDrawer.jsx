@@ -130,7 +130,7 @@ export default function CartDrawer({ isOpen, onClose, cartItems, onUpdateQuantit
                 border: 'none',
                 fontFamily: "'Poppins', sans-serif",
                 fontWeight: 600,
-                color: 'var(--accent)',
+                color: 'var(--accent-ink)',
                 textDecoration: 'underline',
                 cursor: 'pointer',
                 fontSize: '14px'

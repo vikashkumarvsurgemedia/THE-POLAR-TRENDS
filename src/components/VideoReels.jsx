@@ -224,7 +224,7 @@ export default function VideoReels() {
               fontSize: '11px',
               letterSpacing: '2px',
               textTransform: 'uppercase',
-              color: 'var(--accent)',
+              color: 'var(--accent-ink)',
               marginBottom: '10px',
             }}>
               Watch · Real Fabric, Real People

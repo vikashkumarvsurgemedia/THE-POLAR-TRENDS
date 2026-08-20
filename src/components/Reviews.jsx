@@ -70,7 +70,7 @@ export default function Reviews() {
                   <span style={{
                     fontFamily: "'Poppins', sans-serif",
                     fontSize: '11px',
-                    color: 'var(--accent)',
+                    color: 'var(--accent-ink)',
                     fontWeight: 500
                   }}>
                     Verified Purchase ✓

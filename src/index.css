@@ -16,15 +16,19 @@
   --bg-dark: #050F33;         /* footer — deepest anchor at the page bottom */
   --bg-light: #FDFFF0;        /* cream, now reserved for the announcement bar */
 
-  /* --- Accent: bright enough to lift off the navy --- */
-  --accent: #4C82F5;
-  --accent-hover: #6F9DFF;
+  /* --- Accent -------------------------------------------------------------
+     Two values, because one cannot do both jobs on a dark ground: a blue dark
+     enough to carry white button text is too dark to read AS text, and vice
+     versa. `--accent` is the surface, `--accent-ink` is the text/icon colour. */
+  --accent: #2F63E8;          /* button fills — white text on this is 5.2:1 */
+  --accent-hover: #4C82F5;
+  --accent-ink: #7FA9FF;      /* accent used as text/icons — 6.8:1 on navy */
   --accent-light: rgba(76, 130, 245, 0.18);
 
   /* --- Text: light-on-dark throughout --- */
   --text-primary: #F2F6FF;
   --text-body: #C2CEEE;
-  --text-muted: #8E9DCC;
+  --text-muted: #A3B0D8;
   --text-on-dark: #FFFFFF;
   --text-on-light: #0B1E56;   /* for the cream announcement bar */
 
@@ -34,7 +38,7 @@
   /* --- Status colours, brightened so they read against navy --- */
   --stars: #FFC531;
   --star-empty: rgba(255, 255, 255, 0.22);
-  --sale-price: #FF6B4A;
+  --sale-price: #FF8A6B;
   --success: #2FD39B;
 
   --card-radius: 10px;
@@ -43,6 +47,36 @@
 
   --font-headings: 'Work Sans', sans-serif;
   --font-body: 'Poppins', sans-serif;
+}
+
+/* --- Light section scope --------------------------------------------------
+   Put `class="theme-light"` on any section and it flips to a light surface:
+   the tokens are simply redefined for that subtree, so every component inside
+   re-themes itself with no component changes. Used to break up the navy so the
+   page isn't blue on blue the whole way down. */
+.theme-light {
+  color-scheme: light;
+
+  --bg-primary: #FBFCFE;
+  --bg-secondary: #F1F4FA;
+  --bg-card: #FFFFFF;
+
+  --accent: #1B3FA5;          /* white button text on this is 9.1:1 */
+  --accent-hover: #12358F;
+  --accent-ink: #1B3FA5;      /* same value reads fine as text on white */
+  --accent-light: rgba(27, 63, 165, 0.08);
+
+  --text-primary: #101733;
+  --text-body: #4A5268;
+  --text-muted: #666E85;
+
+  --border: rgba(16, 23, 51, 0.12);
+  --border-strong: rgba(16, 23, 51, 0.22);
+
+  --stars: #B8860B;
+  --star-empty: rgba(16, 23, 51, 0.16);
+  --sale-price: #C4210A;
+  --success: #0A6B4F;
 }
 
 *, *::before, *::after {

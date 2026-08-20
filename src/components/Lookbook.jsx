@@ -64,7 +64,7 @@ function LookbookCard({ lb }) {
             fontFamily: "'Work Sans', sans-serif",
             fontSize: '14px',
             fontWeight: 600,
-            color: 'var(--accent)',
+            color: 'var(--accent-ink)',
             textDecoration: 'none',
             display: 'inline-block'
           }}

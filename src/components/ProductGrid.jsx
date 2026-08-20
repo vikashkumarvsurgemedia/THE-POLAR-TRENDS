@@ -27,7 +27,7 @@ export default function ProductGrid({
   }
 
   return (
-    <section id="collection" style={{ padding: '60px 0', backgroundColor: 'var(--bg-primary)' }}>
+    <section id="collection" className="theme-light" style={{ padding: '60px 0', backgroundColor: 'var(--bg-primary)' }}>
       <div className="container" style={{ maxWidth: '1200px', margin: '0 auto', padding: '0 20px' }}>
         
         <h2 style={{ fontFamily: "'Work Sans', sans-serif", fontSize: '32px', fontWeight: 600, color: 'var(--text-primary)', textAlign: 'center', margin: '0 0 30px 0' }}>

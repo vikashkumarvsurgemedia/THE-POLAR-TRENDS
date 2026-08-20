@@ -134,10 +134,10 @@ export default function Footer() {
 
         {/* Bottom Bar */}
         <div style={{ borderTop: '1px solid rgba(255,255,255,0.1)', paddingTop: '20px', display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: '16px' }}>
-          <div style={{ fontFamily: "'Poppins', sans-serif", fontSize: '12px', color: 'rgba(255,255,255,0.4)' }}>
+          <div style={{ fontFamily: "'Poppins', sans-serif", fontSize: '12px', color: 'rgba(255,255,255,0.58)' }}>
             © 2026 THE POLAR TREND. All Rights Reserved.
           </div>
-          <div style={{ fontFamily: "'Poppins', sans-serif", fontSize: '12px', color: 'rgba(255,255,255,0.4)', letterSpacing: '0.05em' }}>
+          <div style={{ fontFamily: "'Poppins', sans-serif", fontSize: '12px', color: 'rgba(255,255,255,0.58)', letterSpacing: '0.05em' }}>
             WEBSITE DESIGNED & DEVELOPED BY <span style={{ color: '#fff', fontWeight: 500 }}>VSURGEMEDIA</span>
           </div>
         </div>

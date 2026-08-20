@@ -94,7 +94,7 @@ export default function ProductModal({ product, onClose, onAddToCart }) {
             fontFamily: "'Poppins', sans-serif",
             fontSize: '11px',
             textTransform: 'uppercase',
-            color: 'var(--accent)',
+            color: 'var(--accent-ink)',
             letterSpacing: '1px',
             fontWeight: 600,
             marginBottom: '8px'
