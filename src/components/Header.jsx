@@ -24,11 +24,13 @@ export default function Header({ cartCount, wishlistCount, onOpenCart, searchTer
     { label: 'Pure Whites', category: 'Pure Whites', href: '#collection' },
     { label: 'Artisan Checks', category: 'Artisan Checks', href: '#collection' },
     { label: 'Everyday Essentials', category: 'Everyday Essentials', href: '#collection' },
-    { label: 'Reels', category: 'Reels', href: '#reels', badge: 'WATCH', badgeColor: 'var(--sale-price)' },
+    // Jump-only link: scrolls to the reels section without touching the
+    // product filter (there is no "Reels" product category).
+    { label: 'Reels', href: '#reels', badge: 'WATCH', badgeColor: 'var(--sale-price)' },
   ];
 
   const handleNavClick = (link) => {
-    setActiveCategory(link.category);
+    if (link.category) setActiveCategory(link.category);
     setMobileMenuOpen(false);
   };
 
