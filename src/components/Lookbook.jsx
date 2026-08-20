@@ -5,7 +5,7 @@ function LookbookCard({ lb }) {
   const [isHovered, setIsHovered] = useState(false);
 
   return (
-    <div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
+    <div style={{ position: 'relative', display: 'flex', flexDirection: 'column', gap: '12px' }}>
       <div 
         onMouseEnter={() => setIsHovered(true)}
         onMouseLeave={() => setIsHovered(false)}
@@ -20,6 +20,8 @@ function LookbookCard({ lb }) {
         <img 
           src={lb.image} 
           alt={lb.city} 
+          loading="lazy"
+          decoding="async"
           style={{
             width: '100%',
             height: '100%',
@@ -52,21 +54,26 @@ function LookbookCard({ lb }) {
         <p style={{
           fontFamily: "'Poppins', sans-serif",
           fontSize: '13px',
-          color: '#555555',
+          color: 'var(--text-body)',
           margin: '0 0 8px 0',
           lineHeight: 1.5
         }}>
           {lb.description}
         </p>
-        <a 
-          href="#catalog"
+        <a
+          href="#collection"
+          className="stretched-link"
+          aria-label={`Explore the ${lb.city} lookbook`}
           style={{
             fontFamily: "'Work Sans', sans-serif",
             fontSize: '14px',
             fontWeight: 600,
-            color: '#000080',
+            color: 'var(--accent-ink)',
             textDecoration: 'none',
-            display: 'inline-block'
+            display: 'inline-flex',
+            alignItems: 'center',
+            minHeight: '32px',
+            width: 'fit-content'
           }}
         >
           Explore &rarr;
@@ -78,14 +85,14 @@ function LookbookCard({ lb }) {
 
 export default function Lookbook() {
   return (
-    <section style={{ backgroundColor: '#FDFFF0', padding: '80px 20px' }}>
+    <section style={{ backgroundColor: 'var(--bg-primary)', padding: '80px 20px' }}>
       <div className="container" style={{ maxWidth: '1200px', margin: '0 auto' }}>
         
         <h2 style={{
           fontFamily: "'Work Sans', sans-serif",
           fontSize: '32px',
           fontWeight: 600,
-          color: '#212326',
+          color: 'var(--text-primary)',
           textAlign: 'center',
           margin: '0 0 40px 0'
         }}>

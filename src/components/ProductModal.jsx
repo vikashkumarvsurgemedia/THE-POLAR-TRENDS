@@ -29,7 +29,7 @@ export default function ProductModal({ product, onClose, onAddToCart }) {
     }}>
       <style>{`
         .modal-container {
-          background-color: #FFFFFF;
+          background-color: var(--bg-card);
           border-radius: 12px;
           max-width: 900px;
           width: 100%;
@@ -77,7 +77,7 @@ export default function ProductModal({ product, onClose, onAddToCart }) {
             boxShadow: '0 2px 8px rgba(0,0,0,0.1)'
           }}
         >
-          <X size={18} color="#212326" />
+          <X size={18} color="var(--text-primary)" />
         </button>
 
         <div>
@@ -94,7 +94,7 @@ export default function ProductModal({ product, onClose, onAddToCart }) {
             fontFamily: "'Poppins', sans-serif",
             fontSize: '11px',
             textTransform: 'uppercase',
-            color: '#000080',
+            color: 'var(--accent-ink)',
             letterSpacing: '1px',
             fontWeight: 600,
             marginBottom: '8px'
@@ -106,28 +106,28 @@ export default function ProductModal({ product, onClose, onAddToCart }) {
             fontFamily: "'Work Sans', sans-serif",
             fontSize: '24px',
             fontWeight: 600,
-            color: '#212326',
+            color: 'var(--text-primary)',
             margin: '0 0 12px 0'
           }}>
             {product.name}
           </h2>
 
           <div style={{ display: 'flex', alignItems: 'center', gap: '6px', marginBottom: '16px' }}>
-            <div style={{ display: 'flex', color: '#FBBC04', fontSize: '14px' }}>
+            <div style={{ display: 'flex', color: 'var(--stars)', fontSize: '14px' }}>
               {'★'.repeat(Math.round(product.rating || 5))}
-              <span style={{ color: '#eee' }}>{'★'.repeat(5 - Math.round(product.rating || 5))}</span>
+              <span style={{ color: 'var(--star-empty)' }}>{'★'.repeat(5 - Math.round(product.rating || 5))}</span>
             </div>
-            <span style={{ fontFamily: "'Poppins', sans-serif", fontSize: '13px', color: '#777' }}>
-              ({product.reviews || 0} reviews)
+            <span style={{ fontFamily: "'Poppins', sans-serif", fontSize: '13px', color: 'var(--text-muted)' }}>
+              ({product.reviewCount || 0} reviews)
             </span>
           </div>
 
           <div style={{ display: 'flex', alignItems: 'center', gap: '12px', marginBottom: '20px' }}>
-            <span style={{ fontFamily: "'Work Sans', sans-serif", fontSize: '28px', fontWeight: 600, color: '#212326' }}>
+            <span style={{ fontFamily: "'Work Sans', sans-serif", fontSize: '28px', fontWeight: 600, color: 'var(--text-primary)' }}>
               ₹{product.price.toLocaleString('en-IN')}
             </span>
             {isDiscounted && (
-              <span style={{ fontFamily: "'Poppins', sans-serif", fontSize: '16px', color: '#999', textDecoration: 'line-through' }}>
+              <span style={{ fontFamily: "'Poppins', sans-serif", fontSize: '16px', color: 'var(--text-muted)', textDecoration: 'line-through' }}>
                 ₹{product.originalPrice.toLocaleString('en-IN')}
               </span>
             )}
@@ -136,7 +136,7 @@ export default function ProductModal({ product, onClose, onAddToCart }) {
           <p style={{
             fontFamily: "'Poppins', sans-serif",
             fontSize: '14px',
-            color: '#555555',
+            color: 'var(--text-body)',
             lineHeight: 1.7,
             margin: '0 0 24px 0'
           }}>
@@ -146,14 +146,14 @@ export default function ProductModal({ product, onClose, onAddToCart }) {
           <div style={{ margin: '0 0 24px 0' }}>
             <ul style={{ listStyle: 'none', padding: 0, margin: 0, display: 'flex', flexDirection: 'column', gap: '8px' }}>
               {product.fabric && (
-                <li style={{ fontFamily: "'Poppins', sans-serif", fontSize: '13px', color: '#555' }}>
-                  <span style={{ fontFamily: "'Work Sans', sans-serif", fontWeight: 600, color: '#212326' }}>Fabric: </span>
+                <li style={{ fontFamily: "'Poppins', sans-serif", fontSize: '13px', color: 'var(--text-body)' }}>
+                  <span style={{ fontFamily: "'Work Sans', sans-serif", fontWeight: 600, color: 'var(--text-primary)' }}>Fabric: </span>
                   {product.fabric}
                 </li>
               )}
               {product.embroidery && (
-                <li style={{ fontFamily: "'Poppins', sans-serif", fontSize: '13px', color: '#555' }}>
-                  <span style={{ fontFamily: "'Work Sans', sans-serif", fontWeight: 600, color: '#212326' }}>Embroidery: </span>
+                <li style={{ fontFamily: "'Poppins', sans-serif", fontSize: '13px', color: 'var(--text-body)' }}>
+                  <span style={{ fontFamily: "'Work Sans', sans-serif", fontWeight: 600, color: 'var(--text-primary)' }}>Embroidery: </span>
                   {product.embroidery}
                 </li>
               )}
@@ -165,7 +165,7 @@ export default function ProductModal({ product, onClose, onAddToCart }) {
               fontFamily: "'Work Sans', sans-serif",
               fontSize: '13px',
               fontWeight: 600,
-              color: '#212326',
+              color: 'var(--text-primary)',
               marginBottom: '10px'
             }}>
               Select Size
@@ -180,10 +180,10 @@ export default function ProductModal({ product, onClose, onAddToCart }) {
                     style={{
                       width: '44px',
                       height: '44px',
-                      border: isSelected ? '1px solid #000080' : '1px solid #ddd',
+                      border: isSelected ? '1px solid var(--accent)' : '1px solid var(--border)',
                       borderRadius: '6px',
-                      backgroundColor: isSelected ? '#000080' : '#FFFFFF',
-                      color: isSelected ? '#FFFFFF' : '#212326',
+                      backgroundColor: isSelected ? 'var(--accent)' : 'transparent',
+                      color: isSelected ? '#FFFFFF' : 'var(--text-primary)',
                       fontFamily: "'Poppins', sans-serif",
                       fontSize: '13px',
                       fontWeight: 500,
@@ -207,7 +207,7 @@ export default function ProductModal({ product, onClose, onAddToCart }) {
             onMouseLeave={() => setBtnHovered(false)}
             style={{
               width: '100%',
-              backgroundColor: btnHovered ? '#000066' : '#000080',
+              backgroundColor: btnHovered ? 'var(--accent-hover)' : 'var(--accent)',
               color: '#FFFFFF',
               fontFamily: "'Poppins', sans-serif",
               fontSize: '15px',

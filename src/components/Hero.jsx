@@ -1,71 +1,61 @@
 import React, { useState } from 'react';
 import { Truck, RotateCcw, PenTool, Droplet } from 'lucide-react';
 
+const FEATURES = [
+  { Icon: Droplet, label: '100% Cotton' },
+  { Icon: PenTool, label: 'Handcrafted' },
+  { Icon: Truck, label: 'Free Shipping' },
+  { Icon: RotateCcw, label: 'Easy Returns' },
+];
+
 export default function Hero() {
   const [isHovered, setIsHovered] = useState(false);
 
   return (
     <section>
-      {/* Hero Banner */}
+      {/* Full-bleed banner. The source photo is portrait, so `cover` always
+          crops it — `background-position: center 32%` puts the crop on the
+          collar and embroidered placket rather than slicing through the middle. */}
       <div style={{
         position: 'relative',
         width: '100%',
-        minHeight: 'clamp(50vh, 70vh, 70vh)',
+        minHeight: 'clamp(460px, 72vh, 720px)',
         display: 'flex',
         flexDirection: 'column',
         alignItems: 'center',
         justifyContent: 'center',
-        backgroundImage: `linear-gradient(rgba(0,0,0,0.3), rgba(0,0,0,0.5)), url('/assets/products/black-lotus-embroidered.jpg')`,
+        backgroundImage:
+          `linear-gradient(rgba(4,10,32,0.34), rgba(4,10,32,0.62)), url('/assets/products/black-lotus-embroidered.jpg')`,
         backgroundSize: 'cover',
-        backgroundPosition: 'center',
-        padding: '2rem'
+        backgroundPosition: 'center 32%',
+        backgroundRepeat: 'no-repeat',
+        padding: '2rem',
       }}>
-        <div style={{
-          fontFamily: "'Poppins', sans-serif",
-          fontSize: '12px',
-          textTransform: 'uppercase',
-          letterSpacing: '3px',
-          color: '#FFFFFF',
-          borderBottom: '1px solid #FFFFFF',
-          paddingBottom: '4px',
-          marginBottom: '20px'
-        }}>
-          NEW COLLECTION 2026
-        </div>
-
         <h1 style={{
           fontFamily: "'Work Sans', sans-serif",
-          fontSize: 'clamp(28px, 5vw, 48px)',
+          fontSize: 'clamp(30px, 5vw, 52px)',
           fontWeight: 600,
           color: '#FFFFFF',
-          maxWidth: '600px',
+          maxWidth: '640px',
           textAlign: 'center',
-          lineHeight: 1.2,
-          margin: '0 0 16px 0'
+          lineHeight: 1.14,
+          letterSpacing: '-0.01em',
+          textShadow: '0 2px 18px rgba(0,0,0,0.35)',
+          margin: '0 0 30px 0',
         }}>
           Finest Cotton. Handcrafted Embroidery.
         </h1>
 
-        <p style={{
-          fontFamily: "'Poppins', sans-serif",
-          fontSize: '16px',
-          color: '#FFFFFF',
-          opacity: 0.85,
-          maxWidth: '500px',
-          textAlign: 'center',
-          lineHeight: 1.5,
-          margin: '0 0 32px 0'
-        }}>
-          Premium 100% cotton shirts with intricate handcrafted embroidery work
-        </p>
-
-        <button
+        <a
+          href="#collection"
           onMouseEnter={() => setIsHovered(true)}
           onMouseLeave={() => setIsHovered(false)}
           style={{
-            backgroundColor: isHovered ? '#000066' : '#000080',
+            display: 'inline-flex',
+            alignItems: 'center',
+            backgroundColor: isHovered ? 'var(--accent-hover)' : 'var(--accent)',
             color: '#FFFFFF',
-            padding: '14px 36px',
+            padding: '15px 40px',
             border: 'none',
             borderRadius: '6px',
             fontFamily: "'Poppins', sans-serif",
@@ -73,23 +63,24 @@ export default function Hero() {
             fontWeight: 600,
             textTransform: 'uppercase',
             letterSpacing: '1px',
+            textDecoration: 'none',
             cursor: 'pointer',
             transform: isHovered ? 'translateY(-2px)' : 'none',
-            boxShadow: isHovered ? '0 4px 12px rgba(0,0,0,0.15)' : 'none',
-            transition: 'all 0.3s ease'
+            boxShadow: isHovered ? '0 8px 22px rgba(0,0,0,0.4)' : '0 2px 10px rgba(0,0,0,0.25)',
+            transition: 'all 0.3s ease',
           }}
         >
-          SHOP COLLECTION
-        </button>
+          Shop Now
+        </a>
       </div>
 
       {/* Features Bar */}
       <div style={{
-        backgroundColor: '#FDFFF0',
-        borderBottom: '1px solid #E5E7EB',
+        backgroundColor: 'var(--bg-primary)',
+        borderBottom: '1px solid var(--border)',
         padding: '16px 0',
         display: 'flex',
-        justifyContent: 'center'
+        justifyContent: 'center',
       }}>
         <div style={{
           display: 'flex',
@@ -98,25 +89,33 @@ export default function Hero() {
           justifyContent: 'center',
           gap: '24px',
           maxWidth: '1000px',
-          width: '100%'
+          width: '100%',
         }}>
-          <div style={{ display: 'flex', alignItems: 'center', gap: '8px', color: '#555555', fontFamily: "'Poppins', sans-serif", fontSize: '12px' }}>
-            <Droplet size={16} color="#000080" /> 100% Cotton
-          </div>
-          <div style={{ width: '1px', height: '16px', backgroundColor: '#CCCCCC' }}></div>
-          <div style={{ display: 'flex', alignItems: 'center', gap: '8px', color: '#555555', fontFamily: "'Poppins', sans-serif", fontSize: '12px' }}>
-            <PenTool size={16} color="#000080" /> Handcrafted
-          </div>
-          <div style={{ width: '1px', height: '16px', backgroundColor: '#CCCCCC' }}></div>
-          <div style={{ display: 'flex', alignItems: 'center', gap: '8px', color: '#555555', fontFamily: "'Poppins', sans-serif", fontSize: '12px' }}>
-            <Truck size={16} color="#000080" /> Free Shipping
-          </div>
-          <div style={{ width: '1px', height: '16px', backgroundColor: '#CCCCCC' }}></div>
-          <div style={{ display: 'flex', alignItems: 'center', gap: '8px', color: '#555555', fontFamily: "'Poppins', sans-serif", fontSize: '12px' }}>
-            <RotateCcw size={16} color="#000080" /> Easy Returns
-          </div>
+          {FEATURES.map(({ Icon, label }, i) => (
+            <React.Fragment key={label}>
+              {i > 0 && (
+                <div className="feature-divider" style={{ width: '1px', height: '16px', backgroundColor: 'var(--border-strong)' }} />
+              )}
+              <div style={{
+                display: 'flex',
+                alignItems: 'center',
+                gap: '8px',
+                color: 'var(--text-body)',
+                fontFamily: "'Poppins', sans-serif",
+                fontSize: '12px',
+              }}>
+                <Icon size={16} color="var(--accent-ink)" /> {label}
+              </div>
+            </React.Fragment>
+          ))}
         </div>
       </div>
+
+      <style dangerouslySetInnerHTML={{__html: `
+        @media (max-width: 480px) {
+          .feature-divider { display: none; }
+        }
+      `}} />
     </section>
   );
 }

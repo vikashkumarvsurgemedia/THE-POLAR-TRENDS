@@ -1,11 +1,10 @@
 import React, { useState } from 'react';
 import Header from './components/Header';
 import Hero from './components/Hero';
-import CategoryCircles from './components/CategoryCircles';
 import ProductGrid from './components/ProductGrid';
 import PromoBanners from './components/PromoBanners';
 import FabricStory from './components/FabricStory';
-import CustomMonogrammer from './components/CustomMonogrammer';
+import VideoReels from './components/VideoReels';
 import Lookbook from './components/Lookbook';
 import Reviews from './components/Reviews';
 import CartDrawer from './components/CartDrawer';
@@ -86,7 +85,7 @@ export default function App() {
   });
 
   return (
-    <div style={{ minHeight: '100vh', display: 'flex', flexDirection: 'column', backgroundColor: '#FDFFF0' }}>
+    <div style={{ minHeight: '100vh', display: 'flex', flexDirection: 'column', backgroundColor: 'var(--bg-primary)' }}>
       
       {/* Header */}
       <Header
@@ -99,14 +98,9 @@ export default function App() {
         setActiveCategory={setActiveCategory}
       />
 
+      <main id="main">
       {/* Hero Section */}
       <Hero />
-
-      {/* Category Circles Quick Shortcuts */}
-      <CategoryCircles
-        activeCategory={activeCategory}
-        setActiveCategory={setActiveCategory}
-      />
 
       {/* Main Catalog Section */}
       <ProductGrid
@@ -127,17 +121,15 @@ export default function App() {
       {/* Fabric Craftsmanship Spotlight Section */}
       <FabricStory />
 
-      {/* Interactive Custom Monogrammer Section */}
-      <CustomMonogrammer
-        products={products}
-        onAddToCart={handleAddToCart}
-      />
+      {/* Brand Reels / Short Video Stories */}
+      <VideoReels />
 
       {/* Indian City Lookbook Section */}
       <Lookbook />
 
       {/* Customer Reviews Section */}
       <Reviews />
+      </main>
 
       {/* Footer */}
       <Footer />

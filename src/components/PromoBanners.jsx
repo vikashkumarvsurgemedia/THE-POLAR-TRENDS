@@ -8,7 +8,7 @@ export default function PromoBanners({ setActiveCategory }) {
   };
 
   return (
-    <section style={{ padding: '40px 0', backgroundColor: '#FDFFF0' }}>
+    <section style={{ padding: '40px 0', backgroundColor: 'var(--bg-primary)' }}>
       <div className="container">
         <div style={{
           display: 'grid',
@@ -20,17 +20,17 @@ export default function PromoBanners({ setActiveCategory }) {
             position: 'relative',
             borderRadius: '12px',
             overflow: 'hidden',
-            backgroundColor: '#000080',
+            backgroundColor: 'var(--accent)',
             color: '#FFFFFF',
             padding: '36px 30px',
             display: 'flex',
             flexDirection: 'column',
             justifyContent: 'center',
             boxShadow: '0 4px 16px rgba(0,0,128,0.15)',
-            backgroundImage: 'linear-gradient(135deg, #000080 0%, #000040 100%)'
+            backgroundImage: 'linear-gradient(135deg, var(--accent) 0%, var(--bg-dark) 100%)'
           }}>
             <span style={{
-              backgroundColor: '#D72C0D',
+              backgroundColor: 'var(--sale-price)',
               color: '#FFFFFF',
               fontFamily: "'Poppins', sans-serif",
               fontSize: '10px',
@@ -65,8 +65,8 @@ export default function PromoBanners({ setActiveCategory }) {
             <button
               onClick={handleComboClick}
               style={{
-                backgroundColor: '#FFFFFF',
-                color: '#000080',
+                backgroundColor: 'var(--bg-light)',
+                color: 'var(--text-on-light)',
                 fontFamily: "'Poppins', sans-serif",
                 fontSize: '13px',
                 fontWeight: 700,
@@ -76,14 +76,14 @@ export default function PromoBanners({ setActiveCategory }) {
                 cursor: 'pointer',
                 width: 'fit-content',
                 transition: 'all 0.3s ease',
-                boxShadow: '0 2px 8px rgba(0,0,0,0.1)'
+                boxShadow: '0 2px 8px rgba(0,0,0,0.25)'
               }}
               onMouseEnter={(e) => {
-                e.target.style.backgroundColor = '#FDFFF0';
+                e.target.style.backgroundColor = '#FFFFFF';
                 e.target.style.transform = 'translateY(-2px)';
               }}
               onMouseLeave={(e) => {
-                e.target.style.backgroundColor = '#FFFFFF';
+                e.target.style.backgroundColor = 'var(--bg-light)';
                 e.target.style.transform = 'translateY(0)';
               }}
             >
@@ -96,7 +96,7 @@ export default function PromoBanners({ setActiveCategory }) {
             position: 'relative',
             borderRadius: '12px',
             overflow: 'hidden',
-            backgroundColor: '#1A1B18',
+            backgroundColor: 'var(--bg-dark)',
             color: '#FFFFFF',
             padding: '36px 30px',
             display: 'flex',
@@ -144,7 +144,7 @@ export default function PromoBanners({ setActiveCategory }) {
                 if (el) el.scrollIntoView({ behavior: 'smooth' });
               }}
               style={{
-                backgroundColor: '#000080',
+                backgroundColor: 'var(--accent)',
                 color: '#FFFFFF',
                 fontFamily: "'Poppins', sans-serif",
                 fontSize: '13px',
@@ -157,11 +157,11 @@ export default function PromoBanners({ setActiveCategory }) {
                 transition: 'all 0.3s ease'
               }}
               onMouseEnter={(e) => {
-                e.target.style.backgroundColor = '#000066';
+                e.target.style.backgroundColor = 'var(--accent-hover)';
                 e.target.style.transform = 'translateY(-2px)';
               }}
               onMouseLeave={(e) => {
-                e.target.style.backgroundColor = '#000080';
+                e.target.style.backgroundColor = 'var(--accent)';
                 e.target.style.transform = 'translateY(0)';
               }}
             >

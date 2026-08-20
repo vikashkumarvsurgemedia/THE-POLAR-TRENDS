@@ -13,7 +13,7 @@ export default function Footer() {
   };
 
   return (
-    <footer style={{ backgroundColor: '#1A1B18', color: '#ffffff', paddingTop: '60px', paddingBottom: '20px' }}>
+    <footer style={{ backgroundColor: 'var(--bg-dark)', color: '#ffffff', paddingTop: '60px', paddingBottom: '20px' }}>
       <div style={{ maxWidth: '1200px', margin: '0 auto', padding: '0 20px' }}>
         
         {/* Newsletter Section */}
@@ -26,7 +26,7 @@ export default function Footer() {
           </p>
           
           {subscribed ? (
-            <div style={{ fontFamily: "'Poppins', sans-serif", fontSize: '14px', color: '#008060', padding: '12px', backgroundColor: 'rgba(0,128,96,0.1)', borderRadius: '6px' }}>
+            <div style={{ fontFamily: "'Poppins', sans-serif", fontSize: '14px', color: 'var(--success)', padding: '12px', backgroundColor: 'rgba(0,128,96,0.1)', borderRadius: '6px' }}>
               ✓ Subscribed! Use code POLAR10 for 10% off
             </div>
           ) : (
@@ -53,7 +53,7 @@ export default function Footer() {
               <button 
                 type="submit"
                 style={{
-                  backgroundColor: '#000080',
+                  backgroundColor: 'var(--accent)',
                   color: '#fff',
                   border: 'none',
                   fontFamily: "'Poppins', sans-serif",
@@ -84,9 +84,9 @@ export default function Footer() {
               Elevating everyday essentials with premium quality cotton and timeless designs for the modern wardrobe.
             </p>
             <div style={{ display: 'flex', gap: '16px' }}>
-              <a href="#" style={{ color: '#fff' }}><Instagram size={20} /></a>
-              <a href="#" style={{ color: '#fff' }}><Facebook size={20} /></a>
-              <a href="#" style={{ color: '#fff' }}><Twitter size={20} /></a>
+              <a href="#" aria-label="Instagram" style={{ color: '#fff', width: '32px', height: '32px', display: 'inline-flex', alignItems: 'center', justifyContent: 'center' }}><Instagram size={20} /></a>
+              <a href="#" aria-label="Facebook" style={{ color: '#fff', width: '32px', height: '32px', display: 'inline-flex', alignItems: 'center', justifyContent: 'center' }}><Facebook size={20} /></a>
+              <a href="#" aria-label="Twitter" style={{ color: '#fff', width: '32px', height: '32px', display: 'inline-flex', alignItems: 'center', justifyContent: 'center' }}><Twitter size={20} /></a>
             </div>
           </div>
 
@@ -97,7 +97,7 @@ export default function Footer() {
             </div>
             <div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
               {['All Shirts', 'Embroidery Edit', 'Pure Whites', 'Artisan Checks'].map(link => (
-                <a key={link} href="#" style={{ fontFamily: "'Poppins', sans-serif", fontSize: '13px', color: 'rgba(255,255,255,0.5)', textDecoration: 'none', transition: 'color 0.2s' }} onMouseEnter={(e) => e.target.style.color = '#fff'} onMouseLeave={(e) => e.target.style.color = 'rgba(255,255,255,0.5)'}>
+                <a key={link} href="#" style={{ fontFamily: "'Poppins', sans-serif", fontSize: '13px', color: 'rgba(255,255,255,0.62)', textDecoration: 'none', transition: 'color 0.2s', padding: '6px 0', display: 'inline-block' }} onMouseEnter={(e) => e.target.style.color = '#fff'} onMouseLeave={(e) => e.target.style.color = 'rgba(255,255,255,0.5)'}>
                   {link}
                 </a>
               ))}
@@ -111,7 +111,7 @@ export default function Footer() {
             </div>
             <div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
               {['Shipping Policy', 'Returns & Exchange', 'Track Order', 'Contact Us', 'FAQs'].map(link => (
-                <a key={link} href="#" style={{ fontFamily: "'Poppins', sans-serif", fontSize: '13px', color: 'rgba(255,255,255,0.5)', textDecoration: 'none', transition: 'color 0.2s' }} onMouseEnter={(e) => e.target.style.color = '#fff'} onMouseLeave={(e) => e.target.style.color = 'rgba(255,255,255,0.5)'}>
+                <a key={link} href="#" style={{ fontFamily: "'Poppins', sans-serif", fontSize: '13px', color: 'rgba(255,255,255,0.62)', textDecoration: 'none', transition: 'color 0.2s', padding: '6px 0', display: 'inline-block' }} onMouseEnter={(e) => e.target.style.color = '#fff'} onMouseLeave={(e) => e.target.style.color = 'rgba(255,255,255,0.5)'}>
                   {link}
                 </a>
               ))}
@@ -134,10 +134,10 @@ export default function Footer() {
 
         {/* Bottom Bar */}
         <div style={{ borderTop: '1px solid rgba(255,255,255,0.1)', paddingTop: '20px', display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: '16px' }}>
-          <div style={{ fontFamily: "'Poppins', sans-serif", fontSize: '12px', color: 'rgba(255,255,255,0.4)' }}>
+          <div style={{ fontFamily: "'Poppins', sans-serif", fontSize: '12px', color: 'rgba(255,255,255,0.58)' }}>
             © 2026 THE POLAR TREND. All Rights Reserved.
           </div>
-          <div style={{ fontFamily: "'Poppins', sans-serif", fontSize: '12px', color: 'rgba(255,255,255,0.4)', letterSpacing: '0.05em' }}>
+          <div style={{ fontFamily: "'Poppins', sans-serif", fontSize: '12px', color: 'rgba(255,255,255,0.58)', letterSpacing: '0.05em' }}>
             WEBSITE DESIGNED & DEVELOPED BY <span style={{ color: '#fff', fontWeight: 500 }}>VSURGEMEDIA</span>
           </div>
         </div>

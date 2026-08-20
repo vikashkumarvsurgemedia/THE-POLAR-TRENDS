@@ -43,7 +43,7 @@ export default function CartDrawer({ isOpen, onClose, cartItems, onUpdateQuantit
       animation: 'fadeIn 0.2s ease-out'
     }}>
       <div style={{
-        backgroundColor: '#FDFFF0',
+        backgroundColor: 'var(--bg-primary)',
         width: '100%',
         maxWidth: '420px',
         height: '100vh',
@@ -57,19 +57,19 @@ export default function CartDrawer({ isOpen, onClose, cartItems, onUpdateQuantit
           justifyContent: 'space-between',
           alignItems: 'center',
           padding: '20px',
-          borderBottom: '1px solid rgba(0,0,0,0.08)'
+          borderBottom: '1px solid var(--border)'
         }}>
           <h2 style={{
             fontFamily: "'Work Sans', sans-serif",
             fontWeight: 600,
             fontSize: '18px',
-            color: '#212326',
+            color: 'var(--text-primary)',
             margin: 0
           }}>
             Your Bag ({cartItems.reduce((acc, i) => acc + i.quantity, 0)})
           </h2>
           <button onClick={onClose} style={{
-            background: 'none', border: 'none', cursor: 'pointer', color: '#212326', display: 'flex', alignItems: 'center'
+            background: 'none', border: 'none', cursor: 'pointer', color: 'var(--text-primary)', display: 'flex', alignItems: 'center'
           }}>
             <X size={24} />
           </button>
@@ -77,12 +77,12 @@ export default function CartDrawer({ isOpen, onClose, cartItems, onUpdateQuantit
 
         {/* Free Shipping Bar */}
         {cartItems.length > 0 && (
-          <div style={{ padding: '15px 20px', borderBottom: '1px solid rgba(0,0,0,0.08)' }}>
+          <div style={{ padding: '15px 20px', borderBottom: '1px solid var(--border)' }}>
             {subtotal >= freeShippingThreshold ? (
               <div style={{
                 fontFamily: "'Poppins', sans-serif",
                 fontSize: '12px',
-                color: '#008060',
+                color: 'var(--success)',
                 fontWeight: 600,
                 textAlign: 'center'
               }}>
@@ -93,7 +93,7 @@ export default function CartDrawer({ isOpen, onClose, cartItems, onUpdateQuantit
                 <div style={{
                   fontFamily: "'Poppins', sans-serif",
                   fontSize: '12px',
-                  color: '#555555',
+                  color: 'var(--text-body)',
                   marginBottom: '8px',
                   textAlign: 'center'
                 }}>
@@ -107,7 +107,7 @@ export default function CartDrawer({ isOpen, onClose, cartItems, onUpdateQuantit
                 }}>
                   <div style={{
                     height: '100%',
-                    backgroundColor: '#000080',
+                    backgroundColor: 'var(--accent)',
                     width: `${Math.min(100, (subtotal / freeShippingThreshold) * 100)}%`,
                     transition: 'width 0.3s'
                   }} />
@@ -121,8 +121,8 @@ export default function CartDrawer({ isOpen, onClose, cartItems, onUpdateQuantit
         <div style={{ flex: 1, overflowY: 'auto', padding: '20px' }}>
           {cartItems.length === 0 ? (
             <div style={{ textAlign: 'center', marginTop: '60px' }}>
-              <ShoppingBag size={48} color="#999" style={{ marginBottom: '16px' }} />
-              <div style={{ fontFamily: "'Poppins', sans-serif", fontSize: '16px', color: '#555', marginBottom: '24px' }}>
+              <ShoppingBag size={48} color="var(--text-muted)" style={{ marginBottom: '16px' }} />
+              <div style={{ fontFamily: "'Poppins', sans-serif", fontSize: '16px', color: 'var(--text-body)', marginBottom: '24px' }}>
                 Your bag is empty
               </div>
               <button onClick={onClose} style={{
@@ -130,7 +130,7 @@ export default function CartDrawer({ isOpen, onClose, cartItems, onUpdateQuantit
                 border: 'none',
                 fontFamily: "'Poppins', sans-serif",
                 fontWeight: 600,
-                color: '#000080',
+                color: 'var(--accent-ink)',
                 textDecoration: 'underline',
                 cursor: 'pointer',
                 fontSize: '14px'
@@ -147,24 +147,24 @@ export default function CartDrawer({ isOpen, onClose, cartItems, onUpdateQuantit
                     <div style={{ flex: 1, display: 'flex', flexDirection: 'column' }}>
                       <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start' }}>
                         <div>
-                          <div style={{ fontFamily: "'Poppins', sans-serif", fontSize: '14px', color: '#212326', fontWeight: 500 }}>{item.name}</div>
-                          <div style={{ fontFamily: "'Poppins', sans-serif", fontSize: '12px', color: '#777777', marginTop: '4px' }}>Size: {item.selectedSize}</div>
+                          <div style={{ fontFamily: "'Poppins', sans-serif", fontSize: '14px', color: 'var(--text-primary)', fontWeight: 500 }}>{item.name}</div>
+                          <div style={{ fontFamily: "'Poppins', sans-serif", fontSize: '12px', color: 'var(--text-muted)', marginTop: '4px' }}>Size: {item.selectedSize}</div>
                         </div>
-                        <div style={{ fontFamily: "'Work Sans', sans-serif", fontSize: '14px', fontWeight: 600, color: '#212326' }}>
+                        <div style={{ fontFamily: "'Work Sans', sans-serif", fontSize: '14px', fontWeight: 600, color: 'var(--text-primary)' }}>
                           ₹{item.price}
                         </div>
                       </div>
                       <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginTop: 'auto', paddingTop: '10px' }}>
                         <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-                          <button onClick={() => onUpdateQuantity(item.id, item.selectedSize, item.quantity - 1)} style={{ width: '30px', height: '30px', border: '1px solid #ddd', borderRadius: '4px', background: '#fff', cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>-</button>
+                          <button onClick={() => onUpdateQuantity(item.id, item.selectedSize, item.quantity - 1)} style={{ width: '30px', height: '30px', border: '1px solid var(--border)', borderRadius: '4px', background: 'var(--bg-card)', cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>-</button>
                           <span style={{ fontFamily: "'Poppins', sans-serif", fontSize: '13px', width: '20px', textAlign: 'center' }}>{item.quantity}</span>
-                          <button onClick={() => onUpdateQuantity(item.id, item.selectedSize, item.quantity + 1)} style={{ width: '30px', height: '30px', border: '1px solid #ddd', borderRadius: '4px', background: '#fff', cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>+</button>
+                          <button onClick={() => onUpdateQuantity(item.id, item.selectedSize, item.quantity + 1)} style={{ width: '30px', height: '30px', border: '1px solid var(--border)', borderRadius: '4px', background: 'var(--bg-card)', cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>+</button>
                         </div>
                         <button onClick={() => onRemoveItem(item.id, item.selectedSize)} style={{
-                          background: 'none', border: 'none', cursor: 'pointer', color: '#999', padding: '5px'
+                          background: 'none', border: 'none', cursor: 'pointer', color: 'var(--text-muted)', padding: '5px'
                         }}
-                        onMouseEnter={(e) => e.currentTarget.style.color = '#D72C0D'}
-                        onMouseLeave={(e) => e.currentTarget.style.color = '#999'}
+                        onMouseEnter={(e) => e.currentTarget.style.color = 'var(--sale-price)'}
+                        onMouseLeave={(e) => e.currentTarget.style.color = 'var(--text-muted)'}
                         >
                           <Trash2 size={18} />
                         </button>
@@ -180,7 +180,7 @@ export default function CartDrawer({ isOpen, onClose, cartItems, onUpdateQuantit
 
         {/* Footer Area */}
         {cartItems.length > 0 && (
-          <div style={{ padding: '20px', borderTop: '1px solid rgba(0,0,0,0.08)', backgroundColor: '#FDFFF0' }}>
+          <div style={{ padding: '20px', borderTop: '1px solid var(--border)', backgroundColor: 'var(--bg-primary)' }}>
             
             {/* Coupon Section */}
             <div style={{ marginBottom: '20px' }}>
@@ -190,16 +190,16 @@ export default function CartDrawer({ isOpen, onClose, cartItems, onUpdateQuantit
                   placeholder="Coupon code" 
                   value={couponCode}
                   onChange={(e) => setCouponCode(e.target.value)}
-                  style={{ flex: 1, fontFamily: "'Poppins', sans-serif", fontSize: '13px', border: '1px solid #ddd', borderRadius: '6px', padding: '10px', outline: 'none' }}
+                  style={{ flex: 1, fontFamily: "'Poppins', sans-serif", fontSize: '13px', border: '1px solid var(--border)', borderRadius: '6px', padding: '10px', outline: 'none' }}
                 />
                 <button onClick={handleApplyCoupon} style={{
-                  backgroundColor: '#000080', color: '#fff', border: 'none', borderRadius: '6px', padding: '0 16px', fontFamily: "'Poppins', sans-serif", fontSize: '13px', fontWeight: 500, cursor: 'pointer'
+                  backgroundColor: 'var(--accent)', color: '#fff', border: 'none', borderRadius: '6px', padding: '0 16px', fontFamily: "'Poppins', sans-serif", fontSize: '13px', fontWeight: 500, cursor: 'pointer'
                 }}>
                   Apply
                 </button>
               </div>
               {couponMessage && (
-                <div style={{ fontFamily: "'Poppins', sans-serif", fontSize: '12px', marginTop: '8px', color: discountPercent > 0 ? '#008060' : '#D72C0D' }}>
+                <div style={{ fontFamily: "'Poppins', sans-serif", fontSize: '12px', marginTop: '8px', color: discountPercent > 0 ? 'var(--success)' : 'var(--sale-price)' }}>
                   {couponMessage}
                 </div>
               )}
@@ -207,23 +207,23 @@ export default function CartDrawer({ isOpen, onClose, cartItems, onUpdateQuantit
 
             {/* Order Summary */}
             <div style={{ display: 'flex', flexDirection: 'column', gap: '8px', marginBottom: '20px' }}>
-              <div style={{ display: 'flex', justifyContent: 'space-between', fontFamily: "'Poppins', sans-serif", fontSize: '13px', color: '#555' }}>
+              <div style={{ display: 'flex', justifyContent: 'space-between', fontFamily: "'Poppins', sans-serif", fontSize: '13px', color: 'var(--text-body)' }}>
                 <span>Subtotal</span>
-                <span style={{ fontFamily: "'Work Sans', sans-serif", fontSize: '14px', fontWeight: 600, color: '#212326' }}>₹{subtotal}</span>
+                <span style={{ fontFamily: "'Work Sans', sans-serif", fontSize: '14px', fontWeight: 600, color: 'var(--text-primary)' }}>₹{subtotal}</span>
               </div>
               {discountAmount > 0 && (
-                <div style={{ display: 'flex', justifyContent: 'space-between', fontFamily: "'Poppins', sans-serif", fontSize: '13px', color: '#008060' }}>
+                <div style={{ display: 'flex', justifyContent: 'space-between', fontFamily: "'Poppins', sans-serif", fontSize: '13px', color: 'var(--success)' }}>
                   <span>Discount</span>
                   <span style={{ fontFamily: "'Work Sans', sans-serif", fontSize: '14px', fontWeight: 600 }}>-₹{discountAmount}</span>
                 </div>
               )}
-              <div style={{ display: 'flex', justifyContent: 'space-between', fontFamily: "'Poppins', sans-serif", fontSize: '13px', color: '#555' }}>
+              <div style={{ display: 'flex', justifyContent: 'space-between', fontFamily: "'Poppins', sans-serif", fontSize: '13px', color: 'var(--text-body)' }}>
                 <span>Shipping</span>
-                <span style={{ fontFamily: "'Work Sans', sans-serif", fontSize: '14px', fontWeight: 600, color: '#212326' }}>{shippingFee === 0 ? 'Free' : `₹${shippingFee}`}</span>
+                <span style={{ fontFamily: "'Work Sans', sans-serif", fontSize: '14px', fontWeight: 600, color: 'var(--text-primary)' }}>{shippingFee === 0 ? 'Free' : `₹${shippingFee}`}</span>
               </div>
-              <div style={{ display: 'flex', justifyContent: 'space-between', marginTop: '8px', paddingTop: '8px', borderTop: '1px solid rgba(0,0,0,0.08)' }}>
-                <span style={{ fontFamily: "'Poppins', sans-serif", fontSize: '15px', color: '#212326', fontWeight: 600 }}>Total</span>
-                <span style={{ fontFamily: "'Work Sans', sans-serif", fontSize: '18px', fontWeight: 700, color: '#212326' }}>₹{grandTotal}</span>
+              <div style={{ display: 'flex', justifyContent: 'space-between', marginTop: '8px', paddingTop: '8px', borderTop: '1px solid var(--border)' }}>
+                <span style={{ fontFamily: "'Poppins', sans-serif", fontSize: '15px', color: 'var(--text-primary)', fontWeight: 600 }}>Total</span>
+                <span style={{ fontFamily: "'Work Sans', sans-serif", fontSize: '18px', fontWeight: 700, color: 'var(--text-primary)' }}>₹{grandTotal}</span>
               </div>
             </div>
 
@@ -232,7 +232,7 @@ export default function CartDrawer({ isOpen, onClose, cartItems, onUpdateQuantit
               onClick={handleCheckoutClick}
               style={{
                 width: '100%',
-                backgroundColor: '#000080',
+                backgroundColor: 'var(--accent)',
                 color: '#fff',
                 fontFamily: "'Poppins', sans-serif",
                 fontSize: '15px',
@@ -243,8 +243,8 @@ export default function CartDrawer({ isOpen, onClose, cartItems, onUpdateQuantit
                 cursor: 'pointer',
                 transition: 'background-color 0.2s'
               }}
-              onMouseEnter={(e) => e.currentTarget.style.backgroundColor = '#000066'}
-              onMouseLeave={(e) => e.currentTarget.style.backgroundColor = '#000080'}
+              onMouseEnter={(e) => e.currentTarget.style.backgroundColor = 'var(--accent-hover)'}
+              onMouseLeave={(e) => e.currentTarget.style.backgroundColor = 'var(--accent)'}
             >
               PROCEED TO CHECKOUT
             </button>

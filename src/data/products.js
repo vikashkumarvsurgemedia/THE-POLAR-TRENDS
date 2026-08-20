@@ -516,6 +516,7 @@ export const PRODUCTS = [
 
 export const CATEGORIES = [
   'All Products',
+  'New Arrivals',
   'Embroidery Edit',
   'Pure Whites',
   'Artisan Checks',

@@ -19,29 +19,33 @@ export default function Header({ cartCount, wishlistCount, onOpenCart, searchTer
   }, []);
 
   const navLinks = [
-    { label: 'New Arrivals', category: 'New Arrivals', href: '#collection', badge: 'NEW', badgeColor: '#D72C0D' },
-    { label: 'Embroidery Edit', category: 'Embroidery Edit', href: '#collection', badge: 'HOT', badgeColor: '#000080' },
+    { label: 'New Arrivals', category: 'New Arrivals', href: '#collection', badge: 'NEW', badgeColor: 'var(--sale-price)' },
+    { label: 'Embroidery Edit', category: 'Embroidery Edit', href: '#collection', badge: 'HOT', badgeColor: 'var(--accent)' },
     { label: 'Pure Whites', category: 'Pure Whites', href: '#collection' },
     { label: 'Artisan Checks', category: 'Artisan Checks', href: '#collection' },
     { label: 'Everyday Essentials', category: 'Everyday Essentials', href: '#collection' },
-    { label: 'Bespoke Monogram', category: 'Bespoke Monogram', href: '#monogram', badge: 'CUSTOM', badgeColor: '#D72C0D' },
+    // Jump-only link: scrolls to the reels section without touching the
+    // product filter (there is no "Reels" product category).
+    { label: 'Reels', href: '#reels', badge: 'WATCH', badgeColor: 'var(--sale-price)' },
   ];
 
   const handleNavClick = (link) => {
-    setActiveCategory(link.category);
+    if (link.category) setActiveCategory(link.category);
     setMobileMenuOpen(false);
   };
 
   return (
     <>
-      {/* Top Announcement Bar */}
+      {/* Top Announcement Bar — cream, so the blue reads as the site's canvas
+          rather than a stripe at the very top of the page. */}
       <div style={{
-        backgroundColor: '#000080',
-        color: '#FFFFFF',
+        backgroundColor: 'var(--bg-light)',
+        color: 'var(--text-on-light)',
         textAlign: 'center',
-        padding: '6px',
+        padding: '7px',
         fontFamily: "'Poppins', sans-serif",
         fontSize: '11px',
+        fontWeight: 500,
         letterSpacing: '0.5px'
       }}>
         FREE SHIPPING ON ORDERS ABOVE ₹999 • COD AVAILABLE • EASY RETURNS
@@ -54,32 +58,40 @@ export default function Header({ cartCount, wishlistCount, onOpenCart, searchTer
         left: 0,
         right: 0,
         zIndex: 100,
-        backgroundColor: '#FDFFF0',
+        backgroundColor: 'var(--bg-primary)',
         boxShadow: isSticky ? '0 2px 8px rgba(0,0,0,0.06)' : 'none',
         transition: 'box-shadow 0.3s ease',
       }}>
-        {/* Main Header Row */}
+        {/* Main Header Row — three equal columns, so the brand can be centred by
+            layout instead of absolute positioning (which overlapped the icons
+            on small phones). */}
         <div style={{
-          display: 'flex',
+          display: 'grid',
+          gridTemplateColumns: '1fr auto 1fr',
           alignItems: 'center',
-          justifyContent: 'space-between',
+          gap: '12px',
           height: '60px',
           padding: '0 20px',
-          borderBottom: '1px solid rgba(0,0,0,0.08)'
+          borderBottom: '1px solid var(--border)'
         }}>
           {/* Left Actions */}
-          <div style={{ display: 'flex', alignItems: 'center', gap: '15px' }}>
+          <div style={{ display: 'flex', alignItems: 'center', gap: '8px', justifySelf: 'start' }}>
             <button
-              className="mobile-only"
+              className="mobile-only icon-btn"
+              aria-label="Open menu"
+              aria-expanded={mobileMenuOpen}
               onClick={() => setMobileMenuOpen(true)}
-              style={{ background: 'none', border: 'none', cursor: 'pointer', padding: '0', display: 'flex', alignItems: 'center', color: '#212326' }}
+              style={iconBtn}
             >
               <Menu size={24} />
             </button>
             <div style={{ position: 'relative', display: 'flex', alignItems: 'center' }}>
               <button
+                className="icon-btn"
+                aria-label={searchOpen ? 'Close search' : 'Search'}
+                aria-expanded={searchOpen}
                 onClick={() => setSearchOpen(!searchOpen)}
-                style={{ background: 'none', border: 'none', cursor: 'pointer', padding: '0', display: 'flex', alignItems: 'center', color: '#212326' }}
+                style={iconBtn}
               >
                 <Search size={20} />
               </button>
@@ -93,8 +105,8 @@ export default function Header({ cartCount, wishlistCount, onOpenCart, searchTer
                   style={{
                     position: 'absolute',
                     left: '30px',
-                    backgroundColor: '#FDFFF0',
-                    border: '1px solid rgba(0,0,0,0.08)',
+                    backgroundColor: 'var(--bg-primary)',
+                    border: '1px solid var(--border)',
                     padding: '5px 10px',
                     borderRadius: '4px',
                     fontFamily: "'Poppins', sans-serif",
@@ -108,70 +120,37 @@ export default function Header({ cartCount, wishlistCount, onOpenCart, searchTer
           </div>
 
           {/* Center Brand */}
-          <div style={{
+          <a href="#main" className="brand" style={{
             fontFamily: "'Work Sans', sans-serif",
             fontWeight: 600,
-            fontSize: '22px',
             letterSpacing: '2px',
-            color: '#212326',
+            color: 'var(--text-primary)',
             textAlign: 'center',
-            position: 'absolute',
-            left: '50%',
-            transform: 'translateX(-50%)',
-            whiteSpace: 'nowrap'
+            whiteSpace: 'nowrap',
+            textDecoration: 'none',
           }}>
             THE POLAR TREND
-          </div>
+          </a>
 
           {/* Right Actions */}
-          <div style={{ display: 'flex', alignItems: 'center', gap: '20px' }}>
-            <div style={{ position: 'relative', cursor: 'pointer', display: 'flex', alignItems: 'center', color: '#212326' }}>
+          <div style={{ display: 'flex', alignItems: 'center', gap: '8px', justifySelf: 'end' }}>
+            <button
+              className="icon-btn"
+              aria-label={`Wishlist, ${wishlistCount} ${wishlistCount === 1 ? 'item' : 'items'}`}
+              style={iconBtn}
+            >
               <Heart size={20} />
-              {wishlistCount > 0 && (
-                <span style={{
-                  position: 'absolute',
-                  top: '-8px',
-                  right: '-10px',
-                  backgroundColor: '#000080',
-                  color: '#FFFFFF',
-                  fontSize: '10px',
-                  fontFamily: "'Poppins', sans-serif",
-                  borderRadius: '50%',
-                  width: '16px',
-                  height: '16px',
-                  display: 'flex',
-                  alignItems: 'center',
-                  justifyContent: 'center'
-                }}>
-                  {wishlistCount}
-                </span>
-              )}
-            </div>
-            <div
+              {wishlistCount > 0 && <span style={countBadge}>{wishlistCount}</span>}
+            </button>
+            <button
+              className="icon-btn"
+              aria-label={`Open cart, ${cartCount} ${cartCount === 1 ? 'item' : 'items'}`}
               onClick={onOpenCart}
-              style={{ position: 'relative', cursor: 'pointer', display: 'flex', alignItems: 'center', color: '#212326' }}
+              style={iconBtn}
             >
               <ShoppingBag size={20} />
-              {cartCount > 0 && (
-                <span style={{
-                  position: 'absolute',
-                  top: '-8px',
-                  right: '-10px',
-                  backgroundColor: '#000080',
-                  color: '#FFFFFF',
-                  fontSize: '10px',
-                  fontFamily: "'Poppins', sans-serif",
-                  borderRadius: '50%',
-                  width: '16px',
-                  height: '16px',
-                  display: 'flex',
-                  alignItems: 'center',
-                  justifyContent: 'center'
-                }}>
-                  {cartCount}
-                </span>
-              )}
-            </div>
+              {cartCount > 0 && <span style={countBadge}>{cartCount}</span>}
+            </button>
           </div>
         </div>
 
@@ -179,8 +158,8 @@ export default function Header({ cartCount, wishlistCount, onOpenCart, searchTer
         <div className="desktop-only" style={{
           display: 'flex',
           justifyContent: 'center',
-          backgroundColor: '#FDFFF0',
-          borderBottom: '1px solid rgba(0,0,0,0.08)'
+          backgroundColor: 'var(--bg-primary)',
+          borderBottom: '1px solid var(--border)'
         }}>
           {navLinks.map((link) => (
             <a
@@ -194,8 +173,8 @@ export default function Header({ cartCount, wishlistCount, onOpenCart, searchTer
                 textTransform: 'uppercase',
                 padding: '12px 18px',
                 textDecoration: 'none',
-                color: activeCategory === link.category ? '#FFFFFF' : '#212326',
-                backgroundColor: activeCategory === link.category ? '#000080' : 'transparent',
+                color: activeCategory === link.category ? '#FFFFFF' : 'var(--text-primary)',
+                backgroundColor: activeCategory === link.category ? 'var(--accent)' : 'transparent',
                 transition: '0.3s ease',
                 display: 'inline-flex',
                 alignItems: 'center',
@@ -205,7 +184,7 @@ export default function Header({ cartCount, wishlistCount, onOpenCart, searchTer
               <span>{link.label}</span>
               {link.badge && (
                 <span style={{
-                  backgroundColor: link.badgeColor || '#D72C0D',
+                  backgroundColor: link.badgeColor || 'var(--sale-price)',
                   color: '#FFFFFF',
                   fontSize: '9px',
                   fontWeight: 700,
@@ -234,7 +213,7 @@ export default function Header({ cartCount, wishlistCount, onOpenCart, searchTer
           <div style={{
             width: '80%',
             maxWidth: '300px',
-            backgroundColor: '#FDFFF0',
+            backgroundColor: 'var(--bg-primary)',
             height: '100%',
             padding: '20px',
             display: 'flex',
@@ -244,14 +223,14 @@ export default function Header({ cartCount, wishlistCount, onOpenCart, searchTer
             <div style={{ display: 'flex', justifyContent: 'flex-end', marginBottom: '20px' }}>
               <button
                 onClick={() => setMobileMenuOpen(false)}
-                style={{ background: 'none', border: 'none', cursor: 'pointer', padding: 0, color: '#212326' }}
+                style={{ background: 'none', border: 'none', cursor: 'pointer', padding: 0, color: 'var(--text-primary)' }}
               >
                 <X size={24} />
               </button>
             </div>
             
-            <div style={{ marginBottom: '20px', display: 'flex', alignItems: 'center', backgroundColor: '#FFFFFF', border: '1px solid rgba(0,0,0,0.08)', borderRadius: '6px', padding: '8px 12px' }}>
-              <Search size={18} color="#555555" />
+            <div style={{ marginBottom: '20px', display: 'flex', alignItems: 'center', backgroundColor: 'var(--bg-card)', border: '1px solid var(--border)', borderRadius: '6px', padding: '8px 12px' }}>
+              <Search size={18} color="var(--text-body)" />
               <input
                 type="text"
                 placeholder="Search..."
@@ -265,7 +244,7 @@ export default function Header({ cartCount, wishlistCount, onOpenCart, searchTer
                   width: '100%',
                   fontFamily: "'Poppins', sans-serif",
                   fontSize: '14px',
-                  color: '#212326'
+                  color: 'var(--text-primary)'
                 }}
               />
             </div>
@@ -279,10 +258,10 @@ export default function Header({ cartCount, wishlistCount, onOpenCart, searchTer
                   style={{
                     fontFamily: "'Poppins', sans-serif",
                     fontSize: '16px',
-                    color: activeCategory === link.category ? '#000080' : '#212326',
+                    color: activeCategory === link.category ? 'var(--accent)' : 'var(--text-primary)',
                     textDecoration: 'none',
                     padding: '15px 0',
-                    borderBottom: '1px solid rgba(0,0,0,0.08)',
+                    borderBottom: '1px solid var(--border)',
                     fontWeight: activeCategory === link.category ? 600 : 400
                   }}
                 >
@@ -299,13 +278,53 @@ export default function Header({ cartCount, wishlistCount, onOpenCart, searchTer
           from { transform: translateX(-100%); }
           to { transform: translateX(0); }
         }
+        .brand { font-size: 22px; }
+        .icon-btn:hover { background-color: rgba(255,255,255,0.08); }
         @media (max-width: 768px) {
           .desktop-only { display: none !important; }
         }
         @media (min-width: 769px) {
           .mobile-only { display: none !important; }
         }
+        @media (max-width: 480px) {
+          .brand { font-size: 16px; letter-spacing: 1px; }
+        }
       `}} />
     </>
   );
 }
+
+/* 36px keeps every header control past the 24px minimum target size while the
+   icon inside stays 20px. */
+const iconBtn = {
+  position: 'relative',
+  width: '36px',
+  height: '36px',
+  display: 'inline-flex',
+  alignItems: 'center',
+  justifyContent: 'center',
+  background: 'none',
+  border: 'none',
+  borderRadius: '50%',
+  padding: 0,
+  cursor: 'pointer',
+  color: 'var(--text-primary)',
+  transition: 'background-color 0.2s ease',
+};
+
+const countBadge = {
+  position: 'absolute',
+  top: '2px',
+  right: '2px',
+  backgroundColor: 'var(--accent)',
+  color: '#FFFFFF',
+  fontSize: '10px',
+  fontFamily: "'Poppins', sans-serif",
+  borderRadius: '50%',
+  minWidth: '16px',
+  height: '16px',
+  display: 'flex',
+  alignItems: 'center',
+  justifyContent: 'center',
+  pointerEvents: 'none',
+};

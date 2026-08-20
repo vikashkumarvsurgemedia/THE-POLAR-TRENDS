@@ -15,6 +15,9 @@ export default function ProductGrid({
 
   let filteredProducts = products.filter(p => {
     if (activeCategory === 'All Products') return true;
+    // "New Arrivals" is a badge, not a category — matching it against
+    // p.category returned nothing and emptied the grid.
+    if (activeCategory === 'New Arrivals') return p.badge?.toLowerCase() === 'new';
     return p.category === activeCategory;
   });
 
@@ -27,10 +30,10 @@ export default function ProductGrid({
   }
 
   return (
-    <section id="collection" style={{ padding: '60px 0', backgroundColor: '#FDFFF0' }}>
+    <section id="collection" className="theme-light" style={{ padding: '60px 0', backgroundColor: 'var(--bg-primary)' }}>
       <div className="container" style={{ maxWidth: '1200px', margin: '0 auto', padding: '0 20px' }}>
         
-        <h2 style={{ fontFamily: "'Work Sans', sans-serif", fontSize: '32px', fontWeight: 600, color: '#212326', textAlign: 'center', margin: '0 0 30px 0' }}>
+        <h2 style={{ fontFamily: "'Work Sans', sans-serif", fontSize: '32px', fontWeight: 600, color: 'var(--text-primary)', textAlign: 'center', margin: '0 0 30px 0' }}>
           Our Collection
         </h2>
 
@@ -57,9 +60,9 @@ export default function ProductGrid({
                   key={cat}
                   onClick={() => setActiveCategory(cat)}
                   style={{
-                    backgroundColor: isActive ? '#000080' : 'transparent',
-                    color: isActive ? '#FFFFFF' : '#555555',
-                    border: isActive ? '1px solid #000080' : '1px solid #ddd',
+                    backgroundColor: isActive ? 'var(--accent)' : 'transparent',
+                    color: isActive ? '#FFFFFF' : 'var(--text-body)',
+                    border: isActive ? '1px solid var(--accent)' : '1px solid var(--border)',
                     padding: '8px 20px',
                     borderRadius: '25px',
                     fontFamily: "'Poppins', sans-serif",
@@ -78,16 +81,17 @@ export default function ProductGrid({
 
           <div style={{ display: 'flex', alignItems: 'center' }}>
             <select
+              aria-label="Sort products"
               value={sortBy}
               onChange={(e) => setSortBy(e.target.value)}
               style={{
                 fontFamily: "'Poppins', sans-serif",
                 fontSize: '13px',
-                border: '1px solid #ddd',
+                border: '1px solid var(--border)',
                 borderRadius: '6px',
                 padding: '8px 12px',
-                backgroundColor: '#FFFFFF',
-                color: '#212326',
+                backgroundColor: 'var(--bg-card)',
+                color: 'var(--text-primary)',
                 outline: 'none',
                 cursor: 'pointer'
               }}
