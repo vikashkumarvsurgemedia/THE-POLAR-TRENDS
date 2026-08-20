@@ -35,8 +35,10 @@ export default function FabricStory() {
           
           <div style={{ width: '100%', height: '100%', minHeight: '400px' }}>
             <img 
-              src="/assets/products/white-kashmiri-floral.jpg" 
-              alt="Our Promise"
+              src="/assets/products/white-kashmiri-floral.jpg"
+              alt="White cotton shirt with black Kashmiri floral threadwork, laid flat"
+              loading="lazy"
+              decoding="async"
               style={{
                 width: '100%',
                 height: '100%',

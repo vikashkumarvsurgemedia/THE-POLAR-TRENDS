@@ -118,7 +118,7 @@ export default function ProductModal({ product, onClose, onAddToCart }) {
               <span style={{ color: 'var(--star-empty)' }}>{'★'.repeat(5 - Math.round(product.rating || 5))}</span>
             </div>
             <span style={{ fontFamily: "'Poppins', sans-serif", fontSize: '13px', color: 'var(--text-muted)' }}>
-              ({product.reviews || 0} reviews)
+              ({product.reviewCount || 0} reviews)
             </span>
           </div>
 

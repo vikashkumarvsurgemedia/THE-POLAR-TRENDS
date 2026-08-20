@@ -15,6 +15,9 @@ export default function ProductGrid({
 
   let filteredProducts = products.filter(p => {
     if (activeCategory === 'All Products') return true;
+    // "New Arrivals" is a badge, not a category — matching it against
+    // p.category returned nothing and emptied the grid.
+    if (activeCategory === 'New Arrivals') return p.badge?.toLowerCase() === 'new';
     return p.category === activeCategory;
   });
 
@@ -78,6 +81,7 @@ export default function ProductGrid({
 
           <div style={{ display: 'flex', alignItems: 'center' }}>
             <select
+              aria-label="Sort products"
               value={sortBy}
               onChange={(e) => setSortBy(e.target.value)}
               style={{

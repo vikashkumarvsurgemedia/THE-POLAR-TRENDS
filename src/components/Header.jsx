@@ -62,28 +62,36 @@ export default function Header({ cartCount, wishlistCount, onOpenCart, searchTer
         boxShadow: isSticky ? '0 2px 8px rgba(0,0,0,0.06)' : 'none',
         transition: 'box-shadow 0.3s ease',
       }}>
-        {/* Main Header Row */}
+        {/* Main Header Row — three equal columns, so the brand can be centred by
+            layout instead of absolute positioning (which overlapped the icons
+            on small phones). */}
         <div style={{
-          display: 'flex',
+          display: 'grid',
+          gridTemplateColumns: '1fr auto 1fr',
           alignItems: 'center',
-          justifyContent: 'space-between',
+          gap: '12px',
           height: '60px',
           padding: '0 20px',
           borderBottom: '1px solid var(--border)'
         }}>
           {/* Left Actions */}
-          <div style={{ display: 'flex', alignItems: 'center', gap: '15px' }}>
+          <div style={{ display: 'flex', alignItems: 'center', gap: '8px', justifySelf: 'start' }}>
             <button
-              className="mobile-only"
+              className="mobile-only icon-btn"
+              aria-label="Open menu"
+              aria-expanded={mobileMenuOpen}
               onClick={() => setMobileMenuOpen(true)}
-              style={{ background: 'none', border: 'none', cursor: 'pointer', padding: '0', display: 'flex', alignItems: 'center', color: 'var(--text-primary)' }}
+              style={iconBtn}
             >
               <Menu size={24} />
             </button>
             <div style={{ position: 'relative', display: 'flex', alignItems: 'center' }}>
               <button
+                className="icon-btn"
+                aria-label={searchOpen ? 'Close search' : 'Search'}
+                aria-expanded={searchOpen}
                 onClick={() => setSearchOpen(!searchOpen)}
-                style={{ background: 'none', border: 'none', cursor: 'pointer', padding: '0', display: 'flex', alignItems: 'center', color: 'var(--text-primary)' }}
+                style={iconBtn}
               >
                 <Search size={20} />
               </button>
@@ -112,70 +120,37 @@ export default function Header({ cartCount, wishlistCount, onOpenCart, searchTer
           </div>
 
           {/* Center Brand */}
-          <div style={{
+          <a href="#main" className="brand" style={{
             fontFamily: "'Work Sans', sans-serif",
             fontWeight: 600,
-            fontSize: '22px',
             letterSpacing: '2px',
             color: 'var(--text-primary)',
             textAlign: 'center',
-            position: 'absolute',
-            left: '50%',
-            transform: 'translateX(-50%)',
-            whiteSpace: 'nowrap'
+            whiteSpace: 'nowrap',
+            textDecoration: 'none',
           }}>
             THE POLAR TREND
-          </div>
+          </a>
 
           {/* Right Actions */}
-          <div style={{ display: 'flex', alignItems: 'center', gap: '20px' }}>
-            <div style={{ position: 'relative', cursor: 'pointer', display: 'flex', alignItems: 'center', color: 'var(--text-primary)' }}>
+          <div style={{ display: 'flex', alignItems: 'center', gap: '8px', justifySelf: 'end' }}>
+            <button
+              className="icon-btn"
+              aria-label={`Wishlist, ${wishlistCount} ${wishlistCount === 1 ? 'item' : 'items'}`}
+              style={iconBtn}
+            >
               <Heart size={20} />
-              {wishlistCount > 0 && (
-                <span style={{
-                  position: 'absolute',
-                  top: '-8px',
-                  right: '-10px',
-                  backgroundColor: 'var(--accent)',
-                  color: '#FFFFFF',
-                  fontSize: '10px',
-                  fontFamily: "'Poppins', sans-serif",
-                  borderRadius: '50%',
-                  width: '16px',
-                  height: '16px',
-                  display: 'flex',
-                  alignItems: 'center',
-                  justifyContent: 'center'
-                }}>
-                  {wishlistCount}
-                </span>
-              )}
-            </div>
-            <div
+              {wishlistCount > 0 && <span style={countBadge}>{wishlistCount}</span>}
+            </button>
+            <button
+              className="icon-btn"
+              aria-label={`Open cart, ${cartCount} ${cartCount === 1 ? 'item' : 'items'}`}
               onClick={onOpenCart}
-              style={{ position: 'relative', cursor: 'pointer', display: 'flex', alignItems: 'center', color: 'var(--text-primary)' }}
+              style={iconBtn}
             >
               <ShoppingBag size={20} />
-              {cartCount > 0 && (
-                <span style={{
-                  position: 'absolute',
-                  top: '-8px',
-                  right: '-10px',
-                  backgroundColor: 'var(--accent)',
-                  color: '#FFFFFF',
-                  fontSize: '10px',
-                  fontFamily: "'Poppins', sans-serif",
-                  borderRadius: '50%',
-                  width: '16px',
-                  height: '16px',
-                  display: 'flex',
-                  alignItems: 'center',
-                  justifyContent: 'center'
-                }}>
-                  {cartCount}
-                </span>
-              )}
-            </div>
+              {cartCount > 0 && <span style={countBadge}>{cartCount}</span>}
+            </button>
           </div>
         </div>
 
@@ -303,13 +278,53 @@ export default function Header({ cartCount, wishlistCount, onOpenCart, searchTer
           from { transform: translateX(-100%); }
           to { transform: translateX(0); }
         }
+        .brand { font-size: 22px; }
+        .icon-btn:hover { background-color: rgba(255,255,255,0.08); }
         @media (max-width: 768px) {
           .desktop-only { display: none !important; }
         }
         @media (min-width: 769px) {
           .mobile-only { display: none !important; }
         }
+        @media (max-width: 480px) {
+          .brand { font-size: 16px; letter-spacing: 1px; }
+        }
       `}} />
     </>
   );
 }
+
+/* 36px keeps every header control past the 24px minimum target size while the
+   icon inside stays 20px. */
+const iconBtn = {
+  position: 'relative',
+  width: '36px',
+  height: '36px',
+  display: 'inline-flex',
+  alignItems: 'center',
+  justifyContent: 'center',
+  background: 'none',
+  border: 'none',
+  borderRadius: '50%',
+  padding: 0,
+  cursor: 'pointer',
+  color: 'var(--text-primary)',
+  transition: 'background-color 0.2s ease',
+};
+
+const countBadge = {
+  position: 'absolute',
+  top: '2px',
+  right: '2px',
+  backgroundColor: 'var(--accent)',
+  color: '#FFFFFF',
+  fontSize: '10px',
+  fontFamily: "'Poppins', sans-serif",
+  borderRadius: '50%',
+  minWidth: '16px',
+  height: '16px',
+  display: 'flex',
+  alignItems: 'center',
+  justifyContent: 'center',
+  pointerEvents: 'none',
+};

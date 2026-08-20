@@ -98,6 +98,7 @@ export default function App() {
         setActiveCategory={setActiveCategory}
       />
 
+      <main id="main">
       {/* Hero Section */}
       <Hero />
 
@@ -128,6 +129,7 @@ export default function App() {
 
       {/* Customer Reviews Section */}
       <Reviews />
+      </main>
 
       {/* Footer */}
       <Footer />

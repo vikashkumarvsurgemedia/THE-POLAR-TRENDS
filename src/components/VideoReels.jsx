@@ -73,10 +73,14 @@ function ReelCard({ reel, onOpen }) {
   };
 
   return (
-    <div
+    <button
+      type="button"
       className="reel-card"
+      aria-label={`Play reel: ${reel.title} — ${reel.caption}`}
       onMouseEnter={handleEnter}
       onMouseLeave={handleLeave}
+      onFocus={handleEnter}
+      onBlur={handleLeave}
       onClick={() => onOpen(reel)}
       style={{
         position: 'relative',
@@ -86,6 +90,9 @@ function ReelCard({ reel, onOpen }) {
         borderRadius: '14px',
         overflow: 'hidden',
         cursor: 'pointer',
+        padding: 0,
+        textAlign: 'left',
+        font: 'inherit',
         backgroundColor: 'var(--bg-card)',
         border: '1px solid var(--border)',
         scrollSnapAlign: 'start',
@@ -163,7 +170,7 @@ function ReelCard({ reel, onOpen }) {
           {reel.caption}
         </div>
       </div>
-    </div>
+    </button>
   );
 }
 

@@ -5,7 +5,7 @@ function LookbookCard({ lb }) {
   const [isHovered, setIsHovered] = useState(false);
 
   return (
-    <div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
+    <div style={{ position: 'relative', display: 'flex', flexDirection: 'column', gap: '12px' }}>
       <div 
         onMouseEnter={() => setIsHovered(true)}
         onMouseLeave={() => setIsHovered(false)}
@@ -20,6 +20,8 @@ function LookbookCard({ lb }) {
         <img 
           src={lb.image} 
           alt={lb.city} 
+          loading="lazy"
+          decoding="async"
           style={{
             width: '100%',
             height: '100%',
@@ -58,15 +60,20 @@ function LookbookCard({ lb }) {
         }}>
           {lb.description}
         </p>
-        <a 
-          href="#catalog"
+        <a
+          href="#collection"
+          className="stretched-link"
+          aria-label={`Explore the ${lb.city} lookbook`}
           style={{
             fontFamily: "'Work Sans', sans-serif",
             fontSize: '14px',
             fontWeight: 600,
             color: 'var(--accent-ink)',
             textDecoration: 'none',
-            display: 'inline-block'
+            display: 'inline-flex',
+            alignItems: 'center',
+            minHeight: '32px',
+            width: 'fit-content'
           }}
         >
           Explore &rarr;

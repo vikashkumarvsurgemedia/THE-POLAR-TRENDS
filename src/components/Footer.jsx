@@ -84,9 +84,9 @@ export default function Footer() {
               Elevating everyday essentials with premium quality cotton and timeless designs for the modern wardrobe.
             </p>
             <div style={{ display: 'flex', gap: '16px' }}>
-              <a href="#" style={{ color: '#fff' }}><Instagram size={20} /></a>
-              <a href="#" style={{ color: '#fff' }}><Facebook size={20} /></a>
-              <a href="#" style={{ color: '#fff' }}><Twitter size={20} /></a>
+              <a href="#" aria-label="Instagram" style={{ color: '#fff', width: '32px', height: '32px', display: 'inline-flex', alignItems: 'center', justifyContent: 'center' }}><Instagram size={20} /></a>
+              <a href="#" aria-label="Facebook" style={{ color: '#fff', width: '32px', height: '32px', display: 'inline-flex', alignItems: 'center', justifyContent: 'center' }}><Facebook size={20} /></a>
+              <a href="#" aria-label="Twitter" style={{ color: '#fff', width: '32px', height: '32px', display: 'inline-flex', alignItems: 'center', justifyContent: 'center' }}><Twitter size={20} /></a>
             </div>
           </div>
 
@@ -97,7 +97,7 @@ export default function Footer() {
             </div>
             <div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
               {['All Shirts', 'Embroidery Edit', 'Pure Whites', 'Artisan Checks'].map(link => (
-                <a key={link} href="#" style={{ fontFamily: "'Poppins', sans-serif", fontSize: '13px', color: 'rgba(255,255,255,0.5)', textDecoration: 'none', transition: 'color 0.2s' }} onMouseEnter={(e) => e.target.style.color = '#fff'} onMouseLeave={(e) => e.target.style.color = 'rgba(255,255,255,0.5)'}>
+                <a key={link} href="#" style={{ fontFamily: "'Poppins', sans-serif", fontSize: '13px', color: 'rgba(255,255,255,0.62)', textDecoration: 'none', transition: 'color 0.2s', padding: '6px 0', display: 'inline-block' }} onMouseEnter={(e) => e.target.style.color = '#fff'} onMouseLeave={(e) => e.target.style.color = 'rgba(255,255,255,0.5)'}>
                   {link}
                 </a>
               ))}
@@ -111,7 +111,7 @@ export default function Footer() {
             </div>
             <div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
               {['Shipping Policy', 'Returns & Exchange', 'Track Order', 'Contact Us', 'FAQs'].map(link => (
-                <a key={link} href="#" style={{ fontFamily: "'Poppins', sans-serif", fontSize: '13px', color: 'rgba(255,255,255,0.5)', textDecoration: 'none', transition: 'color 0.2s' }} onMouseEnter={(e) => e.target.style.color = '#fff'} onMouseLeave={(e) => e.target.style.color = 'rgba(255,255,255,0.5)'}>
+                <a key={link} href="#" style={{ fontFamily: "'Poppins', sans-serif", fontSize: '13px', color: 'rgba(255,255,255,0.62)', textDecoration: 'none', transition: 'color 0.2s', padding: '6px 0', display: 'inline-block' }} onMouseEnter={(e) => e.target.style.color = '#fff'} onMouseLeave={(e) => e.target.style.color = 'rgba(255,255,255,0.5)'}>
                   {link}
                 </a>
               ))}
