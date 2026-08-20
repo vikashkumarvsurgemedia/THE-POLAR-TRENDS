@@ -91,6 +91,12 @@ html {
   -webkit-tap-highlight-color: transparent;
 }
 
+/* The header is sticky, so an anchor jump would otherwise land with the
+   section's heading hidden underneath it. */
+#main, #collection, #reels {
+  scroll-margin-top: 112px;
+}
+
 body {
   font-family: var(--font-body);
   font-weight: 400;
