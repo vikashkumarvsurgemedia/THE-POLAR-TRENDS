@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import ProductCard from './ProductCard';
-import { CATEGORIES } from '../data/products';
+import { CATEGORIES, DEPARTMENTS } from '../data/products';
 
 export default function ProductGrid({
   products,
@@ -18,6 +18,8 @@ export default function ProductGrid({
     // "New Arrivals" is a badge, not a category — matching it against
     // p.category returned nothing and emptied the grid.
     if (activeCategory === 'New Arrivals') return p.badge?.toLowerCase() === 'new';
+    // Header navigation filters by department; the chips filter by style.
+    if (DEPARTMENTS.includes(activeCategory)) return p.department === activeCategory;
     return p.category === activeCategory;
   });
 
@@ -125,18 +127,60 @@ export default function ProductGrid({
           }
         `}</style>
         
-        <div className="product-grid-responsive">
-          {filteredProducts.map(product => (
-            <ProductCard
-              key={product.id}
-              product={product}
-              onQuickView={onQuickView}
-              onAddToCart={onAddToCart}
-              onToggleWishlist={onToggleWishlist}
-              isWishlisted={wishlist.includes(product.id)}
-            />
-          ))}
-        </div>
+        {filteredProducts.length === 0 ? (
+          /* A department with no stock yet must say so — an empty grid reads
+             as a broken page. */
+          <div style={{ textAlign: 'center', padding: '60px 20px' }}>
+            <p style={{
+              fontFamily: "'Work Sans', sans-serif",
+              fontSize: '20px',
+              fontWeight: 600,
+              color: 'var(--text-primary)',
+              margin: '0 0 8px 0',
+            }}>
+              {activeCategory} is coming soon
+            </p>
+            <p style={{
+              fontFamily: "'Poppins', sans-serif",
+              fontSize: '14px',
+              color: 'var(--text-body)',
+              margin: '0 0 24px 0',
+            }}>
+              We&rsquo;re still building out this range. In the meantime, our shirts are
+              all handcrafted in 100% cotton.
+            </p>
+            <button
+              type="button"
+              onClick={() => setActiveCategory('All Products')}
+              style={{
+                backgroundColor: 'var(--accent)',
+                color: '#FFFFFF',
+                fontFamily: "'Poppins', sans-serif",
+                fontSize: '13px',
+                fontWeight: 600,
+                padding: '12px 28px',
+                border: 'none',
+                borderRadius: '6px',
+                cursor: 'pointer',
+              }}
+            >
+              Browse everything
+            </button>
+          </div>
+        ) : (
+          <div className="product-grid-responsive">
+            {filteredProducts.map(product => (
+              <ProductCard
+                key={product.id}
+                product={product}
+                onQuickView={onQuickView}
+                onAddToCart={onAddToCart}
+                onToggleWishlist={onToggleWishlist}
+                isWishlisted={wishlist.includes(product.id)}
+              />
+            ))}
+          </div>
+        )}
       </div>
     </section>
   );

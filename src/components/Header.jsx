@@ -19,14 +19,15 @@ export default function Header({ cartCount, wishlistCount, onOpenCart, searchTer
   }, []);
 
   const navLinks = [
-    { label: 'New Arrivals', category: 'New Arrivals', href: '#collection', badge: 'NEW', badgeColor: 'var(--sale-price)' },
-    { label: 'Embroidery Edit', category: 'Embroidery Edit', href: '#collection', badge: 'HOT', badgeColor: 'var(--accent)' },
-    { label: 'Pure Whites', category: 'Pure Whites', href: '#collection' },
-    { label: 'Artisan Checks', category: 'Artisan Checks', href: '#collection' },
-    { label: 'Everyday Essentials', category: 'Everyday Essentials', href: '#collection' },
-    // Jump-only link: scrolls to the reels section without touching the
-    // product filter (there is no "Reels" product category).
-    { label: 'Reels', href: '#reels', badge: 'WATCH', badgeColor: 'var(--sale-price)' },
+    { label: 'Home', category: 'All Products', href: '#main' },
+    { label: "Men's Wear", category: "Men's Wear", href: '#collection' },
+    { label: "Women's Wear", category: "Women's Wear", href: '#collection' },
+    { label: "Men's Footwear", category: "Men's Footwear", href: '#collection' },
+    { label: "Women's Footwear", category: "Women's Footwear", href: '#collection' },
+    { label: "Men's Accessories", category: "Men's Accessories", href: '#collection' },
+    { label: "Women's Accessories", category: "Women's Accessories", href: '#collection' },
+    // Jump-only link: leaves the product filter alone.
+    { label: 'Our Blogs', href: '#reels' },
   ];
 
   const handleNavClick = (link) => {
@@ -74,7 +75,7 @@ export default function Header({ cartCount, wishlistCount, onOpenCart, searchTer
           padding: '0 20px',
           borderBottom: '1px solid var(--border)'
         }}>
-          {/* Left Actions */}
+          {/* Left Actions — menu toggle only; search now lives on the right. */}
           <div style={{ display: 'flex', alignItems: 'center', gap: '8px', justifySelf: 'start' }}>
             <button
               className="mobile-only icon-btn"
@@ -85,38 +86,6 @@ export default function Header({ cartCount, wishlistCount, onOpenCart, searchTer
             >
               <Menu size={24} />
             </button>
-            <div style={{ position: 'relative', display: 'flex', alignItems: 'center' }}>
-              <button
-                className="icon-btn"
-                aria-label={searchOpen ? 'Close search' : 'Search'}
-                aria-expanded={searchOpen}
-                onClick={() => setSearchOpen(!searchOpen)}
-                style={iconBtn}
-              >
-                <Search size={20} />
-              </button>
-              {searchOpen && (
-                <input
-                  type="text"
-                  placeholder="Search..."
-                  value={searchTerm}
-                  onChange={(e) => setSearchTerm(e.target.value)}
-                  autoFocus
-                  style={{
-                    position: 'absolute',
-                    left: '30px',
-                    backgroundColor: 'var(--bg-primary)',
-                    border: '1px solid var(--border)',
-                    padding: '5px 10px',
-                    borderRadius: '4px',
-                    fontFamily: "'Poppins', sans-serif",
-                    fontSize: '13px',
-                    outline: 'none',
-                    width: '150px'
-                  }}
-                />
-              )}
-            </div>
           </div>
 
           {/* Center Brand */}
@@ -132,8 +101,44 @@ export default function Header({ cartCount, wishlistCount, onOpenCart, searchTer
             THE POLAR TREND
           </a>
 
-          {/* Right Actions */}
+          {/* Right Actions — search, wishlist, cart */}
           <div style={{ display: 'flex', alignItems: 'center', gap: '8px', justifySelf: 'end' }}>
+            <div style={{ position: 'relative', display: 'flex', alignItems: 'center' }}>
+              <button
+                className="icon-btn"
+                aria-label={searchOpen ? 'Close search' : 'Search'}
+                aria-expanded={searchOpen}
+                onClick={() => setSearchOpen(!searchOpen)}
+                style={iconBtn}
+              >
+                <Search size={20} />
+              </button>
+              {searchOpen && (
+                <input
+                  type="search"
+                  placeholder="Search products..."
+                  aria-label="Search products"
+                  value={searchTerm}
+                  onChange={(e) => setSearchTerm(e.target.value)}
+                  autoFocus
+                  style={{
+                    position: 'absolute',
+                    // Opens leftwards from the icon so it can't run off the
+                    // right edge of the viewport.
+                    right: '40px',
+                    backgroundColor: 'var(--bg-card)',
+                    border: '1px solid var(--border)',
+                    color: 'var(--text-primary)',
+                    padding: '7px 12px',
+                    borderRadius: '6px',
+                    fontFamily: "'Poppins', sans-serif",
+                    fontSize: '13px',
+                    outline: 'none',
+                    width: 'clamp(140px, 34vw, 220px)',
+                  }}
+                />
+              )}
+            </div>
             <button
               className="icon-btn"
               aria-label={`Wishlist, ${wishlistCount} ${wishlistCount === 1 ? 'item' : 'items'}`}
@@ -154,12 +159,14 @@ export default function Header({ cartCount, wishlistCount, onOpenCart, searchTer
           </div>
         </div>
 
-        {/* Navigation Bar (Desktop) */}
-        <div className="desktop-only" style={{
+        {/* Navigation Bar (Desktop) — scrolls rather than wraps if the eight
+            departments outrun a narrow window. */}
+        <div className="desktop-only no-scrollbar" style={{
           display: 'flex',
           justifyContent: 'center',
           backgroundColor: 'var(--bg-primary)',
-          borderBottom: '1px solid var(--border)'
+          borderBottom: '1px solid var(--border)',
+          overflowX: 'auto',
         }}>
           {navLinks.map((link) => (
             <a
@@ -168,17 +175,21 @@ export default function Header({ cartCount, wishlistCount, onOpenCart, searchTer
               onClick={() => handleNavClick(link)}
               style={{
                 fontFamily: "'Work Sans', sans-serif",
-                fontSize: '13px',
-                fontWeight: 500,
-                textTransform: 'uppercase',
-                padding: '12px 18px',
+                fontSize: '14px',
+                fontWeight: activeCategory === link.category ? 600 : 500,
+                padding: '13px 16px',
                 textDecoration: 'none',
-                color: activeCategory === link.category ? '#FFFFFF' : 'var(--text-primary)',
-                backgroundColor: activeCategory === link.category ? 'var(--accent)' : 'transparent',
-                transition: '0.3s ease',
+                whiteSpace: 'nowrap',
+                color: activeCategory === link.category ? '#FFFFFF' : 'var(--text-body)',
+                transition: 'color 0.2s ease',
                 display: 'inline-flex',
                 alignItems: 'center',
                 gap: '6px'
+              }}
+              onMouseEnter={(e) => { e.currentTarget.style.color = '#FFFFFF'; }}
+              onMouseLeave={(e) => {
+                e.currentTarget.style.color =
+                  activeCategory === link.category ? '#FFFFFF' : 'var(--text-body)';
               }}
             >
               <span>{link.label}</span>
