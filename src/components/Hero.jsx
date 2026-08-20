@@ -63,7 +63,7 @@ export default function Hero() {
           onMouseEnter={() => setIsHovered(true)}
           onMouseLeave={() => setIsHovered(false)}
           style={{
-            backgroundColor: isHovered ? '#000066' : '#000080',
+            backgroundColor: isHovered ? 'var(--accent-hover)' : 'var(--accent)',
             color: '#FFFFFF',
             padding: '14px 36px',
             border: 'none',
@@ -85,8 +85,8 @@ export default function Hero() {
 
       {/* Features Bar */}
       <div style={{
-        backgroundColor: '#FDFFF0',
-        borderBottom: '1px solid #E5E7EB',
+        backgroundColor: 'var(--bg-primary)',
+        borderBottom: '1px solid var(--border)',
         padding: '16px 0',
         display: 'flex',
         justifyContent: 'center'
@@ -100,20 +100,20 @@ export default function Hero() {
           maxWidth: '1000px',
           width: '100%'
         }}>
-          <div style={{ display: 'flex', alignItems: 'center', gap: '8px', color: '#555555', fontFamily: "'Poppins', sans-serif", fontSize: '12px' }}>
-            <Droplet size={16} color="#000080" /> 100% Cotton
+          <div style={{ display: 'flex', alignItems: 'center', gap: '8px', color: 'var(--text-body)', fontFamily: "'Poppins', sans-serif", fontSize: '12px' }}>
+            <Droplet size={16} color="var(--accent)" /> 100% Cotton
           </div>
-          <div style={{ width: '1px', height: '16px', backgroundColor: '#CCCCCC' }}></div>
-          <div style={{ display: 'flex', alignItems: 'center', gap: '8px', color: '#555555', fontFamily: "'Poppins', sans-serif", fontSize: '12px' }}>
-            <PenTool size={16} color="#000080" /> Handcrafted
+          <div style={{ width: '1px', height: '16px', backgroundColor: 'var(--border-strong)' }}></div>
+          <div style={{ display: 'flex', alignItems: 'center', gap: '8px', color: 'var(--text-body)', fontFamily: "'Poppins', sans-serif", fontSize: '12px' }}>
+            <PenTool size={16} color="var(--accent)" /> Handcrafted
           </div>
-          <div style={{ width: '1px', height: '16px', backgroundColor: '#CCCCCC' }}></div>
-          <div style={{ display: 'flex', alignItems: 'center', gap: '8px', color: '#555555', fontFamily: "'Poppins', sans-serif", fontSize: '12px' }}>
-            <Truck size={16} color="#000080" /> Free Shipping
+          <div style={{ width: '1px', height: '16px', backgroundColor: 'var(--border-strong)' }}></div>
+          <div style={{ display: 'flex', alignItems: 'center', gap: '8px', color: 'var(--text-body)', fontFamily: "'Poppins', sans-serif", fontSize: '12px' }}>
+            <Truck size={16} color="var(--accent)" /> Free Shipping
           </div>
-          <div style={{ width: '1px', height: '16px', backgroundColor: '#CCCCCC' }}></div>
-          <div style={{ display: 'flex', alignItems: 'center', gap: '8px', color: '#555555', fontFamily: "'Poppins', sans-serif", fontSize: '12px' }}>
-            <RotateCcw size={16} color="#000080" /> Easy Returns
+          <div style={{ width: '1px', height: '16px', backgroundColor: 'var(--border-strong)' }}></div>
+          <div style={{ display: 'flex', alignItems: 'center', gap: '8px', color: 'var(--text-body)', fontFamily: "'Poppins', sans-serif", fontSize: '12px' }}>
+            <RotateCcw size={16} color="var(--accent)" /> Easy Returns
           </div>
         </div>
       </div>

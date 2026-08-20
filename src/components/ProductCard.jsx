@@ -15,9 +15,9 @@ export default function ProductCard({ product, onQuickView, onAddToCart, onToggl
 
   const getBadgeBg = (badge) => {
     const b = badge?.toLowerCase();
-    if (b === 'new') return '#000080';
-    if (b === 'limited') return '#D72C0D';
-    return '#1A1B18'; // Best Seller or others
+    if (b === 'new') return 'var(--accent)';
+    if (b === 'limited') return 'var(--sale-price)';
+    return 'var(--bg-dark)'; // Best Seller or others
   };
 
   const isDiscounted = product.originalPrice && product.originalPrice > product.price;
@@ -28,7 +28,7 @@ export default function ProductCard({ product, onQuickView, onAddToCart, onToggl
   return (
     <div
       style={{
-        backgroundColor: '#FFFFFF',
+        backgroundColor: 'var(--bg-card)',
         borderRadius: '10px',
         overflow: 'hidden',
         cursor: 'pointer',
@@ -96,7 +96,7 @@ export default function ProductCard({ product, onQuickView, onAddToCart, onToggl
             right: '10px',
             width: '32px',
             height: '32px',
-            backgroundColor: '#FFFFFF',
+            backgroundColor: 'var(--bg-card)',
             borderRadius: '50%',
             boxShadow: '0 2px 6px rgba(0,0,0,0.1)',
             display: 'flex',
@@ -107,7 +107,7 @@ export default function ProductCard({ product, onQuickView, onAddToCart, onToggl
             zIndex: 2
           }}
         >
-          <Heart size={16} fill={isWishlisted ? '#D72C0D' : 'none'} color={isWishlisted ? '#D72C0D' : '#999'} />
+          <Heart size={16} fill={isWishlisted ? 'var(--sale-price)' : 'none'} color={isWishlisted ? 'var(--sale-price)' : 'var(--text-muted)'} />
         </button>
       </div>
 
@@ -117,7 +117,7 @@ export default function ProductCard({ product, onQuickView, onAddToCart, onToggl
           fontFamily: "'Work Sans', sans-serif",
           fontSize: '14px',
           fontWeight: 500,
-          color: '#212326',
+          color: 'var(--text-primary)',
           margin: '0 0 4px 0',
           display: '-webkit-box',
           WebkitLineClamp: 2,
@@ -130,7 +130,7 @@ export default function ProductCard({ product, onQuickView, onAddToCart, onToggl
         <p style={{
           fontFamily: "'Poppins', sans-serif",
           fontSize: '12px',
-          color: '#777777',
+          color: 'var(--text-muted)',
           margin: '0 0 6px 0',
           whiteSpace: 'nowrap',
           overflow: 'hidden',
@@ -141,26 +141,26 @@ export default function ProductCard({ product, onQuickView, onAddToCart, onToggl
 
         {/* Rating */}
         <div style={{ display: 'flex', alignItems: 'center', gap: '4px', marginBottom: '6px' }}>
-          <div style={{ display: 'flex', color: '#FBBC04', fontSize: '12px' }}>
+          <div style={{ display: 'flex', color: 'var(--stars)', fontSize: '12px' }}>
             {'★'.repeat(Math.round(product.rating || 5))}
-            <span style={{ color: '#eee' }}>{'★'.repeat(5 - Math.round(product.rating || 5))}</span>
+            <span style={{ color: 'var(--star-empty)' }}>{'★'.repeat(5 - Math.round(product.rating || 5))}</span>
           </div>
-          <span style={{ fontFamily: "'Poppins', sans-serif", fontSize: '12px', color: '#777' }}>
+          <span style={{ fontFamily: "'Poppins', sans-serif", fontSize: '12px', color: 'var(--text-muted)' }}>
             ({product.reviews || 0})
           </span>
         </div>
 
         {/* Price Row */}
         <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginTop: 'auto' }}>
-          <span style={{ fontFamily: "'Work Sans', sans-serif", fontSize: '16px', fontWeight: 600, color: '#212326' }}>
+          <span style={{ fontFamily: "'Work Sans', sans-serif", fontSize: '16px', fontWeight: 600, color: 'var(--text-primary)' }}>
             ₹{product.price.toLocaleString('en-IN')}
           </span>
           {isDiscounted && (
             <>
-              <span style={{ fontFamily: "'Poppins', sans-serif", fontSize: '13px', color: '#999', textDecoration: 'line-through' }}>
+              <span style={{ fontFamily: "'Poppins', sans-serif", fontSize: '13px', color: 'var(--text-muted)', textDecoration: 'line-through' }}>
                 ₹{product.originalPrice.toLocaleString('en-IN')}
               </span>
-              <span style={{ fontFamily: "'Poppins', sans-serif", fontSize: '11px', color: '#D72C0D', fontWeight: 600 }}>
+              <span style={{ fontFamily: "'Poppins', sans-serif", fontSize: '11px', color: 'var(--sale-price)', fontWeight: 600 }}>
                 {discountPercent}% OFF
               </span>
             </>
@@ -175,7 +175,7 @@ export default function ProductCard({ product, onQuickView, onAddToCart, onToggl
         onMouseLeave={() => setBtnHovered(false)}
         style={{
           width: '100%',
-          backgroundColor: btnHovered ? '#000066' : '#000080',
+          backgroundColor: btnHovered ? 'var(--accent-hover)' : 'var(--accent)',
           color: '#FFFFFF',
           fontFamily: "'Poppins', sans-serif",
           fontSize: '13px',

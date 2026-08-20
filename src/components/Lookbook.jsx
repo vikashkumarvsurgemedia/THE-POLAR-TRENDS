@@ -52,7 +52,7 @@ function LookbookCard({ lb }) {
         <p style={{
           fontFamily: "'Poppins', sans-serif",
           fontSize: '13px',
-          color: '#555555',
+          color: 'var(--text-body)',
           margin: '0 0 8px 0',
           lineHeight: 1.5
         }}>
@@ -64,7 +64,7 @@ function LookbookCard({ lb }) {
             fontFamily: "'Work Sans', sans-serif",
             fontSize: '14px',
             fontWeight: 600,
-            color: '#000080',
+            color: 'var(--accent)',
             textDecoration: 'none',
             display: 'inline-block'
           }}
@@ -78,14 +78,14 @@ function LookbookCard({ lb }) {
 
 export default function Lookbook() {
   return (
-    <section style={{ backgroundColor: '#FDFFF0', padding: '80px 20px' }}>
+    <section style={{ backgroundColor: 'var(--bg-primary)', padding: '80px 20px' }}>
       <div className="container" style={{ maxWidth: '1200px', margin: '0 auto' }}>
         
         <h2 style={{
           fontFamily: "'Work Sans', sans-serif",
           fontSize: '32px',
           fontWeight: 600,
-          color: '#212326',
+          color: 'var(--text-primary)',
           textAlign: 'center',
           margin: '0 0 40px 0'
         }}>

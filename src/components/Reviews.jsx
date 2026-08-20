@@ -3,14 +3,14 @@ import { REVIEWS } from '../data/products';
 
 export default function Reviews() {
   return (
-    <section style={{ backgroundColor: '#F5F3EE', padding: '80px 20px' }}>
+    <section style={{ backgroundColor: 'var(--bg-secondary)', padding: '80px 20px' }}>
       <div className="container" style={{ maxWidth: '1200px', margin: '0 auto' }}>
         
         <h2 style={{
           fontFamily: "'Work Sans', sans-serif",
           fontSize: '32px',
           fontWeight: 600,
-          color: '#212326',
+          color: 'var(--text-primary)',
           textAlign: 'center',
           margin: '0 0 40px 0'
         }}>
@@ -26,7 +26,7 @@ export default function Reviews() {
             <div
               key={r.id}
               style={{
-                backgroundColor: '#FFFFFF',
+                backgroundColor: 'var(--bg-card)',
                 borderRadius: '10px',
                 padding: '28px',
                 boxShadow: '0 2px 8px rgba(0,0,0,0.06)',
@@ -34,14 +34,14 @@ export default function Reviews() {
                 flexDirection: 'column'
               }}
             >
-              <div style={{ fontSize: '16px', color: '#FBBC04', marginBottom: '16px', letterSpacing: '2px' }}>
+              <div style={{ fontSize: '16px', color: 'var(--stars)', marginBottom: '16px', letterSpacing: '2px' }}>
                 {'★'.repeat(r.rating)}{'☆'.repeat(5 - r.rating)}
               </div>
 
               <p style={{
                 fontFamily: "'Poppins', sans-serif",
                 fontSize: '14px',
-                color: '#555555',
+                color: 'var(--text-body)',
                 lineHeight: 1.7,
                 margin: '0 0 20px 0',
                 flex: 1
@@ -54,7 +54,7 @@ export default function Reviews() {
                   fontFamily: "'Work Sans', sans-serif",
                   fontSize: '14px',
                   fontWeight: 600,
-                  color: '#212326',
+                  color: 'var(--text-primary)',
                   marginBottom: '2px'
                 }}>
                   {r.name}
@@ -63,14 +63,14 @@ export default function Reviews() {
                   <span style={{
                     fontFamily: "'Poppins', sans-serif",
                     fontSize: '12px',
-                    color: '#777777'
+                    color: 'var(--text-muted)'
                   }}>
                     {r.city}
                   </span>
                   <span style={{
                     fontFamily: "'Poppins', sans-serif",
                     fontSize: '11px',
-                    color: '#000080',
+                    color: 'var(--accent)',
                     fontWeight: 500
                   }}>
                     Verified Purchase ✓

@@ -13,7 +13,7 @@ export default function Footer() {
   };
 
   return (
-    <footer style={{ backgroundColor: '#1A1B18', color: '#ffffff', paddingTop: '60px', paddingBottom: '20px' }}>
+    <footer style={{ backgroundColor: 'var(--bg-dark)', color: '#ffffff', paddingTop: '60px', paddingBottom: '20px' }}>
       <div style={{ maxWidth: '1200px', margin: '0 auto', padding: '0 20px' }}>
         
         {/* Newsletter Section */}
@@ -26,7 +26,7 @@ export default function Footer() {
           </p>
           
           {subscribed ? (
-            <div style={{ fontFamily: "'Poppins', sans-serif", fontSize: '14px', color: '#008060', padding: '12px', backgroundColor: 'rgba(0,128,96,0.1)', borderRadius: '6px' }}>
+            <div style={{ fontFamily: "'Poppins', sans-serif", fontSize: '14px', color: 'var(--success)', padding: '12px', backgroundColor: 'rgba(0,128,96,0.1)', borderRadius: '6px' }}>
               ✓ Subscribed! Use code POLAR10 for 10% off
             </div>
           ) : (
@@ -53,7 +53,7 @@ export default function Footer() {
               <button 
                 type="submit"
                 style={{
-                  backgroundColor: '#000080',
+                  backgroundColor: 'var(--accent)',
                   color: '#fff',
                   border: 'none',
                   fontFamily: "'Poppins', sans-serif",

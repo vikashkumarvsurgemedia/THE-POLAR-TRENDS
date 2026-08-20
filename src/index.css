@@ -1,28 +1,46 @@
 /* ==========================================================================
-   THE POLAR TREND - MyDesignation Style Design System
+   THE POLAR TREND - Design System
+
+   Every colour below is a token. Components reference them as
+   `var(--token)` inside inline styles, so the whole site can be re-themed
+   from this one block — nothing else needs touching.
    ========================================================================== */
 
 :root {
-  --bg-primary: #FDFFF0;
-  --bg-secondary: #F5F3EE;
-  --bg-dark: #1A1B18;
-  --bg-card: #FFFFFF;
-  --accent: #000080;
-  --accent-hover: #000066;
-  --accent-light: rgba(0, 0, 128, 0.08);
-  --text-primary: #212326;
-  --text-body: #555555;
-  --text-muted: #777777;
+  /* --- Surfaces: navy-dominant -------------------------------------------
+     Blue is the canvas now, not just the accent. Each step gets slightly
+     lighter so cards lift off sections, and sections lift off the page. */
+  --bg-primary: #0B1E56;      /* page background */
+  --bg-secondary: #102A6B;    /* alternating section bands */
+  --bg-card: #17347E;         /* cards, panels, inputs */
+  --bg-dark: #050F33;         /* footer — deepest anchor at the page bottom */
+  --bg-light: #FDFFF0;        /* cream, now reserved for the announcement bar */
+
+  /* --- Accent: bright enough to lift off the navy --- */
+  --accent: #4C82F5;
+  --accent-hover: #6F9DFF;
+  --accent-light: rgba(76, 130, 245, 0.18);
+
+  /* --- Text: light-on-dark throughout --- */
+  --text-primary: #F2F6FF;
+  --text-body: #C2CEEE;
+  --text-muted: #8E9DCC;
   --text-on-dark: #FFFFFF;
-  --border: rgba(0, 0, 0, 0.08);
-  --stars: #FBBC04;
-  --sale-price: #D72C0D;
-  --success: #008060;
-  
+  --text-on-light: #0B1E56;   /* for the cream announcement bar */
+
+  --border: rgba(255, 255, 255, 0.14);
+  --border-strong: rgba(255, 255, 255, 0.24);
+
+  /* --- Status colours, brightened so they read against navy --- */
+  --stars: #FFC531;
+  --star-empty: rgba(255, 255, 255, 0.22);
+  --sale-price: #FF6B4A;
+  --success: #2FD39B;
+
   --card-radius: 10px;
   --btn-radius: 6px;
   --max-width: 1400px;
-  
+
   --font-headings: 'Work Sans', sans-serif;
   --font-body: 'Poppins', sans-serif;
 }
@@ -82,7 +100,7 @@ h1, h2, h3, h4, h5, h6 {
 .card {
   background-color: var(--bg-card);
   border-radius: var(--card-radius);
-  box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+  box-shadow: 0 2px 8px rgba(0,0,0,0.25);
 }
 
 .badge {
@@ -92,6 +110,19 @@ h1, h2, h3, h4, h5, h6 {
   padding: 4px 10px;
   border-radius: 20px;
   font-size: 11px;
+}
+
+/* Form controls inherit the dark theme instead of the browser's default chrome.
+   Components that set their own inline background still win over this. */
+input, textarea, select {
+  color-scheme: dark;
+  background-color: var(--bg-card);
+  color: var(--text-primary);
+  accent-color: var(--accent);
+}
+input::placeholder, textarea::placeholder {
+  color: var(--text-muted);
+  opacity: 1;
 }
 
 /* Buttons */
@@ -176,14 +207,14 @@ h1, h2, h3, h4, h5, h6 {
   height: 6px;
 }
 ::-webkit-scrollbar-track {
-  background: var(--bg-primary);
+  background: var(--bg-dark);
 }
 ::-webkit-scrollbar-thumb {
-  background: var(--text-muted);
+  background: var(--border-strong);
   border-radius: 4px;
 }
 ::-webkit-scrollbar-thumb:hover {
-  background: var(--text-body);
+  background: var(--accent);
 }
 
 /* Media Queries */
