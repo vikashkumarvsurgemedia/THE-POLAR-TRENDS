@@ -60,7 +60,7 @@ export default function CartDrawer({ isOpen, onClose, cartItems, onUpdateQuantit
           borderBottom: '1px solid var(--border)'
         }}>
           <h2 style={{
-            fontFamily: "'Work Sans', sans-serif",
+            fontFamily: "var(--font-display)",
             fontWeight: 600,
             fontSize: '18px',
             color: 'var(--text-primary)',
@@ -80,7 +80,7 @@ export default function CartDrawer({ isOpen, onClose, cartItems, onUpdateQuantit
           <div style={{ padding: '15px 20px', borderBottom: '1px solid var(--border)' }}>
             {subtotal >= freeShippingThreshold ? (
               <div style={{
-                fontFamily: "'Poppins', sans-serif",
+                fontFamily: "var(--font-ui)",
                 fontSize: '12px',
                 color: 'var(--success)',
                 fontWeight: 600,
@@ -91,7 +91,7 @@ export default function CartDrawer({ isOpen, onClose, cartItems, onUpdateQuantit
             ) : (
               <div>
                 <div style={{
-                  fontFamily: "'Poppins', sans-serif",
+                  fontFamily: "var(--font-ui)",
                   fontSize: '12px',
                   color: 'var(--text-body)',
                   marginBottom: '8px',
@@ -102,7 +102,7 @@ export default function CartDrawer({ isOpen, onClose, cartItems, onUpdateQuantit
                 <div style={{
                   height: '4px',
                   backgroundColor: 'rgba(0,0,128,0.08)',
-                  borderRadius: '2px',
+                  borderRadius: '0',
                   overflow: 'hidden'
                 }}>
                   <div style={{
@@ -122,13 +122,13 @@ export default function CartDrawer({ isOpen, onClose, cartItems, onUpdateQuantit
           {cartItems.length === 0 ? (
             <div style={{ textAlign: 'center', marginTop: '60px' }}>
               <ShoppingBag size={48} color="var(--text-muted)" style={{ marginBottom: '16px' }} />
-              <div style={{ fontFamily: "'Poppins', sans-serif", fontSize: '16px', color: 'var(--text-body)', marginBottom: '24px' }}>
+              <div style={{ fontFamily: "var(--font-ui)", fontSize: '16px', color: 'var(--text-body)', marginBottom: '24px' }}>
                 Your bag is empty
               </div>
               <button onClick={onClose} style={{
                 background: 'none',
                 border: 'none',
-                fontFamily: "'Poppins', sans-serif",
+                fontFamily: "var(--font-ui)",
                 fontWeight: 600,
                 color: 'var(--accent-ink)',
                 textDecoration: 'underline',
@@ -143,22 +143,22 @@ export default function CartDrawer({ isOpen, onClose, cartItems, onUpdateQuantit
               {cartItems.map((item, idx) => (
                 <div key={`${item.id}-${idx}`}>
                   <div style={{ display: 'flex', gap: '15px' }}>
-                    <img src={item.image} alt={item.name} style={{ width: '60px', height: '60px', borderRadius: '6px', objectFit: 'cover' }} />
+                    <img src={item.image} alt={item.name} style={{ width: '60px', height: '60px', borderRadius: '0', objectFit: 'cover' }} />
                     <div style={{ flex: 1, display: 'flex', flexDirection: 'column' }}>
                       <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start' }}>
                         <div>
-                          <div style={{ fontFamily: "'Poppins', sans-serif", fontSize: '14px', color: 'var(--text-primary)', fontWeight: 500 }}>{item.name}</div>
-                          <div style={{ fontFamily: "'Poppins', sans-serif", fontSize: '12px', color: 'var(--text-muted)', marginTop: '4px' }}>Size: {item.selectedSize}</div>
+                          <div style={{ fontFamily: "var(--font-ui)", fontSize: '14px', color: 'var(--text-primary)', fontWeight: 500 }}>{item.name}</div>
+                          <div style={{ fontFamily: "var(--font-ui)", fontSize: '12px', color: 'var(--text-muted)', marginTop: '4px' }}>Size: {item.selectedSize}</div>
                         </div>
-                        <div style={{ fontFamily: "'Work Sans', sans-serif", fontSize: '14px', fontWeight: 600, color: 'var(--text-primary)' }}>
+                        <div style={{ fontFamily: "var(--font-display)", fontSize: '14px', fontWeight: 600, color: 'var(--text-primary)' }}>
                           ₹{item.price}
                         </div>
                       </div>
                       <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginTop: 'auto', paddingTop: '10px' }}>
                         <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-                          <button onClick={() => onUpdateQuantity(item.id, item.selectedSize, item.quantity - 1)} style={{ width: '30px', height: '30px', border: '1px solid var(--border)', borderRadius: '4px', background: 'var(--bg-card)', cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>-</button>
-                          <span style={{ fontFamily: "'Poppins', sans-serif", fontSize: '13px', width: '20px', textAlign: 'center' }}>{item.quantity}</span>
-                          <button onClick={() => onUpdateQuantity(item.id, item.selectedSize, item.quantity + 1)} style={{ width: '30px', height: '30px', border: '1px solid var(--border)', borderRadius: '4px', background: 'var(--bg-card)', cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>+</button>
+                          <button onClick={() => onUpdateQuantity(item.id, item.selectedSize, item.quantity - 1)} style={{ width: '30px', height: '30px', border: '1px solid var(--border)', borderRadius: '0', background: 'var(--bg-card)', cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>-</button>
+                          <span style={{ fontFamily: "var(--font-ui)", fontSize: '13px', width: '20px', textAlign: 'center' }}>{item.quantity}</span>
+                          <button onClick={() => onUpdateQuantity(item.id, item.selectedSize, item.quantity + 1)} style={{ width: '30px', height: '30px', border: '1px solid var(--border)', borderRadius: '0', background: 'var(--bg-card)', cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>+</button>
                         </div>
                         <button onClick={() => onRemoveItem(item.id, item.selectedSize)} style={{
                           background: 'none', border: 'none', cursor: 'pointer', color: 'var(--text-muted)', padding: '5px'
@@ -190,16 +190,16 @@ export default function CartDrawer({ isOpen, onClose, cartItems, onUpdateQuantit
                   placeholder="Coupon code" 
                   value={couponCode}
                   onChange={(e) => setCouponCode(e.target.value)}
-                  style={{ flex: 1, fontFamily: "'Poppins', sans-serif", fontSize: '13px', border: '1px solid var(--border)', borderRadius: '6px', padding: '10px', outline: 'none' }}
+                  style={{ flex: 1, fontFamily: "var(--font-ui)", fontSize: '13px', border: '1px solid var(--border)', borderRadius: '0', padding: '10px', outline: 'none' }}
                 />
                 <button onClick={handleApplyCoupon} style={{
-                  backgroundColor: 'var(--accent)', color: '#fff', border: 'none', borderRadius: '6px', padding: '0 16px', fontFamily: "'Poppins', sans-serif", fontSize: '13px', fontWeight: 500, cursor: 'pointer'
+                  backgroundColor: 'var(--accent)', color: '#fff', border: 'none', borderRadius: '0', padding: '0 16px', fontFamily: "var(--font-ui)", fontSize: '13px', fontWeight: 500, cursor: 'pointer'
                 }}>
                   Apply
                 </button>
               </div>
               {couponMessage && (
-                <div style={{ fontFamily: "'Poppins', sans-serif", fontSize: '12px', marginTop: '8px', color: discountPercent > 0 ? 'var(--success)' : 'var(--sale-price)' }}>
+                <div style={{ fontFamily: "var(--font-ui)", fontSize: '12px', marginTop: '8px', color: discountPercent > 0 ? 'var(--success)' : 'var(--sale-price)' }}>
                   {couponMessage}
                 </div>
               )}
@@ -207,23 +207,23 @@ export default function CartDrawer({ isOpen, onClose, cartItems, onUpdateQuantit
 
             {/* Order Summary */}
             <div style={{ display: 'flex', flexDirection: 'column', gap: '8px', marginBottom: '20px' }}>
-              <div style={{ display: 'flex', justifyContent: 'space-between', fontFamily: "'Poppins', sans-serif", fontSize: '13px', color: 'var(--text-body)' }}>
+              <div style={{ display: 'flex', justifyContent: 'space-between', fontFamily: "var(--font-ui)", fontSize: '13px', color: 'var(--text-body)' }}>
                 <span>Subtotal</span>
-                <span style={{ fontFamily: "'Work Sans', sans-serif", fontSize: '14px', fontWeight: 600, color: 'var(--text-primary)' }}>₹{subtotal}</span>
+                <span style={{ fontFamily: "var(--font-display)", fontSize: '14px', fontWeight: 600, color: 'var(--text-primary)' }}>₹{subtotal}</span>
               </div>
               {discountAmount > 0 && (
-                <div style={{ display: 'flex', justifyContent: 'space-between', fontFamily: "'Poppins', sans-serif", fontSize: '13px', color: 'var(--success)' }}>
+                <div style={{ display: 'flex', justifyContent: 'space-between', fontFamily: "var(--font-ui)", fontSize: '13px', color: 'var(--success)' }}>
                   <span>Discount</span>
-                  <span style={{ fontFamily: "'Work Sans', sans-serif", fontSize: '14px', fontWeight: 600 }}>-₹{discountAmount}</span>
+                  <span style={{ fontFamily: "var(--font-display)", fontSize: '14px', fontWeight: 600 }}>-₹{discountAmount}</span>
                 </div>
               )}
-              <div style={{ display: 'flex', justifyContent: 'space-between', fontFamily: "'Poppins', sans-serif", fontSize: '13px', color: 'var(--text-body)' }}>
+              <div style={{ display: 'flex', justifyContent: 'space-between', fontFamily: "var(--font-ui)", fontSize: '13px', color: 'var(--text-body)' }}>
                 <span>Shipping</span>
-                <span style={{ fontFamily: "'Work Sans', sans-serif", fontSize: '14px', fontWeight: 600, color: 'var(--text-primary)' }}>{shippingFee === 0 ? 'Free' : `₹${shippingFee}`}</span>
+                <span style={{ fontFamily: "var(--font-display)", fontSize: '14px', fontWeight: 600, color: 'var(--text-primary)' }}>{shippingFee === 0 ? 'Free' : `₹${shippingFee}`}</span>
               </div>
               <div style={{ display: 'flex', justifyContent: 'space-between', marginTop: '8px', paddingTop: '8px', borderTop: '1px solid var(--border)' }}>
-                <span style={{ fontFamily: "'Poppins', sans-serif", fontSize: '15px', color: 'var(--text-primary)', fontWeight: 600 }}>Total</span>
-                <span style={{ fontFamily: "'Work Sans', sans-serif", fontSize: '18px', fontWeight: 700, color: 'var(--text-primary)' }}>₹{grandTotal}</span>
+                <span style={{ fontFamily: "var(--font-ui)", fontSize: '15px', color: 'var(--text-primary)', fontWeight: 600 }}>Total</span>
+                <span style={{ fontFamily: "var(--font-display)", fontSize: '18px', fontWeight: 700, color: 'var(--text-primary)' }}>₹{grandTotal}</span>
               </div>
             </div>
 
@@ -234,12 +234,12 @@ export default function CartDrawer({ isOpen, onClose, cartItems, onUpdateQuantit
                 width: '100%',
                 backgroundColor: 'var(--accent)',
                 color: '#fff',
-                fontFamily: "'Poppins', sans-serif",
+                fontFamily: "var(--font-ui)",
                 fontSize: '15px',
                 fontWeight: 600,
                 padding: '14px',
                 border: 'none',
-                borderRadius: '6px',
+                borderRadius: '0',
                 cursor: 'pointer',
                 transition: 'background-color 0.2s'
               }}

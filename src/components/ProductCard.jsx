@@ -1,215 +1,187 @@
 import React, { useState } from 'react';
 import { Heart } from 'lucide-react';
 
+/* Product card.
+
+   This is where most stores give the positioning away, so almost everything
+   the old card displayed has been removed: the star row, the review count,
+   the coloured badge pill, the percentage-off flash, the permanent Add to
+   Bag button. A card carrying six competing signals reads as a marketplace
+   listing no matter how good the photograph is.
+
+   What survives: the photograph at 4:5, the name, the fabric, the price. Add
+   to Bag is revealed over the image on hover on desktop, and is always
+   present on touch, where there is no hover to reveal it. */
+
 export default function ProductCard({ product, onQuickView, onAddToCart, onToggleWishlist, isWishlisted }) {
   const [hovered, setHovered] = useState(false);
-  const [btnHovered, setBtnHovered] = useState(false);
-  const [addedToast, setAddedToast] = useState(false);
+  const [added, setAdded] = useState(false);
+  // Several catalogue entries still point at placeholder stock URLs, and at
+  // least one is already dead. A broken <img> renders as a blank white box,
+  // which on a grid of otherwise careful photography looks like a bug rather
+  // than a gap — so a failed load falls back to a paper tile carrying the
+  // garment name instead.
+  const [imgFailed, setImgFailed] = useState(false);
 
   const handleAdd = (e) => {
     e.stopPropagation();
     onAddToCart({ ...product, selectedSize: 'M' }, 1);
-    setAddedToast(true);
-    setTimeout(() => setAddedToast(false), 2000);
-  };
-
-  const getBadgeBg = (badge) => {
-    const b = badge?.toLowerCase();
-    if (b === 'new') return 'var(--accent)';
-    if (b === 'limited') return 'var(--sale-price)';
-    return 'var(--bg-dark)'; // Best Seller or others
+    setAdded(true);
+    setTimeout(() => setAdded(false), 1800);
   };
 
   const isDiscounted = product.originalPrice && product.originalPrice > product.price;
-  const discountPercent = isDiscounted
-    ? Math.round(((product.originalPrice - product.price) / product.originalPrice) * 100)
-    : 0;
-
-  const rating = product.rating || 5;
-  const reviewCount = product.reviewCount || 0;
+  const inr = (n) => `₹${n.toLocaleString('en-IN')}`;
 
   return (
-    <div
-      className="product-card"
-      style={{
-        position: 'relative',
-        backgroundColor: 'var(--bg-card)',
-        borderRadius: '10px',
-        overflow: 'hidden',
-        boxShadow: hovered ? '0 4px 16px rgba(0,0,0,0.1)' : '0 1px 4px rgba(0,0,0,0.06)',
-        transform: hovered ? 'translateY(-2px)' : 'none',
-        transition: 'all 0.3s ease',
-        display: 'flex',
-        flexDirection: 'column',
-      }}
+    <article
+      className="product-card card"
+      style={{ position: 'relative', display: 'flex', flexDirection: 'column' }}
       onMouseEnter={() => setHovered(true)}
       onMouseLeave={() => setHovered(false)}
     >
-      {/* IMAGE AREA */}
-      <div className="product-card-image-wrapper" style={{ position: 'relative', overflow: 'hidden', width: '100%' }}>
-        <img
-          src={product.image}
-          alt={product.name}
-          loading="lazy"
-          decoding="async"
-          style={{
-            width: '100%',
-            height: '100%',
-            objectFit: 'cover',
-            transform: hovered ? 'scale(1.05)' : 'scale(1)',
-            transition: 'transform 0.5s ease',
-          }}
-        />
+      <div className="product-card-image-wrapper">
+        {imgFailed ? (
+          <div
+            style={{
+              width: '100%', height: '100%',
+              display: 'flex', alignItems: 'center', justifyContent: 'center',
+              padding: '2rem', textAlign: 'center',
+              backgroundColor: 'var(--paper-deep)'
+            }}
+          >
+            <span className="eyebrow" style={{ fontSize: '0.5625rem', lineHeight: 1.8 }}>
+              {product.name}
+              <br />
+              <span style={{ color: 'var(--bronze)' }}>Photography to follow</span>
+            </span>
+          </div>
+        ) : (
+          <img
+            src={product.image}
+            alt={product.name}
+            loading="lazy"
+            onError={() => setImgFailed(true)}
+          />
+        )}
 
+        {/* Badge — a tracked label on a hairline, top-left, never a fill. */}
         {product.badge && (
-          <span style={{
-            position: 'absolute',
-            top: '10px',
-            left: '10px',
-            backgroundColor: getBadgeBg(product.badge),
-            color: '#FFFFFF',
-            fontFamily: "'Poppins', sans-serif",
-            fontSize: '10px',
-            fontWeight: 600,
-            padding: '4px 10px',
-            borderRadius: '4px',
-            zIndex: 2,
-          }}>
+          <span
+            className="badge"
+            style={{
+              position: 'absolute', top: 14, left: 14,
+              color: '#FBFAF8',
+              mixBlendMode: 'difference',
+              zIndex: 2
+            }}
+          >
             {product.badge}
           </span>
         )}
 
+        {/* Wishlist — outline only; fills bronze once saved. */}
         <button
-          type="button"
-          aria-label={isWishlisted
-            ? `Remove ${product.name} from wishlist`
-            : `Add ${product.name} to wishlist`}
-          aria-pressed={isWishlisted}
-          onClick={(e) => { e.stopPropagation(); onToggleWishlist(product.id); }}
           className="card-action"
+          onClick={(e) => { e.stopPropagation(); onToggleWishlist(product.id); }}
+          aria-label={isWishlisted ? `Remove ${product.name} from wishlist` : `Save ${product.name} to wishlist`}
+          aria-pressed={isWishlisted}
           style={{
-            position: 'absolute',
-            top: '10px',
-            right: '10px',
-            width: '32px',
-            height: '32px',
-            backgroundColor: 'var(--bg-card)',
-            borderRadius: '50%',
-            boxShadow: '0 2px 6px rgba(0,0,0,0.1)',
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'center',
-            border: 'none',
-            cursor: 'pointer',
+            position: 'absolute', top: 10, right: 10,
+            background: 'transparent', border: 'none', cursor: 'pointer',
+            padding: 8, lineHeight: 0
           }}
         >
-          <Heart size={16} fill={isWishlisted ? 'var(--sale-price)' : 'none'} color={isWishlisted ? 'var(--sale-price)' : 'var(--text-muted)'} />
+          <Heart
+            size={17}
+            strokeWidth={1.25}
+            style={{
+              color: isWishlisted ? 'var(--bronze)' : '#FBFAF8',
+              fill: isWishlisted ? 'var(--bronze)' : 'none',
+              filter: 'drop-shadow(0 1px 3px rgba(15,13,10,0.45))',
+              transition: 'color var(--medium) var(--ease), fill var(--medium) var(--ease)'
+            }}
+          />
         </button>
+
+        {/* Add to Bag — slides up from the base of the image on hover. On
+            touch there is no hover, so it sits visible at all times. */}
+        <div
+          className="card-action"
+          style={{
+            position: 'absolute', left: 0, right: 0, bottom: 0,
+            transform: hovered ? 'translateY(0)' : 'translateY(101%)',
+            transition: 'transform var(--slow) var(--ease)'
+          }}
+        >
+          <button
+            onClick={handleAdd}
+            disabled={product.inStock === false}
+            style={{
+              width: '100%',
+              padding: '15px 10px',
+              border: 'none',
+              cursor: product.inStock === false ? 'not-allowed' : 'pointer',
+              backgroundColor: added ? 'var(--success)' : 'rgba(23,20,15,0.92)',
+              color: '#FBFAF8',
+              fontFamily: 'var(--font-ui)',
+              fontSize: '0.6875rem',
+              fontWeight: 400,
+              letterSpacing: '0.22em',
+              textTransform: 'uppercase',
+              transition: 'background-color var(--medium) var(--ease)'
+            }}
+          >
+            {product.inStock === false ? 'Sold Out' : added ? 'Added' : 'Add to Bag'}
+          </button>
+        </div>
       </div>
 
-      {/* DETAILS AREA */}
-      <div style={{ padding: '14px', flex: 1, display: 'flex', flexDirection: 'column' }}>
-        <h3 style={{
-          fontFamily: "'Work Sans', sans-serif",
-          fontSize: '14px',
-          fontWeight: 500,
-          margin: '0 0 4px 0',
-        }}>
-          {/* The title is the card's interactive element. Its ::after stretches
-              over the whole card, so the entire surface stays clickable while
-              the card contributes a single tab stop. */}
+      {/* Caption block. Centred, airy, and quiet — this is a museum label,
+          not a price tag. */}
+      <div style={{ padding: '1.35rem 0.25rem 0', textAlign: 'center' }}>
+        <h3
+          style={{
+            fontFamily: 'var(--font-display)',
+            fontSize: '1.15rem',
+            fontWeight: 400,
+            lineHeight: 1.25,
+            letterSpacing: '0.005em',
+            marginBottom: '0.5rem'
+          }}
+        >
           <button
-            type="button"
-            className="stretched-link"
             onClick={() => onQuickView(product)}
+            className="stretched-link"
             style={{
-              font: 'inherit',
-              color: 'var(--text-primary)',
-              background: 'none',
-              border: 'none',
-              padding: 0,
-              textAlign: 'left',
-              cursor: 'pointer',
-              display: '-webkit-box',
-              WebkitLineClamp: 2,
-              WebkitBoxOrient: 'vertical',
-              overflow: 'hidden',
+              background: 'none', border: 'none', padding: 0, cursor: 'pointer',
+              font: 'inherit', color: 'var(--ink)', textAlign: 'center'
             }}
           >
             {product.name}
           </button>
         </h3>
 
-        <p style={{
-          fontFamily: "'Poppins', sans-serif",
-          fontSize: '12px',
-          color: 'var(--text-muted)',
-          margin: '0 0 6px 0',
-          whiteSpace: 'nowrap',
-          overflow: 'hidden',
-          textOverflow: 'ellipsis',
-        }}>
-          {product.embroidery || product.description}
+        <p
+          className="eyebrow"
+          style={{
+            fontSize: '0.625rem',
+            marginBottom: '0.85rem',
+            color: 'var(--ink-muted)',
+            display: '-webkit-box',
+            WebkitLineClamp: 1,
+            WebkitBoxOrient: 'vertical',
+            overflow: 'hidden'
+          }}
+        >
+          {product.fabric?.split('(')[0].trim()}
         </p>
 
-        {/* Rating */}
-        <div style={{ display: 'flex', alignItems: 'center', gap: '4px', marginBottom: '6px' }}>
-          <div
-            role="img"
-            aria-label={`Rated ${rating} out of 5 from ${reviewCount} reviews`}
-            style={{ display: 'flex', color: 'var(--stars)', fontSize: '12px' }}
-          >
-            <span aria-hidden="true">{'★'.repeat(Math.round(rating))}</span>
-            <span aria-hidden="true" style={{ color: 'var(--star-empty)' }}>{'★'.repeat(5 - Math.round(rating))}</span>
-          </div>
-          <span aria-hidden="true" style={{ fontFamily: "'Poppins', sans-serif", fontSize: '12px', color: 'var(--text-muted)' }}>
-            ({reviewCount})
-          </span>
-        </div>
-
-        {/* Price Row */}
-        <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginTop: 'auto' }}>
-          <span style={{ fontFamily: "'Work Sans', sans-serif", fontSize: '16px', fontWeight: 600, color: 'var(--text-primary)' }}>
-            ₹{product.price.toLocaleString('en-IN')}
-          </span>
-          {isDiscounted && (
-            <>
-              <span style={{ fontFamily: "'Poppins', sans-serif", fontSize: '13px', color: 'var(--text-muted)', textDecoration: 'line-through' }}>
-                <span className="sr-only">Was </span>
-                ₹{product.originalPrice.toLocaleString('en-IN')}
-              </span>
-              <span style={{ fontFamily: "'Poppins', sans-serif", fontSize: '11px', color: 'var(--sale-price)', fontWeight: 600 }}>
-                {discountPercent}% OFF
-              </span>
-            </>
-          )}
-        </div>
+        <p>
+          <span className="price">{inr(product.price)}</span>
+          {isDiscounted && <span className="price-was">{inr(product.originalPrice)}</span>}
+        </p>
       </div>
-
-      {/* ACTION AREA */}
-      <button
-        type="button"
-        onClick={handleAdd}
-        onMouseEnter={() => setBtnHovered(true)}
-        onMouseLeave={() => setBtnHovered(false)}
-        className="card-action"
-        aria-label={`Add ${product.name} to cart`}
-        style={{
-          width: '100%',
-          backgroundColor: btnHovered ? 'var(--accent-hover)' : 'var(--accent)',
-          color: '#FFFFFF',
-          fontFamily: "'Poppins', sans-serif",
-          fontSize: '13px',
-          fontWeight: 500,
-          borderRadius: '0 0 10px 10px',
-          padding: '10px',
-          border: 'none',
-          cursor: 'pointer',
-          transition: 'background-color 0.2s ease',
-        }}
-      >
-        {addedToast ? 'Added!' : 'ADD TO CART'}
-      </button>
-    </div>
+    </article>
   );
 }

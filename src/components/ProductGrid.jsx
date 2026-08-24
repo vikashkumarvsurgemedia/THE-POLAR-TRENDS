@@ -2,174 +2,135 @@ import React, { useState } from 'react';
 import ProductCard from './ProductCard';
 import { CATEGORIES, DEPARTMENTS } from '../data/products';
 
-export default function ProductGrid({
-  products,
-  activeCategory,
-  setActiveCategory,
-  onQuickView,
-  onAddToCart,
-  onToggleWishlist,
-  wishlist
-}) {
-  const [sortBy, setSortBy] = useState('popular');
+/* The collection.
 
-  let filteredProducts = products.filter(p => {
+   Filters are text, not chips. A row of filled pill buttons is the most
+   recognisable "marketplace" tell in retail UI; the same control set as
+   tracked labels over a hairline reads as an editorial index and costs
+   nothing in usability — the active item is marked by a bronze rule and
+   aria-pressed rather than by a coloured fill. */
+
+export default function ProductGrid({
+  products, activeCategory, setActiveCategory,
+  onQuickView, onAddToCart, onToggleWishlist, wishlist
+}) {
+  const [sort, setSort] = useState('featured');
+
+  let filtered = products.filter(p => {
     if (activeCategory === 'All Products') return true;
-    // "New Arrivals" is a badge, not a category — matching it against
-    // p.category returned nothing and emptied the grid.
     if (activeCategory === 'New Arrivals') return p.badge?.toLowerCase() === 'new';
-    // Header navigation filters by department; the chips filter by style.
     if (DEPARTMENTS.includes(activeCategory)) return p.department === activeCategory;
     return p.category === activeCategory;
   });
 
-  if (sortBy === 'price-low') {
-    filteredProducts.sort((a, b) => a.price - b.price);
-  } else if (sortBy === 'price-high') {
-    filteredProducts.sort((a, b) => b.price - a.price);
-  } else if (sortBy === 'rating') {
-    filteredProducts.sort((a, b) => b.rating - a.rating);
-  }
+  if (sort === 'low') filtered = [...filtered].sort((a, b) => a.price - b.price);
+  else if (sort === 'high') filtered = [...filtered].sort((a, b) => b.price - a.price);
+
+  const sorts = [
+    { id: 'featured', label: 'Featured' },
+    { id: 'low', label: 'Price, Low' },
+    { id: 'high', label: 'Price, High' }
+  ];
 
   return (
-    <section id="collection" className="theme-light" style={{ padding: '60px 0', backgroundColor: 'var(--bg-primary)' }}>
-      <div className="container" style={{ maxWidth: '1200px', margin: '0 auto', padding: '0 20px' }}>
-        
-        <h2 style={{ fontFamily: "'Work Sans', sans-serif", fontSize: '32px', fontWeight: 600, color: 'var(--text-primary)', textAlign: 'center', margin: '0 0 30px 0' }}>
-          Our Collection
-        </h2>
+    <section id="collection" className="section" style={{ backgroundColor: 'var(--paper)' }}>
+      <div className="container">
 
-        <div style={{
-          display: 'flex',
-          justifyContent: 'space-between',
-          alignItems: 'center',
-          flexWrap: 'wrap',
-          gap: '20px',
-          marginBottom: '40px'
-        }}>
-          
-          <div style={{
+        <div className="section-head">
+          <div className="rule-center" />
+          <p className="eyebrow">The Collection</p>
+          <h2>New Now</h2>
+        </div>
+
+        {/* Filter index */}
+        <div
+          className="no-scrollbar"
+          style={{
             display: 'flex',
-            gap: '10px',
-            overflowX: 'auto',
-            WebkitOverflowScrolling: 'touch',
-            paddingBottom: '5px'
-          }} className="no-scrollbar">
-            {CATEGORIES.map(cat => {
-              const isActive = activeCategory === cat;
-              return (
-                <button
-                  key={cat}
-                  onClick={() => setActiveCategory(cat)}
-                  style={{
-                    backgroundColor: isActive ? 'var(--accent)' : 'transparent',
-                    color: isActive ? '#FFFFFF' : 'var(--text-body)',
-                    border: isActive ? '1px solid var(--accent)' : '1px solid var(--border)',
-                    padding: '8px 20px',
-                    borderRadius: '25px',
-                    fontFamily: "'Poppins', sans-serif",
-                    fontWeight: 500,
-                    fontSize: '13px',
-                    cursor: 'pointer',
-                    whiteSpace: 'nowrap',
-                    transition: 'all 0.3s'
-                  }}
-                >
-                  {cat}
-                </button>
-              );
-            })}
-          </div>
+            justifyContent: 'center',
+            flexWrap: 'wrap',
+            gap: 'clamp(1.25rem, 2.6vw, 2.5rem)',
+            paddingBottom: '1.5rem',
+            marginBottom: '1.25rem'
+          }}
+        >
+          {CATEGORIES.map(cat => {
+            const active = activeCategory === cat;
+            return (
+              <button
+                key={cat}
+                onClick={() => setActiveCategory(cat)}
+                aria-pressed={active}
+                className="eyebrow"
+                style={{
+                  background: 'none',
+                  border: 'none',
+                  borderBottom: `1px solid ${active ? 'var(--bronze)' : 'transparent'}`,
+                  color: active ? 'var(--bronze)' : 'var(--ink-muted)',
+                  paddingBottom: 5,
+                  cursor: 'pointer',
+                  whiteSpace: 'nowrap',
+                  transition: 'color var(--medium) var(--ease), border-color var(--medium) var(--ease)'
+                }}
+              >
+                {cat}
+              </button>
+            );
+          })}
+        </div>
 
-          <div style={{ display: 'flex', alignItems: 'center' }}>
-            <select
-              aria-label="Sort products"
-              value={sortBy}
-              onChange={(e) => setSortBy(e.target.value)}
-              style={{
-                fontFamily: "'Poppins', sans-serif",
-                fontSize: '13px',
-                border: '1px solid var(--border)',
-                borderRadius: '6px',
-                padding: '8px 12px',
-                backgroundColor: 'var(--bg-card)',
-                color: 'var(--text-primary)',
-                outline: 'none',
-                cursor: 'pointer'
-              }}
-            >
-              <option value="popular">Most Popular</option>
-              <option value="price-low">Price: Low to High</option>
-              <option value="price-high">Price: High to Low</option>
-              <option value="rating">Highest Rated</option>
-            </select>
+        <hr className="feature-divider" />
+
+        {/* Count + sort */}
+        <div
+          style={{
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'space-between',
+            flexWrap: 'wrap',
+            gap: '1rem',
+            padding: '1.25rem 0 clamp(2rem, 4vw, 3.5rem)'
+          }}
+        >
+          <p className="eyebrow" style={{ fontSize: '0.625rem' }}>
+            {filtered.length} {filtered.length === 1 ? 'Piece' : 'Pieces'}
+          </p>
+
+          <div style={{ display: 'flex', gap: '1.5rem' }}>
+            {sorts.map(s => (
+              <button
+                key={s.id}
+                onClick={() => setSort(s.id)}
+                aria-pressed={sort === s.id}
+                className="eyebrow"
+                style={{
+                  background: 'none', border: 'none', cursor: 'pointer',
+                  fontSize: '0.625rem',
+                  color: sort === s.id ? 'var(--ink)' : 'var(--ink-muted)',
+                  borderBottom: `1px solid ${sort === s.id ? 'var(--ink)' : 'transparent'}`,
+                  paddingBottom: 4,
+                  transition: 'color var(--medium) var(--ease)'
+                }}
+              >
+                {s.label}
+              </button>
+            ))}
           </div>
         </div>
 
-        <style>{`
-          .product-grid-responsive {
-            display: grid;
-            grid-template-columns: repeat(4, 1fr);
-            gap: 20px;
-          }
-          @media (max-width: 992px) {
-            .product-grid-responsive {
-              grid-template-columns: repeat(2, 1fr);
-              gap: 12px;
-            }
-          }
-          .no-scrollbar::-webkit-scrollbar {
-            display: none;
-          }
-          .no-scrollbar {
-            -ms-overflow-style: none;
-            scrollbar-width: none;
-          }
-        `}</style>
-        
-        {filteredProducts.length === 0 ? (
-          /* A department with no stock yet must say so — an empty grid reads
-             as a broken page. */
-          <div style={{ textAlign: 'center', padding: '60px 20px' }}>
-            <p style={{
-              fontFamily: "'Work Sans', sans-serif",
-              fontSize: '20px',
-              fontWeight: 600,
-              color: 'var(--text-primary)',
-              margin: '0 0 8px 0',
-            }}>
-              {activeCategory} is coming soon
+        {filtered.length === 0 ? (
+          <div style={{ textAlign: 'center', padding: 'clamp(4rem, 9vw, 7rem) 0' }}>
+            <h3 style={{ marginBottom: '1rem' }}>Arriving shortly</h3>
+            <p style={{ marginBottom: '2.5rem', fontSize: '0.9375rem' }}>
+              This edit is still at the atelier.
             </p>
-            <p style={{
-              fontFamily: "'Poppins', sans-serif",
-              fontSize: '14px',
-              color: 'var(--text-body)',
-              margin: '0 0 24px 0',
-            }}>
-              We&rsquo;re still building out this range. In the meantime, our shirts are
-              all handcrafted in 100% cotton.
-            </p>
-            <button
-              type="button"
-              onClick={() => setActiveCategory('All Products')}
-              style={{
-                backgroundColor: 'var(--accent)',
-                color: '#FFFFFF',
-                fontFamily: "'Poppins', sans-serif",
-                fontSize: '13px',
-                fontWeight: 600,
-                padding: '12px 28px',
-                border: 'none',
-                borderRadius: '6px',
-                cursor: 'pointer',
-              }}
-            >
-              Browse everything
+            <button className="link-rule" onClick={() => setActiveCategory('All Products')}>
+              View Everything
             </button>
           </div>
         ) : (
           <div className="product-grid-responsive">
-            {filteredProducts.map(product => (
+            {filtered.map(product => (
               <ProductCard
                 key={product.id}
                 product={product}

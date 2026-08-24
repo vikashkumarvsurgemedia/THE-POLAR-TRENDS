@@ -1,113 +1,97 @@
 import React from 'react';
-import { Leaf, Shield, Truck, Star } from 'lucide-react';
+
+/* Brand statement.
+
+   The reference site's equivalent of this section carries one sentence and
+   one link over a single image. That restraint is the message: a brand
+   confident about its cloth doesn't need four feature columns to say so.
+
+   Three specifications sit beneath the statement as a hairline-separated
+   row. They are the only hard facts on the page, which is exactly why a
+   formalwear buyer will read them. */
+
+const SPECS = [
+  { value: '70s', label: 'Two-Ply Yarn' },
+  { value: '100%', label: 'Long-Staple Cotton' },
+  { value: '18', label: 'Stitches Per Inch' }
+];
 
 export default function FabricStory() {
   return (
-    <section style={{ backgroundColor: 'var(--bg-secondary)', padding: '80px 20px' }}>
-      <div className="container" style={{ maxWidth: '1200px', margin: '0 auto' }}>
-        
-        <div style={{ textAlign: 'center', marginBottom: '40px' }}>
-          <h2 style={{
-            fontFamily: "'Work Sans', sans-serif",
-            fontSize: '32px',
-            fontWeight: 600,
-            color: 'var(--text-primary)',
-            margin: '0 0 8px 0'
-          }}>
-            Our Promise
-          </h2>
-          <p style={{
-            fontFamily: "'Poppins', sans-serif",
-            fontSize: '15px',
-            color: 'var(--text-muted)',
-            margin: 0
-          }}>
-            Crafted with care, designed with purpose
-          </p>
-        </div>
-
-        <div style={{
-          display: 'grid',
-          gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))',
-          gap: '40px',
-          alignItems: 'center'
-        }}>
-          
-          <div style={{ width: '100%', height: '100%', minHeight: '400px' }}>
-            <img 
+    <section className="section" style={{ backgroundColor: 'var(--paper)' }}>
+      <div className="container">
+        <div
+          style={{
+            display: 'grid',
+            gridTemplateColumns: 'repeat(auto-fit, minmax(320px, 1fr))',
+            gap: 'clamp(2.5rem, 6vw, 6rem)',
+            alignItems: 'center'
+          }}
+        >
+          {/* Image */}
+          <div className="img-frame" style={{ aspectRatio: '4 / 5' }}>
+            <img
               src="/assets/products/white-kashmiri-floral.jpg"
-              alt="White cotton shirt with black Kashmiri floral threadwork, laid flat"
+              alt="Close detail of a white cotton formal shirt showing the weave and stitch density"
               loading="lazy"
-              decoding="async"
-              style={{
-                width: '100%',
-                height: '100%',
-                objectFit: 'cover',
-                borderRadius: '10px'
-              }}
             />
           </div>
 
-          <div style={{ display: 'flex', flexDirection: 'column', gap: '24px' }}>
-            
-            <div style={{ display: 'flex', gap: '16px' }}>
-              <div style={{ flexShrink: 0, marginTop: '2px' }}>
-                <Leaf size={24} color="var(--accent-ink)" />
-              </div>
-              <div>
-                <h3 style={{ fontFamily: "'Work Sans', sans-serif", fontSize: '16px', fontWeight: 600, color: 'var(--text-primary)', margin: '0 0 6px 0' }}>
-                  100% Pure Cotton
-                </h3>
-                <p style={{ fontFamily: "'Poppins', sans-serif", fontSize: '13px', color: 'var(--text-body)', margin: 0, lineHeight: 1.6 }}>
-                  Sourced from the finest long-staple cotton fibers ensuring breathability, softness, and durability for everyday wear.
-                </p>
-              </div>
-            </div>
+          {/* Statement */}
+          <div>
+            <p className="eyebrow" style={{ marginBottom: '1.75rem' }}>Our Cloth</p>
 
-            <div style={{ display: 'flex', gap: '16px' }}>
-              <div style={{ flexShrink: 0, marginTop: '2px' }}>
-                <Star size={24} color="var(--accent-ink)" />
-              </div>
-              <div>
-                <h3 style={{ fontFamily: "'Work Sans', sans-serif", fontSize: '16px', fontWeight: 600, color: 'var(--text-primary)', margin: '0 0 6px 0' }}>
-                  Expert Craftsmanship
-                </h3>
-                <p style={{ fontFamily: "'Poppins', sans-serif", fontSize: '13px', color: 'var(--text-body)', margin: 0, lineHeight: 1.6 }}>
-                  Each piece features intricate, handcrafted embroidery meticulously placed by our skilled artisans.
-                </p>
-              </div>
-            </div>
+            <h2 style={{ marginBottom: '2rem' }}>
+              Timeless &amp; considered.
+              <br />
+              That&rsquo;s what we make.
+            </h2>
 
-            <div style={{ display: 'flex', gap: '16px' }}>
-              <div style={{ flexShrink: 0, marginTop: '2px' }}>
-                <Truck size={24} color="var(--accent-ink)" />
-              </div>
-              <div>
-                <h3 style={{ fontFamily: "'Work Sans', sans-serif", fontSize: '16px', fontWeight: 600, color: 'var(--text-primary)', margin: '0 0 6px 0' }}>
-                  Free Express Shipping
-                </h3>
-                <p style={{ fontFamily: "'Poppins', sans-serif", fontSize: '13px', color: 'var(--text-body)', margin: 0, lineHeight: 1.6 }}>
-                  Enjoy fast and complimentary shipping on all orders nationwide, delivered straight to your doorstep.
-                </p>
-              </div>
-            </div>
+            <p
+              style={{
+                fontSize: '1rem',
+                lineHeight: 1.85,
+                maxWidth: '46ch',
+                marginBottom: '2.75rem'
+              }}
+            >
+              Every shirt begins as long-staple cotton, spun to a two-ply 70s count
+              and woven in small runs. Cut, stitched and pressed by hand.
+            </p>
 
-            <div style={{ display: 'flex', gap: '16px' }}>
-              <div style={{ flexShrink: 0, marginTop: '2px' }}>
-                <Shield size={24} color="var(--accent-ink)" />
-              </div>
-              <div>
-                <h3 style={{ fontFamily: "'Work Sans', sans-serif", fontSize: '16px', fontWeight: 600, color: 'var(--text-primary)', margin: '0 0 6px 0' }}>
-                  Premium Quality
-                </h3>
-                <p style={{ fontFamily: "'Poppins', sans-serif", fontSize: '13px', color: 'var(--text-body)', margin: 0, lineHeight: 1.6 }}>
-                  Our garments undergo rigorous quality checks to maintain their shape, color, and pristine finish.
-                </p>
-              </div>
-            </div>
+            <a href="#collection" className="link-rule">Explore the Craft</a>
 
+            {/* Specifications */}
+            <div
+              style={{
+                display: 'flex',
+                gap: 'clamp(1.5rem, 4vw, 3.5rem)',
+                marginTop: 'clamp(3rem, 6vw, 4.5rem)',
+                paddingTop: '2.25rem',
+                borderTop: '1px solid var(--rule)'
+              }}
+            >
+              {SPECS.map(spec => (
+                <div key={spec.label}>
+                  <p
+                    style={{
+                      fontFamily: 'var(--font-display)',
+                      fontSize: 'clamp(1.75rem, 3vw, 2.5rem)',
+                      fontWeight: 300,
+                      lineHeight: 1,
+                      color: 'var(--ink)',
+                      marginBottom: '0.6rem'
+                    }}
+                  >
+                    {spec.value}
+                  </p>
+                  <p className="eyebrow" style={{ fontSize: '0.5625rem', lineHeight: 1.5 }}>
+                    {spec.label}
+                  </p>
+                </div>
+              ))}
+            </div>
           </div>
-
         </div>
       </div>
     </section>

@@ -1,121 +1,114 @@
-import React, { useState } from 'react';
-import { Truck, RotateCcw, PenTool, Droplet } from 'lucide-react';
+import React from 'react';
 
-const FEATURES = [
-  { Icon: Droplet, label: '100% Cotton' },
-  { Icon: PenTool, label: 'Handcrafted' },
-  { Icon: Truck, label: 'Free Shipping' },
-  { Icon: RotateCcw, label: 'Easy Returns' },
+/* Split-screen hero.
+
+   Two full-bleed frames sitting edge to edge with a single hairline between
+   them, and one line of display serif centred across the seam. The headline
+   spans both panels rather than living inside one — that overlap is what
+   makes the pair read as a single photograph instead of two tiles.
+
+   On mobile the split collapses to the left frame only. Stacking both would
+   push the fold down by a full screen, and the second image is atmosphere,
+   not information. */
+
+const PANELS = [
+  { src: '/assets/products/black-lotus-embroidered.jpg', alt: 'Black embroidered formal shirt, detail of the placket' },
+  { src: '/assets/products/white-kashmiri-floral.jpg', alt: 'White cotton formal shirt photographed against a warm ground' }
 ];
 
 export default function Hero() {
-  const [isHovered, setIsHovered] = useState(false);
-
   return (
-    <section>
-      {/* Full-bleed banner. The source photo is portrait, so `cover` always
-          crops it — `background-position: center 32%` puts the crop on the
-          collar and embroidered placket rather than slicing through the middle. */}
-      <div style={{
+    <section
+      aria-label="The Formal Edit"
+      style={{
         position: 'relative',
-        width: '100%',
-        minHeight: 'clamp(460px, 72vh, 720px)',
+        height: 'clamp(560px, 88vh, 900px)',
         display: 'flex',
-        flexDirection: 'column',
-        alignItems: 'center',
-        justifyContent: 'center',
-        backgroundImage:
-          `linear-gradient(rgba(4,10,32,0.34), rgba(4,10,32,0.62)), url('/assets/products/black-lotus-embroidered.jpg')`,
-        backgroundSize: 'cover',
-        backgroundPosition: 'center 32%',
-        backgroundRepeat: 'no-repeat',
-        padding: '2rem',
-      }}>
-        <h1 style={{
-          fontFamily: "'Work Sans', sans-serif",
-          fontSize: 'clamp(30px, 5vw, 52px)',
-          fontWeight: 600,
-          color: '#FFFFFF',
-          maxWidth: '640px',
-          textAlign: 'center',
-          lineHeight: 1.14,
-          letterSpacing: '-0.01em',
-          textShadow: '0 2px 18px rgba(0,0,0,0.35)',
-          margin: '0 0 30px 0',
-        }}>
-          Finest Cotton. Handcrafted Embroidery.
-        </h1>
-
-        <a
-          href="#collection"
-          onMouseEnter={() => setIsHovered(true)}
-          onMouseLeave={() => setIsHovered(false)}
+        overflow: 'hidden',
+        backgroundColor: 'var(--paper-alt)'
+      }}
+    >
+      {PANELS.map((panel, i) => (
+        <div
+          key={panel.src}
+          className={i === 1 ? 'desktop-only' : undefined}
           style={{
-            display: 'inline-flex',
-            alignItems: 'center',
-            backgroundColor: isHovered ? 'var(--accent-hover)' : 'var(--accent)',
-            color: '#FFFFFF',
-            padding: '15px 40px',
-            border: 'none',
-            borderRadius: '6px',
-            fontFamily: "'Poppins', sans-serif",
-            fontSize: '13px',
-            fontWeight: 600,
-            textTransform: 'uppercase',
-            letterSpacing: '1px',
-            textDecoration: 'none',
-            cursor: 'pointer',
-            transform: isHovered ? 'translateY(-2px)' : 'none',
-            boxShadow: isHovered ? '0 8px 22px rgba(0,0,0,0.4)' : '0 2px 10px rgba(0,0,0,0.25)',
-            transition: 'all 0.3s ease',
+            flex: 1,
+            position: 'relative',
+            overflow: 'hidden',
+            borderLeft: i === 1 ? '1px solid rgba(251,250,248,0.22)' : 'none'
           }}
         >
-          Shop Now
-        </a>
-      </div>
+          <img
+            src={panel.src}
+            alt={panel.alt}
+            style={{ width: '100%', height: '100%', objectFit: 'cover', objectPosition: 'center 28%' }}
+          />
+        </div>
+      ))}
 
-      {/* Features Bar */}
-      <div style={{
-        backgroundColor: 'var(--bg-primary)',
-        borderBottom: '1px solid var(--border)',
-        padding: '16px 0',
-        display: 'flex',
-        justifyContent: 'center',
-      }}>
-        <div style={{
+      <div className="scrim-hero" />
+
+      {/* Anchored to the lower third, not the centre. Centred type would land
+          squarely on the embroidery; down here it sits in the dark end of the
+          scrim and stays legible while the garment reads clean above it.
+          pointer-events stay off the wrapper so only the CTA takes clicks. */}
+      <div
+        style={{
+          position: 'absolute',
+          inset: 0,
           display: 'flex',
+          flexDirection: 'column',
           alignItems: 'center',
-          flexWrap: 'wrap',
-          justifyContent: 'center',
-          gap: '24px',
-          maxWidth: '1000px',
-          width: '100%',
-        }}>
-          {FEATURES.map(({ Icon, label }, i) => (
-            <React.Fragment key={label}>
-              {i > 0 && (
-                <div className="feature-divider" style={{ width: '1px', height: '16px', backgroundColor: 'var(--border-strong)' }} />
-              )}
-              <div style={{
-                display: 'flex',
-                alignItems: 'center',
-                gap: '8px',
-                color: 'var(--text-body)',
-                fontFamily: "'Poppins', sans-serif",
-                fontSize: '12px',
-              }}>
-                <Icon size={16} color="var(--accent-ink)" /> {label}
-              </div>
-            </React.Fragment>
-          ))}
+          justifyContent: 'flex-end',
+          textAlign: 'center',
+          padding: '0 var(--gutter) clamp(3.5rem, 9vh, 7rem)',
+          pointerEvents: 'none'
+        }}
+      >
+        <p
+          className="eyebrow rise rise-1"
+          style={{ color: 'rgba(251,250,248,0.82)', marginBottom: '1.75rem' }}
+        >
+          Autumn Formals — Volume I
+        </p>
+
+        <h1
+          className="rise rise-2"
+          style={{
+            color: '#FBFAF8',
+            maxWidth: '16ch',
+            fontWeight: 300,
+            /* Two shadows, not one: a tight dark halo to hold the letterforms
+               against a pale garment crossing the seam, plus a wide soft one
+               for general separation. Cormorant at weight 300 has hairline
+               strokes that vanish entirely over white without the first. */
+            textShadow: '0 1px 3px rgba(15,13,10,0.55), 0 2px 44px rgba(15,13,10,0.5)'
+          }}
+        >
+          Dress Shirts, Perfected.
+        </h1>
+
+        <div className="rise rise-3" style={{ marginTop: '2.25rem', pointerEvents: 'auto' }}>
+          <a href="#collection" className="btn-ghost-light">Shop the Edit</a>
         </div>
       </div>
 
-      <style dangerouslySetInnerHTML={{__html: `
-        @media (max-width: 480px) {
-          .feature-divider { display: none; }
-        }
-      `}} />
+      {/* Fabric credit, top-left. A small factual note anchors the image in
+          craft rather than campaign — the detail a formalwear buyer looks for.
+          It lives up in the clear part of the scrim, opposite the headline. */}
+      <p
+        className="eyebrow desktop-only"
+        style={{
+          position: 'absolute',
+          left: 'var(--gutter)',
+          bottom: '2.25rem',
+          color: 'rgba(251,250,248,0.72)',
+          letterSpacing: '0.2em'
+        }}
+      >
+        70s Two-Ply Long-Staple Cotton
+      </p>
     </section>
   );
 }

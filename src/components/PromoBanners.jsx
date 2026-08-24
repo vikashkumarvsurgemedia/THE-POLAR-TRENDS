@@ -1,174 +1,81 @@
 import React from 'react';
 
+/* Featured categories.
+
+   Four tall image tiles, hairline-separated, with the label set over the
+   base of each photograph. Portrait crops and a slow zoom on hover; no
+   captions, no descriptions, no card chrome. The label and the garment are
+   the entire content — which is the whole point of an image-led index. */
+
+const TILES = [
+  { category: 'Embroidery Edit',      label: 'Embroidery',  image: '/assets/products/black-lotus-embroidered.jpg' },
+  { category: 'Pure Whites',          label: 'Pure Whites', image: '/assets/products/white-kashmiri-floral.jpg' },
+  { category: 'Artisan Checks',       label: 'Checks',      image: '/assets/products/terracotta-artisan-check.jpg' },
+  { category: 'Everyday Essentials',  label: 'Essentials',  image: '/assets/products/sage-star-stitch.jpg' }
+];
+
 export default function PromoBanners({ setActiveCategory }) {
-  const handleComboClick = () => {
-    setActiveCategory('All Products');
-    const el = document.getElementById('collection');
-    if (el) el.scrollIntoView({ behavior: 'smooth' });
-  };
-
   return (
-    <section style={{ padding: '40px 0', backgroundColor: 'var(--bg-primary)' }}>
+    <section id="categories" className="section" style={{ backgroundColor: 'var(--paper-alt)' }}>
       <div className="container">
-        <div style={{
-          display: 'grid',
-          gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))',
-          gap: '20px'
-        }}>
-          {/* Banner 1: Build Your Combo */}
-          <div style={{
-            position: 'relative',
-            borderRadius: '12px',
-            overflow: 'hidden',
-            backgroundColor: 'var(--accent)',
-            color: '#FFFFFF',
-            padding: '36px 30px',
-            display: 'flex',
-            flexDirection: 'column',
-            justifyContent: 'center',
-            boxShadow: '0 4px 16px rgba(0,0,128,0.15)',
-            backgroundImage: 'linear-gradient(135deg, var(--accent) 0%, var(--bg-dark) 100%)'
-          }}>
-            <span style={{
-              backgroundColor: 'var(--sale-price)',
-              color: '#FFFFFF',
-              fontFamily: "'Poppins', sans-serif",
-              fontSize: '10px',
-              fontWeight: 700,
-              padding: '4px 10px',
-              borderRadius: '20px',
-              width: 'fit-content',
-              letterSpacing: '1px',
-              marginBottom: '14px'
-            }}>
-              SPECIAL SAVINGS
-            </span>
-            <h3 style={{
-              fontFamily: "'Work Sans', sans-serif",
-              fontSize: '28px',
-              fontWeight: 700,
-              lineHeight: 1.2,
-              marginBottom: '10px',
-              color: '#FFFFFF'
-            }}>
-              BUILD YOUR COMBO
-            </h3>
-            <p style={{
-              fontFamily: "'Poppins', sans-serif",
-              fontSize: '14px',
-              color: 'rgba(255,255,255,0.85)',
-              marginBottom: '20px',
-              maxWidth: '380px'
-            }}>
-              Mix and match any 3 shirts or tees and get an extra 25% OFF automatically at checkout!
-            </p>
-            <button
-              onClick={handleComboClick}
-              style={{
-                backgroundColor: 'var(--bg-light)',
-                color: 'var(--text-on-light)',
-                fontFamily: "'Poppins', sans-serif",
-                fontSize: '13px',
-                fontWeight: 700,
-                padding: '12px 24px',
-                borderRadius: '6px',
-                border: 'none',
-                cursor: 'pointer',
-                width: 'fit-content',
-                transition: 'all 0.3s ease',
-                boxShadow: '0 2px 8px rgba(0,0,0,0.25)'
-              }}
-              onMouseEnter={(e) => {
-                e.target.style.backgroundColor = '#FFFFFF';
-                e.target.style.transform = 'translateY(-2px)';
-              }}
-              onMouseLeave={(e) => {
-                e.target.style.backgroundColor = 'var(--bg-light)';
-                e.target.style.transform = 'translateY(0)';
-              }}
-            >
-              BUILD YOUR COMBO →
-            </button>
-          </div>
-
-          {/* Banner 2: 100% Pima & Giza Cotton Quality */}
-          <div style={{
-            position: 'relative',
-            borderRadius: '12px',
-            overflow: 'hidden',
-            backgroundColor: 'var(--bg-dark)',
-            color: '#FFFFFF',
-            padding: '36px 30px',
-            display: 'flex',
-            flexDirection: 'column',
-            justifyContent: 'center',
-            boxShadow: '0 4px 16px rgba(0,0,0,0.12)'
-          }}>
-            <span style={{
-              backgroundColor: 'rgba(255,255,255,0.15)',
-              color: '#FFFFFF',
-              fontFamily: "'Poppins', sans-serif",
-              fontSize: '10px',
-              fontWeight: 700,
-              padding: '4px 10px',
-              borderRadius: '20px',
-              width: 'fit-content',
-              letterSpacing: '1px',
-              marginBottom: '14px'
-            }}>
-              ATELIER QUALITY
-            </span>
-            <h3 style={{
-              fontFamily: "'Work Sans', sans-serif",
-              fontSize: '28px',
-              fontWeight: 700,
-              lineHeight: 1.2,
-              marginBottom: '10px',
-              color: '#FFFFFF'
-            }}>
-              PURE COTTON EDIT
-            </h3>
-            <p style={{
-              fontFamily: "'Poppins', sans-serif",
-              fontSize: '14px',
-              color: 'rgba(255,255,255,0.85)',
-              marginBottom: '20px',
-              maxWidth: '380px'
-            }}>
-              Hand-finished embroidery on 100% Egyptian Giza & Pima cotton. Engineered for ultimate climate comfort.
-            </p>
-            <button
-              onClick={() => {
-                setActiveCategory('Embroidery Edit');
-                const el = document.getElementById('collection');
-                if (el) el.scrollIntoView({ behavior: 'smooth' });
-              }}
-              style={{
-                backgroundColor: 'var(--accent)',
-                color: '#FFFFFF',
-                fontFamily: "'Poppins', sans-serif",
-                fontSize: '13px',
-                fontWeight: 700,
-                padding: '12px 24px',
-                borderRadius: '6px',
-                border: 'none',
-                cursor: 'pointer',
-                width: 'fit-content',
-                transition: 'all 0.3s ease'
-              }}
-              onMouseEnter={(e) => {
-                e.target.style.backgroundColor = 'var(--accent-hover)';
-                e.target.style.transform = 'translateY(-2px)';
-              }}
-              onMouseLeave={(e) => {
-                e.target.style.backgroundColor = 'var(--accent)';
-                e.target.style.transform = 'translateY(0)';
-              }}
-            >
-              EXPLORE EMBROIDERED EDIT →
-            </button>
-          </div>
+        <div className="section-head">
+          <div className="rule-center" />
+          <p className="eyebrow">Shop By</p>
+          <h2>The Edits</h2>
         </div>
+      </div>
+
+      {/* Full-bleed rail. Edge-to-edge with hairline gaps reads as a single
+          continuous band of imagery rather than four floating cards. */}
+      <div
+        style={{
+          display: 'grid',
+          gridTemplateColumns: 'repeat(auto-fit, minmax(240px, 1fr))',
+          gap: 1,
+          backgroundColor: 'var(--rule)'
+        }}
+      >
+        {TILES.map(tile => (
+          <a
+            key={tile.category}
+            href="#collection"
+            onClick={() => setActiveCategory(tile.category)}
+            className="img-frame"
+            style={{
+              position: 'relative',
+              display: 'block',
+              aspectRatio: '3 / 4.35',
+              backgroundColor: 'var(--paper-deep)'
+            }}
+          >
+            <img src={tile.image} alt="" loading="lazy" />
+            <div className="scrim" />
+
+            <div
+              style={{
+                position: 'absolute',
+                left: 0, right: 0, bottom: 0,
+                padding: '2rem 1.5rem',
+                textAlign: 'center'
+              }}
+            >
+              <h3
+                style={{
+                  color: '#FBFAF8',
+                  fontSize: 'clamp(1.5rem, 2.2vw, 2rem)',
+                  fontWeight: 300,
+                  marginBottom: '1rem',
+                  textShadow: '0 1px 24px rgba(15,13,10,0.4)'
+                }}
+              >
+                {tile.label}
+              </h3>
+              <span className="eyebrow" style={{ color: 'rgba(251,250,248,0.9)', fontSize: '0.5625rem' }}>
+                Shop Now
+              </span>
+            </div>
+          </a>
+        ))}
       </div>
     </section>
   );
