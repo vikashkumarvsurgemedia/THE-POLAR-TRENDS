@@ -11,7 +11,7 @@ import React, { useState } from 'react';
    number opens WhatsApp and shows "phone number shared via link is not on
    WhatsApp", which looks worse to a customer than no button at all.
    ───────────────────────────────────────────────────────────────────────── */
-const WHATSAPP_NUMBER = '91XXXXXXXXXX';
+const WHATSAPP_NUMBER = '917895462774';
 
 const PREFILLED_MESSAGE = "Hello The Polar Trend, I'd like to know more about your formal shirts.";
 
