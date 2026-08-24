@@ -1,83 +1,146 @@
 /* ==========================================================================
-   THE POLAR TREND - Design System
+   THE POLAR TREND — "Atelier"
 
-   Every colour below is a token. Components reference them as
-   `var(--token)` inside inline styles, so the whole site can be re-themed
-   from this one block — nothing else needs touching.
+   Editorial luxury, not web-app luxury. Three rules drive everything below:
+
+   1. The photography carries the colour. The interface is paper and ink and
+      contributes almost none of its own — no coloured panels, no gradients,
+      no tinted cards. When a section needs separation it changes paper
+      weight, never hue.
+   2. Nothing is rounded and almost nothing casts a shadow. Radius and
+      elevation are what make a page read as software; print doesn't have
+      them, and this should read as print.
+   3. Type does the ranking. One large light serif per section, one very
+      small letter-spaced sans for everything functional. Size and spacing
+      establish hierarchy so colour never has to.
+
+   Every value is a token. Components reference them as var(--token) in
+   inline styles, so the whole site re-themes from this block alone.
    ========================================================================== */
 
 :root {
-  /* --- Surfaces: navy-dominant -------------------------------------------
-     Blue is the canvas now, not just the accent. Each step gets slightly
-     lighter so cards lift off sections, and sections lift off the page. */
-  --bg-primary: #0B1E56;      /* page background */
-  --bg-secondary: #102A6B;    /* alternating section bands */
-  --bg-card: #17347E;         /* cards, panels, inputs */
-  --bg-dark: #050F33;         /* footer — deepest anchor at the page bottom */
-  --bg-light: #FDFFF0;        /* cream, now reserved for the announcement bar */
+  /* --- Paper ---------------------------------------------------------------
+     Warm off-whites, never #FFF. Pure white is a screen colour; paper has a
+     cream cast, and that single degree of warmth is most of what separates
+     "premium" from "default". Steps are close together on purpose — sections
+     should separate by a whisper, not a band. */
+  --paper: #FBFAF8;           /* page */
+  --paper-alt: #F4F1EB;       /* alternating sections */
+  --paper-deep: #EBE6DD;      /* pull-quotes, inset panels */
+  --ink-surface: #17140F;     /* the one dark surface: footer, dark sections */
 
-  /* --- Accent -------------------------------------------------------------
-     Two values, because one cannot do both jobs on a dark ground: a blue dark
-     enough to carry white button text is too dark to read AS text, and vice
-     versa. `--accent` is the surface, `--accent-ink` is the text/icon colour. */
-  --accent: #2F63E8;          /* button fills — white text on this is 5.2:1 */
-  --accent-hover: #4C82F5;
-  --accent-ink: #7FA9FF;      /* accent used as text/icons — 6.8:1 on navy */
-  --accent-light: rgba(76, 130, 245, 0.18);
+  /* --- Ink -----------------------------------------------------------------
+     Warm near-black. #000 on cream looks like a hole punched in the page. */
+  --ink: #17140F;             /* headlines, primary text — 17.6:1 on paper */
+  --ink-body: #56504A;        /* body copy — 7.6:1 on paper */
+  /* Meta and captions. Measured, not guessed: the eyebrow label is 11px and
+     appears on all three paper weights, so this has to clear 4.5:1 against
+     the darkest of them (--paper-deep). It does, at 4.55. The lighter grey
+     this replaced looked more elegant in isolation and failed on every
+     ground — 3.4:1 on --paper-alt. */
+  --ink-muted: #6E665A;       /* 5.42 paper · 5.02 alt · 4.55 deep */
+  --ink-on-dark: #F6F3EE;
+  --ink-body-on-dark: #B9B2A7;
+  --ink-muted-on-dark: #8F877C;
 
-  /* --- Text: light-on-dark throughout --- */
-  --text-primary: #F2F6FF;
-  --text-body: #C2CEEE;
-  --text-muted: #A3B0D8;
-  --text-on-dark: #FFFFFF;
-  --text-on-light: #0B1E56;   /* for the cream announcement bar */
+  /* --- Bronze ---------------------------------------------------------------
+     The only chromatic value in the system, and it is rationed: hairlines,
+     rules, the active nav mark, sale prices. It never fills a shape larger
+     than a few pixels. A luxury palette earns its restraint here — the moment
+     bronze becomes a button fill it stops reading as gilding and starts
+     reading as a brand colour.
 
-  --border: rgba(255, 255, 255, 0.14);
-  --border-strong: rgba(255, 255, 255, 0.24);
+     Darkened one step from the obvious gilt tone so it also passes as text
+     where it marks the active filter — 5.2:1 on paper, 4.81 on paper-alt. */
+  --bronze: #84643D;
+  --bronze-soft: rgba(132, 100, 61, 0.28);
+  --bronze-ghost: rgba(132, 100, 61, 0.08);
 
-  /* --- Status colours, brightened so they read against navy --- */
-  --stars: #FFC531;
-  --star-empty: rgba(255, 255, 255, 0.22);
-  --sale-price: #FF8A6B;
-  --success: #2FD39B;
+  /* --- Rules ---------------------------------------------------------------
+     Hairlines only. A 1px line at 12% opacity divides without decorating. */
+  --rule: rgba(23, 20, 15, 0.13);
+  --rule-strong: rgba(23, 20, 15, 0.26);
+  --rule-on-dark: rgba(246, 243, 238, 0.16);
+  --rule-on-dark-strong: rgba(246, 243, 238, 0.3);
 
-  --card-radius: 10px;
-  --btn-radius: 6px;
-  --max-width: 1400px;
+  /* --- Status ---------------------------------------------------------------
+     Muted to sit inside the palette rather than shout over it. */
+  --stars: #8A6A42;
+  --star-empty: rgba(23, 20, 15, 0.16);
+  --sale-price: #93331F;
+  --success: #3F6146;
 
-  --font-headings: 'Work Sans', sans-serif;
-  --font-body: 'Poppins', sans-serif;
+  /* --- Geometry -------------------------------------------------------------
+     Zero radius everywhere. This is deliberate and load-bearing. */
+  --card-radius: 0px;
+  --btn-radius: 0px;
+  --max-width: 1560px;
+  --gutter: 2.5rem;
+
+  --font-display: 'Cormorant', Georgia, 'Times New Roman', serif;
+  --font-ui: 'Jost', 'Helvetica Neue', Arial, sans-serif;
+
+  /* Slow, weighted easing. Luxury moves like heavy fabric, not like a toggle. */
+  --ease: cubic-bezier(0.16, 0.84, 0.44, 1);
+  --slow: 620ms;
+  --medium: 420ms;
+
+  /* --- Legacy token bridge --------------------------------------------------
+     Components still reference the previous names inline. Mapping them here
+     re-themes every one of them without touching a single component file. */
+  --bg-primary: var(--paper);
+  --bg-secondary: var(--paper-alt);
+  --bg-card: var(--paper);
+  --bg-dark: var(--ink-surface);
+  --bg-light: var(--paper-alt);
+  --accent: var(--ink);
+  --accent-hover: #322C24;
+  --accent-ink: var(--bronze);
+  --accent-light: var(--bronze-ghost);
+  --text-primary: var(--ink);
+  --text-body: var(--ink-body);
+  --text-muted: var(--ink-muted);
+  --text-on-dark: var(--ink-on-dark);
+  --text-on-light: var(--ink);
+  --border: var(--rule);
+  --border-strong: var(--rule-strong);
+  --font-headings: var(--font-display);
+  --font-body: var(--font-ui);
 }
 
-/* --- Light section scope --------------------------------------------------
-   Put `class="theme-light"` on any section and it flips to a light surface:
-   the tokens are simply redefined for that subtree, so every component inside
-   re-themes itself with no component changes. Used to break up the navy so the
-   page isn't blue on blue the whole way down. */
-.theme-light {
-  color-scheme: light;
+/* --- Dark scope ------------------------------------------------------------
+   `class="theme-dark"` flips a subtree onto the ink surface. Same trick the
+   previous system used for light sections, inverted: the palette is now
+   light by default, so the exception is darkness. `.theme-light` is kept as
+   a no-op alias so existing markup keeps working. */
+.theme-dark {
+  color-scheme: dark;
+  --paper: var(--ink-surface);
+  --paper-alt: #201C16;
+  --paper-deep: #2A251E;
+  --ink: var(--ink-on-dark);
+  --ink-body: var(--ink-body-on-dark);
+  --ink-muted: var(--ink-muted-on-dark);
+  --rule: var(--rule-on-dark);
+  --rule-strong: var(--rule-on-dark-strong);
+  --stars: #C9A227;
+  --star-empty: rgba(246, 243, 238, 0.2);
+  --sale-price: #D98E76;
 
-  --bg-primary: #FBFCFE;
-  --bg-secondary: #F1F4FA;
-  --bg-card: #FFFFFF;
-
-  --accent: #1B3FA5;          /* white button text on this is 9.1:1 */
-  --accent-hover: #12358F;
-  --accent-ink: #1B3FA5;      /* same value reads fine as text on white */
-  --accent-light: rgba(27, 63, 165, 0.08);
-
-  --text-primary: #101733;
-  --text-body: #4A5268;
-  --text-muted: #666E85;
-
-  --border: rgba(16, 23, 51, 0.12);
-  --border-strong: rgba(16, 23, 51, 0.22);
-
-  --stars: #B8860B;
-  --star-empty: rgba(16, 23, 51, 0.16);
-  --sale-price: #C4210A;
-  --success: #0A6B4F;
+  --bg-primary: var(--paper);
+  --bg-secondary: var(--paper-alt);
+  --bg-card: var(--paper-alt);
+  --accent: var(--ink-on-dark);
+  --accent-hover: #FFFFFF;
+  --accent-ink: #C9A227;
+  --text-primary: var(--ink);
+  --text-body: var(--ink-body);
+  --text-muted: var(--ink-muted);
+  --border: var(--rule);
+  --border-strong: var(--rule-strong);
 }
+
+.theme-light { color-scheme: light; }
 
 *, *::before, *::after {
   box-sizing: border-box;
@@ -91,77 +154,178 @@ html {
   -webkit-tap-highlight-color: transparent;
 }
 
-/* The header is sticky, so an anchor jump would otherwise land with the
-   section's heading hidden underneath it. */
-#main, #collection, #reels {
-  scroll-margin-top: 112px;
+#main, #collection, #reels, #categories, #lookbook {
+  scroll-margin-top: 108px;
 }
 
 body {
-  font-family: var(--font-body);
-  font-weight: 400;
-  background-color: var(--bg-primary);
-  color: var(--text-primary);
-  line-height: 1.6;
+  font-family: var(--font-ui);
+  font-weight: 300;
+  background-color: var(--paper);
+  color: var(--ink);
+  line-height: 1.65;
   overflow-x: hidden;
   -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
 
+/* --- Display type ----------------------------------------------------------
+   Cormorant is drawn small and set large: at display sizes it needs a tight
+   line-height and slightly negative tracking or it falls apart into loose
+   letters. Weight 300 — a light serif at scale reads expensive; a bold one
+   reads like a newspaper headline. */
 h1, h2, h3, h4, h5, h6 {
-  font-family: var(--font-headings);
-  font-weight: 600;
-  color: var(--text-primary);
+  font-family: var(--font-display);
+  font-weight: 300;
+  color: var(--ink);
+  letter-spacing: -0.015em;
+  line-height: 1.08;
   text-transform: none;
 }
+
+h1 { font-size: clamp(2.75rem, 6.5vw, 5.75rem); }
+h2 { font-size: clamp(2.25rem, 4.6vw, 4rem); }
+h3 { font-size: clamp(1.5rem, 2.4vw, 2.25rem); }
+
+p { color: var(--ink-body); }
+
+a { color: inherit; text-decoration: none; }
+
+img, video { display: block; max-width: 100%; }
+
+/* --- The eyebrow -----------------------------------------------------------
+   The workhorse of the whole system. Tiny, widely tracked, uppercase Jost —
+   section labels, CTAs, nav, prices, captions. Wide tracking at small sizes
+   is the single most recognisable signal in luxury retail typography. */
+.eyebrow {
+  font-family: var(--font-ui);
+  font-size: 0.6875rem;
+  font-weight: 400;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--ink-muted);
+  line-height: 1;
+}
+
+.eyebrow-ink { color: var(--ink); }
+
+/* --- Text link -------------------------------------------------------------
+   The primary call to action across the site is not a button — it is a small
+   tracked label over a hairline that draws itself in on hover. Buttons are
+   reserved for genuine commerce actions (add to bag, checkout). */
+.link-rule {
+  display: inline-block;
+  font-family: var(--font-ui);
+  font-size: 0.6875rem;
+  font-weight: 400;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--ink);
+  padding-bottom: 6px;
+  position: relative;
+  cursor: pointer;
+  background: none;
+  border: none;
+}
+.link-rule::after {
+  content: '';
+  position: absolute;
+  left: 0; bottom: 0;
+  width: 100%; height: 1px;
+  background: currentColor;
+  transform: scaleX(1);
+  transform-origin: right;
+  transition: transform var(--medium) var(--ease);
+}
+.link-rule:hover::after { transform: scaleX(0); }
+
+.link-rule-light { color: var(--ink-on-dark); }
 
 .container {
   width: 100%;
   max-width: var(--max-width);
   margin: 0 auto;
-  padding: 0 2rem;
+  padding: 0 var(--gutter);
+}
+
+.container-wide {
+  width: 100%;
+  margin: 0 auto;
+  padding: 0 var(--gutter);
+}
+
+/* --- Section rhythm --------------------------------------------------------
+   Generous and consistent. Whitespace is the cheapest luxury signal there is,
+   and the most reliable: crowding is what makes a store look discounted. */
+.section {
+  padding: clamp(5rem, 10vw, 9rem) 0;
+}
+.section-tight { padding: clamp(3.5rem, 6vw, 5.5rem) 0; }
+
+/* Section headers: centred eyebrow, hairline, generous space beneath. */
+.section-head {
+  text-align: center;
+  margin-bottom: clamp(2.5rem, 5vw, 4.5rem);
+}
+.section-head h2 { margin-top: 1.25rem; }
+
+.rule-center {
+  width: 1px;
+  height: 56px;
+  background: var(--rule-strong);
+  margin: 0 auto 1.75rem;
+}
+
+.feature-divider {
+  width: 100%;
+  height: 1px;
+  background: var(--rule);
+  border: none;
 }
 
 /* Utilities */
-.mobile-only {
-  display: none !important;
-}
-.desktop-only {
-  display: flex;
-}
+.mobile-only { display: none !important; }
+.desktop-only { display: flex; }
 
-.no-scrollbar::-webkit-scrollbar {
-  display: none;
-}
+.no-scrollbar::-webkit-scrollbar { display: none; }
 .no-scrollbar {
   -ms-overflow-style: none;
   scrollbar-width: none;
 }
 
+/* --- Card ------------------------------------------------------------------
+   Flat. No shadow, no radius, no fill — a product sits on the paper, and its
+   own photograph is the only thing with presence. */
 .card {
-  background-color: var(--bg-card);
-  border-radius: var(--card-radius);
-  box-shadow: 0 2px 8px rgba(0,0,0,0.25);
+  background-color: transparent;
+  border-radius: 0;
+  box-shadow: none;
 }
 
+/* --- Badge -----------------------------------------------------------------
+   Not a pill. A tracked label on a hairline rule, set over the image. */
 .badge {
   display: inline-block;
-  background-color: var(--accent);
-  color: #FFFFFF;
-  padding: 4px 10px;
-  border-radius: 20px;
-  font-size: 11px;
+  background: transparent;
+  color: var(--ink);
+  padding: 0 0 4px 0;
+  border: none;
+  border-bottom: 1px solid currentColor;
+  border-radius: 0;
+  font-family: var(--font-ui);
+  font-size: 0.5625rem;
+  font-weight: 400;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  line-height: 1;
 }
 
-/* --- Focus -----------------------------------------------------------------
-   Several components clear the browser default with `outline: none`; this puts
-   a visible ring back for keyboard users only, so a mouse click stays quiet. */
 :focus-visible {
-  outline: 2px solid var(--accent-ink);
-  outline-offset: 2px;
-  border-radius: 3px;
+  outline: 1px solid var(--bronze);
+  outline-offset: 3px;
+  border-radius: 0;
 }
 
-/* Visible only to screen readers */
 .sr-only {
   position: absolute;
   width: 1px; height: 1px;
@@ -172,68 +336,174 @@ h1, h2, h3, h4, h5, h6 {
   border: 0;
 }
 
-/* --- Stretched link ---------------------------------------------------------
-   One real control carries the whole card's click target: its ::after covers
-   the nearest positioned ancestor, so the entire card stays clickable while
-   contributing a single tab stop. Any genuinely separate action inside the card
-   takes `.card-action` to sit above it. Requires position: relative on the card. */
+/* --- Stretched link --------------------------------------------------------
+   Unchanged in behaviour from the previous system: one real control carries
+   the card's click target while separate actions sit above it on .card-action.
+   Only the focus treatment changes, to match the new square geometry. */
 .stretched-link::after {
   content: '';
   position: absolute;
   inset: 0;
   z-index: 1;
 }
-.stretched-link:focus-visible {
-  outline: none;
-}
+.stretched-link:focus-visible { outline: none; }
 .stretched-link:focus-visible::after {
-  outline: 2px solid var(--accent-ink);
-  outline-offset: -3px;
-  border-radius: 10px;
+  outline: 1px solid var(--bronze);
+  outline-offset: -4px;
+  border-radius: 0;
 }
 .card-action {
   position: relative;
   z-index: 2;
 }
 
-.product-card-image-wrapper { height: 300px; }
+/* --- Product imagery -------------------------------------------------------
+   Tall portrait crop. Fashion is photographed vertically; a 4:5 or taller
+   frame is what makes a grid read as a lookbook instead of a catalogue. */
+.product-card-image-wrapper {
+  position: relative;
+  aspect-ratio: 4 / 5;
+  height: auto;
+  overflow: hidden;
+  background: var(--paper-alt);
+}
+.product-card-image-wrapper img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 1.4s var(--ease);
+}
+.product-card:hover .product-card-image-wrapper img { transform: scale(1.045); }
 
-@media (max-width: 768px) {
-  .product-card-image-wrapper { height: 220px; }
+.product-grid-responsive {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: clamp(1.5rem, 2.6vw, 3rem) clamp(1rem, 1.8vw, 2rem);
 }
 
-/* Form controls inherit the dark theme instead of the browser's default chrome.
-   Components that set their own inline background still win over this. */
+.reel-card { border-radius: 0; overflow: hidden; }
+.modal-container { border-radius: 0; }
+.modal-image { border-radius: 0; }
+
+.icon-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background: transparent;
+  border: none;
+  color: var(--ink);
+  cursor: pointer;
+  padding: 8px;
+  border-radius: 0;
+  transition: opacity var(--medium) var(--ease);
+}
+.icon-btn:hover { opacity: 0.55; }
+
+/* --- Image reveal ----------------------------------------------------------
+   A slow zoom-out on any framed image. Applied to editorial tiles so that
+   hovering a category or lookbook panel feels like the camera settling. */
+.img-frame {
+  position: relative;
+  overflow: hidden;
+  background: var(--paper-alt);
+}
+.img-frame img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 1.6s var(--ease);
+}
+.img-frame:hover img { transform: scale(1.06); }
+
+/* Scrim for text set over photography. Vertical gradient, never a flat wash —
+   a flat overlay greys the garment out, which is the one thing a clothing
+   site cannot afford. */
+.scrim {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(180deg,
+    rgba(15, 13, 10, 0.34) 0%,
+    rgba(15, 13, 10, 0.06) 38%,
+    rgba(15, 13, 10, 0.12) 68%,
+    rgba(15, 13, 10, 0.56) 100%);
+  pointer-events: none;
+}
+
+/* --- Hero scrim ------------------------------------------------------------
+   The standard scrim assumes campaign photography: a model, a location, and
+   some negative space to set type into. The catalogue's hero images are
+   product shots — a garment filling the frame, embroidery and all — and white
+   type laid across that pattern is genuinely unreadable.
+
+   So the hero gets its own ramp: the top 45% stays almost clear, letting the
+   collar and placket read at full contrast, then it falls steeply to 0.72 at
+   the base where the type actually sits. The headline is anchored into that
+   dark end rather than floated over the middle of the garment.
+
+   Swapping in real campaign photography with space in the frame is the proper
+   fix; this makes the current images work in the meantime. */
+.scrim-hero {
+  position: absolute;
+  inset: 0;
+  /* Two stacked ramps. The first is a short, fixed-height band under the
+     transparent header — the nav is light type and the top of these frames is
+     near-white studio floor, so without it the category rail disappears. It
+     is measured in px, not %, because it has to track the header's height
+     rather than the image's. The second is the type ramp. */
+  background:
+    linear-gradient(180deg,
+      rgba(15, 13, 10, 0.62) 0px,
+      rgba(15, 13, 10, 0.42) 96px,
+      rgba(15, 13, 10, 0) 190px),
+    linear-gradient(180deg,
+    rgba(15, 13, 10, 0.30) 0%,
+    rgba(15, 13, 10, 0.10) 26%,
+    rgba(15, 13, 10, 0.24) 42%,
+    rgba(15, 13, 10, 0.60) 58%,
+    rgba(15, 13, 10, 0.74) 75%,
+    rgba(15, 13, 10, 0.80) 100%);
+  pointer-events: none;
+}
+
 input, textarea, select {
-  color-scheme: dark;
-  background-color: var(--bg-card);
-  color: var(--text-primary);
-  accent-color: var(--accent);
+  color-scheme: light;
+  background-color: transparent;
+  color: var(--ink);
+  accent-color: var(--ink);
+  font-family: var(--font-ui);
+  font-weight: 300;
+  border-radius: 0;
 }
 input::placeholder, textarea::placeholder {
-  color: var(--text-muted);
+  color: var(--ink-muted);
   opacity: 1;
+  letter-spacing: 0.08em;
 }
 
-/* Buttons */
+/* --- Buttons ---------------------------------------------------------------
+   Square, tracked, quiet. Solid ink for commerce actions; outline for
+   secondary. Both invert on hover rather than shifting position — a button
+   that lifts on hover reads as a toy. */
 .btn-primary {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  background-color: var(--accent);
-  color: #FFFFFF;
-  border-radius: var(--btn-radius);
-  font-family: var(--font-body);
-  font-weight: 500;
-  padding: 12px 24px;
-  border: none;
+  background-color: var(--ink);
+  color: var(--paper);
+  border: 1px solid var(--ink);
+  border-radius: 0;
+  font-family: var(--font-ui);
+  font-size: 0.6875rem;
+  font-weight: 400;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  padding: 17px 34px;
   cursor: pointer;
-  transition: background-color 0.2s ease, transform 0.2s ease;
-  text-decoration: none;
+  transition: background-color var(--medium) var(--ease), color var(--medium) var(--ease);
 }
 .btn-primary:hover {
-  background-color: var(--accent-hover);
-  transform: translateY(-1px);
+  background-color: transparent;
+  color: var(--ink);
 }
 
 .btn-outline {
@@ -241,96 +511,150 @@ input::placeholder, textarea::placeholder {
   align-items: center;
   justify-content: center;
   background-color: transparent;
-  color: var(--accent);
-  border: 1px solid var(--accent);
-  border-radius: var(--btn-radius);
-  font-family: var(--font-body);
-  font-weight: 500;
-  padding: 12px 24px;
+  color: var(--ink);
+  border: 1px solid var(--rule-strong);
+  border-radius: 0;
+  font-family: var(--font-ui);
+  font-size: 0.6875rem;
+  font-weight: 400;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  padding: 17px 34px;
   cursor: pointer;
-  transition: all 0.2s ease;
-  text-decoration: none;
+  transition: background-color var(--medium) var(--ease), color var(--medium) var(--ease), border-color var(--medium) var(--ease);
 }
 .btn-outline:hover {
-  background-color: var(--accent);
-  color: #FFFFFF;
+  background-color: var(--ink);
+  border-color: var(--ink);
+  color: var(--paper);
+}
+
+/* Over photography: white hairline box, fills to solid on hover. */
+.btn-ghost-light {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background-color: rgba(251, 250, 248, 0.06);
+  backdrop-filter: blur(2px);
+  color: #FBFAF8;
+  border: 1px solid rgba(251, 250, 248, 0.7);
+  border-radius: 0;
+  font-family: var(--font-ui);
+  font-size: 0.6875rem;
+  font-weight: 400;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  padding: 16px 38px;
+  cursor: pointer;
+  transition: background-color var(--medium) var(--ease), color var(--medium) var(--ease);
+}
+.btn-ghost-light:hover {
+  background-color: #FBFAF8;
+  color: var(--ink);
 }
 
 .btn-dark {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  background-color: var(--bg-dark);
-  color: #FFFFFF;
-  border-radius: var(--btn-radius);
-  font-family: var(--font-body);
-  font-weight: 500;
-  padding: 12px 24px;
-  border: none;
+  background-color: var(--ink-surface);
+  color: var(--ink-on-dark);
+  border: 1px solid var(--ink-surface);
+  border-radius: 0;
+  font-family: var(--font-ui);
+  font-size: 0.6875rem;
+  font-weight: 400;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  padding: 17px 34px;
   cursor: pointer;
-  transition: background-color 0.2s ease, transform 0.2s ease;
-  text-decoration: none;
+  transition: opacity var(--medium) var(--ease);
 }
-.btn-dark:hover {
-  transform: translateY(-1px);
+.btn-dark:hover { opacity: 0.84; }
+
+/* --- Price -----------------------------------------------------------------
+   Sans, not serif, and never bold. A price set in heavy type is a discount
+   signal; luxury sets it at the same weight as a caption. */
+.price {
+  font-family: var(--font-ui);
+  font-size: 0.8125rem;
+  font-weight: 400;
+  letter-spacing: 0.06em;
+  color: var(--ink);
+}
+.price-was {
+  font-family: var(--font-ui);
+  font-size: 0.75rem;
+  font-weight: 300;
+  color: var(--ink-muted);
+  text-decoration: line-through;
+  margin-left: 0.6rem;
 }
 
-/* Keyframe Animations */
-@keyframes fadeIn {
-  from { opacity: 0; }
-  to { opacity: 1; }
+@keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+@keyframes slideInRight { from { transform: translateX(100%); } to { transform: translateX(0); } }
+@keyframes slideUp { from { transform: translateY(100%); } to { transform: translateY(0); } }
+
+@keyframes riseIn {
+  from { opacity: 0; transform: translateY(18px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+.rise { animation: riseIn 1s var(--ease) both; }
+.rise-1 { animation-delay: 0.08s; }
+.rise-2 { animation-delay: 0.18s; }
+.rise-3 { animation-delay: 0.28s; }
+
+::-webkit-scrollbar { width: 5px; height: 5px; }
+::-webkit-scrollbar-track { background: var(--paper-alt); }
+::-webkit-scrollbar-thumb { background: var(--rule-strong); border-radius: 0; }
+::-webkit-scrollbar-thumb:hover { background: var(--bronze); }
+
+::selection { background: var(--ink); color: var(--paper); }
+
+@media (max-width: 1200px) {
+  .product-grid-responsive { grid-template-columns: repeat(3, 1fr); }
 }
 
-@keyframes slideInRight {
-  from { transform: translateX(100%); }
-  to { transform: translateX(0); }
-}
-
-@keyframes slideUp {
-  from { transform: translateY(100%); }
-  to { transform: translateY(0); }
-}
-
-/* Custom Scrollbar */
-::-webkit-scrollbar {
-  width: 6px;
-  height: 6px;
-}
-::-webkit-scrollbar-track {
-  background: var(--bg-dark);
-}
-::-webkit-scrollbar-thumb {
-  background: var(--border-strong);
-  border-radius: 4px;
-}
-::-webkit-scrollbar-thumb:hover {
-  background: var(--accent);
-}
-
-/* Media Queries */
 @media (max-width: 992px) {
-  .desktop-only {
-    display: none !important;
-  }
-  .mobile-only {
-    display: flex !important;
-  }
-  .container {
-    padding: 0 1.5rem;
-  }
+  :root { --gutter: 1.75rem; }
+  .desktop-only { display: none !important; }
+  .mobile-only { display: flex !important; }
+  .product-grid-responsive { grid-template-columns: repeat(2, 1fr); }
 }
 
 @media (max-width: 768px) {
-  html {
-    font-size: 15px;
-  }
-  .container {
-    padding: 0 1rem;
-  }
+  html { font-size: 15px; }
+  :root { --gutter: 1.25rem; }
+  .product-grid-responsive { gap: 2rem 1rem; }
 }
 
 @media (max-width: 480px) {
-  html {
-    font-size: 14px;
+  html { font-size: 14px; }
+  :root { --gutter: 1rem; }
+  .eyebrow, .link-rule { letter-spacing: 0.18em; }
+}
+
+/* Honour reduced motion: hold every image and reveal in its final state. */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
   }
+  .product-card:hover .product-card-image-wrapper img,
+  .img-frame:hover img { transform: none; }
+}
+
+/* The mobile bar is fixed, so the footer needs clearance or its last row sits
+   permanently underneath it. */
+@media (max-width: 992px) {
+  body { padding-bottom: 64px; }
+}
+
+/* WhatsApp tile offset. On phones the fixed bottom nav owns the lower edge,
+   so the tile lifts clear of it; on desktop there is no bar to avoid. */
+:root { --wa-offset: 2rem; }
+@media (max-width: 992px) {
+  :root { --wa-offset: 5.25rem; }
 }

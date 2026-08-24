@@ -1,145 +1,93 @@
 import React from 'react';
-import { Home, Grid, Heart, ShoppingBag } from 'lucide-react';
+import { Home, LayoutGrid, Heart, ShoppingBag } from 'lucide-react';
+
+/* Mobile bottom bar.
+
+   Paper ground, hairline top rule, outline icons at 1.25 stroke and tracked
+   micro-labels. The previous bar used filled icons and a numeric badge; both
+   were the loudest elements on a phone screen and pulled attention off the
+   product photography permanently.
+
+   Targets are 56px tall — above the 44pt iOS minimum the design skill flags
+   as a critical touch requirement, with the label included in the tap area
+   rather than sitting outside it. */
 
 export default function MobileBottomBar({ cartCount, wishlistCount, onOpenCart, activeCategory, setActiveCategory }) {
+  const items = [
+    { id: 'home',  label: 'Home',    Icon: Home,        href: '#main',       onClick: () => setActiveCategory('All Products') },
+    { id: 'shop',  label: 'Shop',    Icon: LayoutGrid,  href: '#collection', onClick: () => setActiveCategory('All Products') },
+    { id: 'saved', label: 'Saved',   Icon: Heart,       href: '#collection', count: wishlistCount },
+    { id: 'bag',   label: 'Bag',     Icon: ShoppingBag, count: cartCount,    onClick: onOpenCart }
+  ];
+
   return (
-    <>
-      <nav
-        className="mobile-only"
-        style={{
-          position: 'fixed',
-          bottom: 0,
-          left: 0,
-          right: 0,
-          zIndex: 90,
-          backgroundColor: 'var(--bg-primary)',
-          borderTop: '1px solid var(--border)',
-          padding: '8px 10px calc(8px + env(safe-area-inset-bottom, 0px)) 10px',
-          display: 'flex',
-          justifyContent: 'space-around',
-          alignItems: 'center'
-        }}
-      >
-        {/* Home */}
-        <a
-          href="#"
-          onClick={() => setActiveCategory('')}
-          style={{
-            display: 'flex',
-            flexDirection: 'column',
-            alignItems: 'center',
-            gap: '4px',
-            textDecoration: 'none',
-            color: activeCategory === '' ? 'var(--accent)' : 'var(--text-muted)',
-          }}
-        >
-          <Home size={22} />
-          <span style={{ fontFamily: "'Poppins', sans-serif", fontSize: '10px' }}>Home</span>
-        </a>
-
-        {/* Shop */}
-        <a
-          href="#collection"
-          onClick={() => setActiveCategory('All Shirts')}
-          style={{
-            display: 'flex',
-            flexDirection: 'column',
-            alignItems: 'center',
-            gap: '4px',
-            textDecoration: 'none',
-            color: activeCategory === 'All Shirts' ? 'var(--accent)' : 'var(--text-muted)',
-          }}
-        >
-          <Grid size={22} />
-          <span style={{ fontFamily: "'Poppins', sans-serif", fontSize: '10px' }}>Shop</span>
-        </a>
-
-        {/* Wishlist */}
-        <a
-          href="#collection"
-          style={{
-            display: 'flex',
-            flexDirection: 'column',
-            alignItems: 'center',
-            gap: '4px',
-            textDecoration: 'none',
-            color: 'var(--text-muted)',
-            position: 'relative'
-          }}
-        >
-          <div style={{ position: 'relative' }}>
-            <Heart size={22} />
-            {wishlistCount > 0 && (
-              <span style={{
-                position: 'absolute',
-                top: '-5px',
-                right: '-8px',
-                backgroundColor: 'var(--accent)',
-                color: '#FFFFFF',
-                borderRadius: '50%',
-                width: '14px',
-                height: '14px',
-                fontSize: '8px',
-                fontFamily: "'Poppins', sans-serif",
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'center',
-                fontWeight: 'bold'
-              }}>
-                {wishlistCount}
+    <nav
+      className="mobile-only"
+      aria-label="Primary"
+      style={{
+        position: 'fixed',
+        bottom: 0, left: 0, right: 0,
+        zIndex: 90,
+        backgroundColor: 'var(--paper)',
+        borderTop: '1px solid var(--rule)',
+        paddingBottom: 'env(safe-area-inset-bottom, 0px)'
+      }}
+    >
+      {/* width:100% is load-bearing. `.mobile-only` sets display:flex on the
+          nav, which makes this ul a flex item — without it the list shrinks to
+          its content and each tap target ends up ~26px wide instead of a
+          quarter of the screen. */}
+      <ul style={{ display: 'flex', listStyle: 'none', margin: 0, padding: 0, width: '100%' }}>
+        {items.map(({ id, label, Icon, href, onClick, count }) => {
+          const content = (
+            <>
+              <span style={{ position: 'relative', lineHeight: 0 }}>
+                <Icon size={18} strokeWidth={1.25} />
+                {count > 0 && (
+                  <span
+                    aria-hidden="true"
+                    style={{
+                      position: 'absolute', top: -2, right: -5,
+                      width: 4, height: 4, borderRadius: '50%',
+                      backgroundColor: 'var(--bronze)'
+                    }}
+                  />
+                )}
               </span>
-            )}
-          </div>
-          <span style={{ fontFamily: "'Poppins', sans-serif", fontSize: '10px' }}>Wishlist</span>
-        </a>
+              <span className="eyebrow" style={{ fontSize: '0.5rem', letterSpacing: '0.16em' }}>
+                {label}
+              </span>
+            </>
+          );
 
-        {/* Bag */}
-        <button
-          onClick={onOpenCart}
-          style={{
+          const style = {
             display: 'flex',
             flexDirection: 'column',
             alignItems: 'center',
-            gap: '4px',
+            justifyContent: 'center',
+            gap: 6,
+            width: '100%',
+            minHeight: 56,
             background: 'none',
             border: 'none',
-            color: 'var(--text-muted)',
             cursor: 'pointer',
-            padding: 0
-          }}
-        >
-          <div style={{ position: 'relative' }}>
-            <ShoppingBag size={22} />
-            {cartCount > 0 && (
-              <span style={{
-                position: 'absolute',
-                top: '-5px',
-                right: '-8px',
-                backgroundColor: 'var(--accent)',
-                color: '#FFFFFF',
-                borderRadius: '50%',
-                width: '14px',
-                height: '14px',
-                fontSize: '8px',
-                fontFamily: "'Poppins', sans-serif",
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'center',
-                fontWeight: 'bold'
-              }}>
-                {cartCount}
-              </span>
-            )}
-          </div>
-          <span style={{ fontFamily: "'Poppins', sans-serif", fontSize: '10px' }}>Bag</span>
-        </button>
-      </nav>
+            color: 'var(--ink)',
+            textDecoration: 'none'
+          };
 
-      <style dangerouslySetInnerHTML={{__html: `
-        @media (min-width: 769px) {
-          .mobile-only { display: none !important; }
-        }
-      `}} />
-    </>
+          return (
+            <li key={id} style={{ flex: 1, display: 'flex' }}>
+              {href ? (
+                <a href={href} onClick={onClick} style={style}>{content}</a>
+              ) : (
+                <button onClick={onClick} style={style} aria-label={`${label}, ${count || 0} items`}>
+                  {content}
+                </button>
+              )}
+            </li>
+          );
+        })}
+      </ul>
+    </nav>
   );
 }

@@ -12,6 +12,7 @@ import ProductModal from './components/ProductModal';
 import CheckoutModal from './components/CheckoutModal';
 import Footer from './components/Footer';
 import MobileBottomBar from './components/MobileBottomBar';
+import WhatsAppButton from './components/WhatsAppButton';
 import { PRODUCTS } from './data/products';
 
 export default function App() {
@@ -85,7 +86,7 @@ export default function App() {
   });
 
   return (
-    <div style={{ minHeight: '100vh', display: 'flex', flexDirection: 'column', backgroundColor: 'var(--bg-primary)' }}>
+    <div style={{ minHeight: '100vh', display: 'flex', flexDirection: 'column', backgroundColor: 'var(--paper)' }}>
       
       {/* Header */}
       <Header
@@ -98,37 +99,39 @@ export default function App() {
         setActiveCategory={setActiveCategory}
       />
 
+      {/* Section order follows the reference's narrative arc: establish the
+          image, state the craft, then sell. Putting the brand statement ahead
+          of the grid is what separates an editorial store from a catalogue —
+          the customer learns what the cloth is before they see a price. */}
       <main id="main">
-      {/* Hero Section */}
-      <Hero />
+        {/* 1 — The image */}
+        <Hero />
 
-      {/* Main Catalog Section */}
-      <ProductGrid
-        products={displayedProducts}
-        activeCategory={activeCategory}
-        setActiveCategory={setActiveCategory}
-        onQuickView={(p) => setQuickViewProduct(p)}
-        onAddToCart={handleAddToCart}
-        onToggleWishlist={handleToggleWishlist}
-        wishlist={wishlist}
-      />
+        {/* 2 — The claim */}
+        <FabricStory />
 
-      {/* Mid-Page Promo Banners */}
-      <PromoBanners
-        setActiveCategory={setActiveCategory}
-      />
+        {/* 3 — The collection */}
+        <ProductGrid
+          products={displayedProducts}
+          activeCategory={activeCategory}
+          setActiveCategory={setActiveCategory}
+          onQuickView={(p) => setQuickViewProduct(p)}
+          onAddToCart={handleAddToCart}
+          onToggleWishlist={handleToggleWishlist}
+          wishlist={wishlist}
+        />
 
-      {/* Fabric Craftsmanship Spotlight Section */}
-      <FabricStory />
+        {/* 4 — Ways in */}
+        <PromoBanners setActiveCategory={setActiveCategory} />
 
-      {/* Brand Reels / Short Video Stories */}
-      <VideoReels />
+        {/* 5 — The dark chapter */}
+        <Lookbook />
 
-      {/* Indian City Lookbook Section */}
-      <Lookbook />
+        {/* 6 — Motion */}
+        <VideoReels />
 
-      {/* Customer Reviews Section */}
-      <Reviews />
+        {/* 7 — Proof */}
+        <Reviews />
       </main>
 
       {/* Footer */}
@@ -159,6 +162,9 @@ export default function App() {
         checkoutTotals={checkoutTotals}
         onClearCart={handleClearCart}
       />
+
+      {/* Floating WhatsApp contact */}
+      <WhatsAppButton />
 
       {/* Mobile Sticky Bottom Navigation Bar */}
       <MobileBottomBar

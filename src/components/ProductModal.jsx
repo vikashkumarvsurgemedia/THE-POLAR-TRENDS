@@ -91,7 +91,7 @@ export default function ProductModal({ product, onClose, onAddToCart }) {
         <div style={{ padding: '32px', display: 'flex', flexDirection: 'column' }}>
           
           <div style={{
-            fontFamily: "'Poppins', sans-serif",
+            fontFamily: "var(--font-ui)",
             fontSize: '11px',
             textTransform: 'uppercase',
             color: 'var(--accent-ink)',
@@ -103,7 +103,7 @@ export default function ProductModal({ product, onClose, onAddToCart }) {
           </div>
 
           <h2 style={{
-            fontFamily: "'Work Sans', sans-serif",
+            fontFamily: "var(--font-display)",
             fontSize: '24px',
             fontWeight: 600,
             color: 'var(--text-primary)',
@@ -117,24 +117,24 @@ export default function ProductModal({ product, onClose, onAddToCart }) {
               {'★'.repeat(Math.round(product.rating || 5))}
               <span style={{ color: 'var(--star-empty)' }}>{'★'.repeat(5 - Math.round(product.rating || 5))}</span>
             </div>
-            <span style={{ fontFamily: "'Poppins', sans-serif", fontSize: '13px', color: 'var(--text-muted)' }}>
+            <span style={{ fontFamily: "var(--font-ui)", fontSize: '13px', color: 'var(--text-muted)' }}>
               ({product.reviewCount || 0} reviews)
             </span>
           </div>
 
           <div style={{ display: 'flex', alignItems: 'center', gap: '12px', marginBottom: '20px' }}>
-            <span style={{ fontFamily: "'Work Sans', sans-serif", fontSize: '28px', fontWeight: 600, color: 'var(--text-primary)' }}>
+            <span style={{ fontFamily: "var(--font-display)", fontSize: '28px', fontWeight: 600, color: 'var(--text-primary)' }}>
               ₹{product.price.toLocaleString('en-IN')}
             </span>
             {isDiscounted && (
-              <span style={{ fontFamily: "'Poppins', sans-serif", fontSize: '16px', color: 'var(--text-muted)', textDecoration: 'line-through' }}>
+              <span style={{ fontFamily: "var(--font-ui)", fontSize: '16px', color: 'var(--text-muted)', textDecoration: 'line-through' }}>
                 ₹{product.originalPrice.toLocaleString('en-IN')}
               </span>
             )}
           </div>
 
           <p style={{
-            fontFamily: "'Poppins', sans-serif",
+            fontFamily: "var(--font-ui)",
             fontSize: '14px',
             color: 'var(--text-body)',
             lineHeight: 1.7,
@@ -146,14 +146,14 @@ export default function ProductModal({ product, onClose, onAddToCart }) {
           <div style={{ margin: '0 0 24px 0' }}>
             <ul style={{ listStyle: 'none', padding: 0, margin: 0, display: 'flex', flexDirection: 'column', gap: '8px' }}>
               {product.fabric && (
-                <li style={{ fontFamily: "'Poppins', sans-serif", fontSize: '13px', color: 'var(--text-body)' }}>
-                  <span style={{ fontFamily: "'Work Sans', sans-serif", fontWeight: 600, color: 'var(--text-primary)' }}>Fabric: </span>
+                <li style={{ fontFamily: "var(--font-ui)", fontSize: '13px', color: 'var(--text-body)' }}>
+                  <span style={{ fontFamily: "var(--font-display)", fontWeight: 600, color: 'var(--text-primary)' }}>Fabric: </span>
                   {product.fabric}
                 </li>
               )}
               {product.embroidery && (
-                <li style={{ fontFamily: "'Poppins', sans-serif", fontSize: '13px', color: 'var(--text-body)' }}>
-                  <span style={{ fontFamily: "'Work Sans', sans-serif", fontWeight: 600, color: 'var(--text-primary)' }}>Embroidery: </span>
+                <li style={{ fontFamily: "var(--font-ui)", fontSize: '13px', color: 'var(--text-body)' }}>
+                  <span style={{ fontFamily: "var(--font-display)", fontWeight: 600, color: 'var(--text-primary)' }}>Embroidery: </span>
                   {product.embroidery}
                 </li>
               )}
@@ -162,7 +162,7 @@ export default function ProductModal({ product, onClose, onAddToCart }) {
 
           <div style={{ marginBottom: '32px' }}>
             <div style={{
-              fontFamily: "'Work Sans', sans-serif",
+              fontFamily: "var(--font-display)",
               fontSize: '13px',
               fontWeight: 600,
               color: 'var(--text-primary)',
@@ -181,10 +181,10 @@ export default function ProductModal({ product, onClose, onAddToCart }) {
                       width: '44px',
                       height: '44px',
                       border: isSelected ? '1px solid var(--accent)' : '1px solid var(--border)',
-                      borderRadius: '6px',
+                      borderRadius: '0',
                       backgroundColor: isSelected ? 'var(--accent)' : 'transparent',
                       color: isSelected ? '#FFFFFF' : 'var(--text-primary)',
-                      fontFamily: "'Poppins', sans-serif",
+                      fontFamily: "var(--font-ui)",
                       fontSize: '13px',
                       fontWeight: 500,
                       display: 'flex',
@@ -209,11 +209,11 @@ export default function ProductModal({ product, onClose, onAddToCart }) {
               width: '100%',
               backgroundColor: btnHovered ? 'var(--accent-hover)' : 'var(--accent)',
               color: '#FFFFFF',
-              fontFamily: "'Poppins', sans-serif",
+              fontFamily: "var(--font-ui)",
               fontSize: '15px',
               fontWeight: 600,
               padding: '14px',
-              borderRadius: '6px',
+              borderRadius: '0',
               border: 'none',
               cursor: 'pointer',
               transition: 'background-color 0.2s ease',

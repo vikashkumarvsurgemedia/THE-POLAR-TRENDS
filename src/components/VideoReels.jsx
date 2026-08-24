@@ -87,7 +87,7 @@ function ReelCard({ reel, onOpen }) {
         flex: '0 0 auto',
         width: '240px',
         aspectRatio: '9 / 16',
-        borderRadius: '14px',
+        borderRadius: '0',
         overflow: 'hidden',
         cursor: 'pointer',
         padding: 0,
@@ -152,7 +152,7 @@ function ReelCard({ reel, onOpen }) {
         pointerEvents: 'none',
       }}>
         <div style={{
-          fontFamily: "'Work Sans', sans-serif",
+          fontFamily: "var(--font-display)",
           fontSize: '15px',
           fontWeight: 600,
           color: '#FFFFFF',
@@ -162,7 +162,7 @@ function ReelCard({ reel, onOpen }) {
           {reel.title}
         </div>
         <div style={{
-          fontFamily: "'Poppins', sans-serif",
+          fontFamily: "var(--font-ui)",
           fontSize: '11.5px',
           color: 'rgba(255,255,255,0.72)',
           lineHeight: 1.4,
@@ -227,7 +227,7 @@ export default function VideoReels() {
         }}>
           <div>
             <div style={{
-              fontFamily: "'Poppins', sans-serif",
+              fontFamily: "var(--font-ui)",
               fontSize: '11px',
               letterSpacing: '2px',
               textTransform: 'uppercase',
@@ -237,7 +237,7 @@ export default function VideoReels() {
               Watch · Real Fabric, Real People
             </div>
             <h2 style={{
-              fontFamily: "'Work Sans', sans-serif",
+              fontFamily: "var(--font-display)",
               fontSize: 'clamp(28px, 4vw, 40px)',
               fontWeight: 600,
               color: 'var(--text-primary)',
@@ -247,7 +247,7 @@ export default function VideoReels() {
               The Polar Reels
             </h2>
             <p style={{
-              fontFamily: "'Poppins', sans-serif",
+              fontFamily: "var(--font-ui)",
               fontSize: '14px',
               color: 'var(--text-body)',
               margin: '10px 0 0 0',
@@ -319,7 +319,7 @@ export default function VideoReels() {
               width: 'min(420px, 92vw)',
               aspectRatio: '9 / 16',
               maxHeight: '86vh',
-              borderRadius: '16px',
+              borderRadius: '0',
               overflow: 'hidden',
               backgroundColor: '#000',
               boxShadow: '0 24px 60px rgba(0,0,0,0.5)',
@@ -361,10 +361,10 @@ export default function VideoReels() {
               background: 'linear-gradient(to top, rgba(3,10,35,0.9), rgba(3,10,35,0))',
               pointerEvents: 'none',
             }}>
-              <div style={{ fontFamily: "'Work Sans', sans-serif", fontSize: '17px', fontWeight: 600, color: '#FFFFFF' }}>
+              <div style={{ fontFamily: "var(--font-display)", fontSize: '17px', fontWeight: 600, color: '#FFFFFF' }}>
                 {activeReel.title}
               </div>
-              <div style={{ fontFamily: "'Poppins', sans-serif", fontSize: '12.5px', color: 'rgba(255,255,255,0.75)', marginTop: '3px' }}>
+              <div style={{ fontFamily: "var(--font-ui)", fontSize: '12.5px', color: 'rgba(255,255,255,0.75)', marginTop: '3px' }}>
                 {activeReel.caption}
               </div>
             </div>
