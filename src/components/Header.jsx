@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Search, ShoppingBag, Heart, Menu, X } from 'lucide-react';
-import { useLocation } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 import { CATEGORIES } from '../data/products';
 
 /* Header.
@@ -125,10 +125,19 @@ export default function Header({
 
           {/* Wordmark. Cormorant, wide tracking, no logo mark — the name set
               well is the mark. */}
-          <a
-            href="#main"
+          {/* A route link, not an anchor. As href="#main" this jumped to the
+              top of whatever page you were already on, so from a product page
+              the logo appeared to do nothing — there was no way back home. */}
+          <Link
+            to="/"
             className="brand"
-            onClick={() => setActiveCategory('All Products')}
+            onClick={() => {
+              setActiveCategory('All Products');
+              /* Already home means the route does not change, so the scroll
+                 effect never fires and the logo would appear dead halfway
+                 down the page. Take it to the top here instead. */
+              if (overHero) window.scrollTo({ top: 0, behavior: 'instant' });
+            }}
             style={{
               fontFamily: 'var(--font-display)',
               fontWeight: 400,
@@ -142,7 +151,7 @@ export default function Header({
             }}
           >
             The Polar Trend
-          </a>
+          </Link>
 
           <div style={{ display: 'flex', alignItems: 'center', gap: 4, justifySelf: 'end' }}>
             <button
@@ -202,9 +211,9 @@ export default function Header({
           {navItems.map(cat => {
             const active = activeCategory === cat;
             return (
-              <a
+              <Link
                 key={cat}
-                href="#collection"
+                to="/#collection"
                 onClick={() => handleNav(cat)}
                 className="eyebrow"
                 style={{
@@ -215,7 +224,7 @@ export default function Header({
                 }}
               >
                 {cat}
-              </a>
+              </Link>
             );
           })}
         </nav>
@@ -267,9 +276,9 @@ export default function Header({
 
           <nav style={{ display: 'flex', flexDirection: 'column', gap: '1.75rem' }}>
             {navItems.map(cat => (
-              <a
+              <Link
                 key={cat}
-                href="#collection"
+                to="/#collection"
                 onClick={() => handleNav(cat)}
                 style={{
                   fontFamily: 'var(--font-display)',
@@ -280,7 +289,7 @@ export default function Header({
                 }}
               >
                 {cat}
-              </a>
+              </Link>
             ))}
           </nav>
 

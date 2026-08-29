@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 
 /* Footer.
 
@@ -71,8 +72,8 @@ export default function Footer() {
               <ul style={{ listStyle: 'none' }}>
                 {col.links.map(link => (
                   <li key={link} style={{ marginBottom: '0.85rem' }}>
-                    <a
-                      href="#collection"
+                    <Link
+                      to="/#collection"
                       style={{
                         fontFamily: 'var(--font-ui)',
                         fontSize: '0.8125rem',
@@ -85,7 +86,7 @@ export default function Footer() {
                       onMouseLeave={e => (e.currentTarget.style.color = 'var(--ink-body-on-dark)')}
                     >
                       {link}
-                    </a>
+                    </Link>
                   </li>
                 ))}
               </ul>
@@ -127,9 +128,9 @@ export default function Footer() {
           </p>
           <div style={{ display: 'flex', gap: '1.75rem' }}>
             {['Privacy', 'Terms'].map(l => (
-              <a key={l} href="#main" className="eyebrow" style={{ color: 'var(--ink-muted-on-dark)', fontSize: '0.5625rem' }}>
+              <Link key={l} to="/" className="eyebrow" style={{ color: 'var(--ink-muted-on-dark)', fontSize: '0.5625rem' }}>
                 {l}
-              </a>
+              </Link>
             ))}
           </div>
         </div>

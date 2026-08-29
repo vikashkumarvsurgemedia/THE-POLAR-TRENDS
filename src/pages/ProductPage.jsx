@@ -66,6 +66,16 @@ export default function ProductPage({ onAddToCart, onToggleWishlist, wishlist })
   return (
     <main id="main" style={{ backgroundColor: 'var(--paper)' }}>
 
+      {/* Breadcrumb. The header wordmark and category rail both lead home, but
+          a product page should also say where it sits and offer the way back
+          in the content itself — it is the first thing a customer reaches for
+          after deciding against a garment. */}
+      <nav aria-label="Breadcrumb" className="container pdp-crumb">
+        <Link to="/" className="eyebrow">The Polar Trend</Link>
+        <span aria-hidden="true" className="eyebrow crumb-sep">/</span>
+        <Link to="/#collection" className="eyebrow">{product.category}</Link>
+      </nav>
+
       {/* ── 1 · Gallery + buy column ─────────────────────────────────────── */}
       <section className="pdp-top container">
         <Gallery images={product.images} name={product.name} />

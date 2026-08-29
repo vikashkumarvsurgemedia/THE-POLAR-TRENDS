@@ -159,10 +159,47 @@ export default function App() {
   );
 }
 
-/* Browsers restore scroll position on navigation, which on a client-side
-   router means arriving at a new product halfway down the page. */
+/* Scroll behaviour on navigation.
+
+   Two jobs. A plain route change goes to the top — browsers otherwise restore
+   the previous scroll position, which lands you halfway down a new product.
+
+   A link carrying a hash (/#collection, used by every category link in the
+   header, footer and mobile bar) scrolls to that section instead, so choosing
+   an edit from a product page arrives at the grid rather than the hero.
+
+   The scroll runs synchronously. React has committed the destination route's
+   DOM before any effect fires, so the target section already exists — and
+   requestAnimationFrame is the wrong tool here regardless: it is paused in
+   backgrounded or non-compositing tabs, so a link opened in a background tab
+   would silently never scroll. rAF stays only as a fallback for the case
+   where the section genuinely isn't mounted yet.
+
+   Instant rather than smooth: this runs on a route change, so the page being
+   animated across is one the customer has never seen. There is nothing to
+   follow, and an interrupted smooth scroll just leaves them at the top. */
 function ScrollToTop() {
-  const { pathname } = useLocation();
-  useEffect(() => { window.scrollTo(0, 0); }, [pathname]);
+  const { pathname, hash } = useLocation();
+
+  useEffect(() => {
+    if (!hash) {
+      window.scrollTo(0, 0);
+      return;
+    }
+
+    // scroll-margin-top on the section handles the fixed header offset.
+    const jump = () => {
+      const el = document.querySelector(hash);
+      if (!el) return false;
+      el.scrollIntoView({ behavior: 'instant', block: 'start' });
+      return true;
+    };
+
+    if (jump()) return;
+
+    const id = requestAnimationFrame(jump);
+    return () => cancelAnimationFrame(id);
+  }, [pathname, hash]);
+
   return null;
 }

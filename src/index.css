@@ -897,3 +897,30 @@ input::placeholder, textarea::placeholder {
 }
 .review-item { margin: 0; }
 .review-item blockquote { margin: 0; }
+
+/* Breadcrumb on the product page. Sits in the header's clearance, above the
+   gallery, so it costs no extra vertical space. */
+.pdp-crumb {
+  display: flex;
+  align-items: center;
+  gap: 0.7rem;
+  /* Measured, not guessed. The fixed header stacks announcement (34) + brand
+     row (68) + category rail (51) = 153px on desktop. At 9rem the breadcrumb
+     landed at 144px and sat behind it, invisible. 11rem clears it with room
+     to breathe. */
+  padding-top: 11rem;
+  padding-bottom: 0;
+}
+.pdp-crumb a { color: var(--ink-muted); transition: color var(--medium) var(--ease); }
+.pdp-crumb a:hover { color: var(--ink); }
+.pdp-crumb .crumb-sep { color: var(--rule-strong); }
+
+/* The gallery row no longer needs to clear the header on its own — the
+   breadcrumb above it does. */
+.pdp-crumb + .pdp-top { padding-top: 1.75rem; }
+
+@media (max-width: 900px) {
+  /* No category rail on mobile — the header is 34 + 68 = 102px there. */
+  .pdp-crumb { padding-top: 7.25rem; }
+  .pdp-crumb + .pdp-top { padding-top: 1.25rem; }
+}
