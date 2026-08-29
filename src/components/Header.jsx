@@ -148,7 +148,14 @@ export default function Header({
               <Search size={18} strokeWidth={1.25} />
             </button>
 
-            <button className="icon-btn" style={{ ...iconStyle, position: 'relative' }} aria-label={`Wishlist, ${wishlistCount} items`}>
+            {/* Desktop only. The mobile bottom bar already carries Saved, and
+                two wishlist entry points on a phone screen is one more icon
+                competing with the product photography for no added reach. */}
+            <button
+              className="icon-btn desktop-only"
+              style={{ ...iconStyle, position: 'relative' }}
+              aria-label={`Wishlist, ${wishlistCount} items`}
+            >
               <Heart size={18} strokeWidth={1.25} />
               {wishlistCount > 0 && <Dot color={ink} />}
             </button>
