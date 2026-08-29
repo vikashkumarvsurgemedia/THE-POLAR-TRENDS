@@ -1,8 +1,9 @@
 import React, { useState, useEffect, useMemo } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import { Minus, Plus, Heart, ChevronDown, Leaf, Ruler, Droplet, Sparkles } from 'lucide-react';
-import { getProductBySlug, getRelatedProducts } from '../data/products';
+import { getProductBySlug, getRelatedProducts, REVIEWS } from '../data/products';
 import ProductCard from '../components/ProductCard';
+import { ImageSlot, SectionSlot } from '../components/Placeholder';
 
 /* ═══════════════════════════════════════════════════════════════════════════
    THE PRODUCT PAGE TEMPLATE
@@ -23,6 +24,9 @@ import ProductCard from '../components/ProductCard';
    ═══════════════════════════════════════════════════════════════════════════ */
 
 const FEATURE_ICONS = { leaf: Leaf, ruler: Ruler, drop: Droplet, needle: Sparkles };
+
+/* Shot list for the dark band when no detail media is supplied. */
+const DETAIL_SHOTS = ['Collar & stand', 'Placket & buttons', 'Cuff & sleeve'];
 
 const inr = n => `₹${Number(n).toLocaleString('en-IN')}`;
 
@@ -94,12 +98,21 @@ export default function ProductPage({ onAddToCart, onToggleWishlist, wishlist })
           {/* Colourways — thumbnails of the garment in each colour, linking to
               the sibling product. A coloured dot tells a shirt buyer nothing;
               the weave and the trim are the whole decision. */}
-          {product.colorways.length > 0 && (
+          {(
             <div style={{ padding: '1.75rem 0', borderBottom: '1px solid var(--rule)' }}>
               <p className="eyebrow" style={{ marginBottom: '1rem' }}>
                 Colour: <span style={{ color: 'var(--ink)' }}>{product.colorways.find(c => c.slug === slug)?.name || product.colors?.[0]?.name}</span>
               </p>
-              <div style={{ display: 'flex', gap: '0.6rem', flexWrap: 'wrap' }}>
+              <div style={{ display: 'flex', gap: '0.6rem', flexWrap: 'wrap', alignItems: 'center' }}>
+                {product.colorways.length === 0 && (
+                  <>
+                    <div className="slot slot-swatch"><p className="eyebrow slot-label">Colour<br />02</p></div>
+                    <div className="slot slot-swatch"><p className="eyebrow slot-label">Colour<br />03</p></div>
+                    <p className="slot-spec" style={{ marginLeft: '0.5rem' }}>
+                      Link other colourways of this shirt and they appear here.
+                    </p>
+                  </>
+                )}
                 {product.colorways.map(c => (
                   <Link
                     key={c.slug}
@@ -277,19 +290,27 @@ export default function ProductPage({ onAddToCart, onToggleWishlist, wishlist })
       </section>
 
       {/* ── 3 · Detail band ──────────────────────────────────────────────── */}
-      {product.detailMedia.length > 0 && (
-        <section className="theme-dark" style={{ backgroundColor: 'var(--ink-surface)', padding: 'clamp(2rem, 5vw, 4rem) 0' }}>
-          <div className="container">
-            <div className="detail-band">
-              {product.detailMedia.map((src, i) => (
-                <div key={i} className="img-frame" style={{ aspectRatio: '4 / 5' }}>
-                  <img src={src} alt="" loading="lazy" />
-                </div>
-              ))}
-            </div>
+      {/* Always renders. With no media supplied it holds three reserved frames
+          so the page keeps its dark chapter and the owner can see what the
+          band is for. */}
+      <section className="theme-dark" style={{ backgroundColor: 'var(--ink-surface)', padding: 'clamp(2.5rem, 5vw, 4rem) 0' }}>
+        <div className="container">
+          <p className="eyebrow" style={{ color: 'var(--ink-muted-on-dark)', marginBottom: '1.75rem' }}>
+            In Detail
+          </p>
+          <div className="detail-band">
+            {product.detailMedia.length > 0
+              ? product.detailMedia.map((src, i) => (
+                  <div key={i} className="img-frame" style={{ aspectRatio: '4 / 5' }}>
+                    <img src={src} alt="" loading="lazy" />
+                  </div>
+                ))
+              : DETAIL_SHOTS.map(shot => (
+                  <ImageSlot key={shot} label={shot} spec="4:5 · macro" />
+                ))}
           </div>
-        </section>
-      )}
+        </div>
+      </section>
 
       {/* ── 4 · Fit & sizing ─────────────────────────────────────────────── */}
       <section id="fit" className="section-tight" style={{ backgroundColor: 'var(--paper)' }}>
@@ -336,7 +357,10 @@ export default function ProductPage({ onAddToCart, onToggleWishlist, wishlist })
         </div>
       </section>
 
-      {/* ── 5 · Related ──────────────────────────────────────────────────── */}
+      {/* ── 5 · Reviews ──────────────────────────────────────────────────── */}
+      <ProductReviews product={product} />
+
+      {/* ── 6 · Related ──────────────────────────────────────────────────── */}
       {related.length > 0 && (
         <section className="section" style={{ backgroundColor: 'var(--paper-alt)' }}>
           <div className="container">
@@ -366,6 +390,19 @@ export default function ProductPage({ onAddToCart, onToggleWishlist, wishlist })
    Two-up grid on desktop, matching the reference. On phones it becomes a
    horizontal snap strip with a position counter, because a stacked column of
    ten portrait images pushes the buy controls a full screen down. */
+const GALLERY_TARGET = 6;   // frames a finished product page should carry
+
+/* Shot list for the reserved frames. Named rather than numbered, because the
+   point of showing them is to tell the photographer what is still needed. */
+const GALLERY_SHOTS = [
+  'Front, full length',
+  'Back',
+  'Collar & placket detail',
+  'Cuff detail',
+  'Fabric texture, macro',
+  'Worn / on model'
+];
+
 function Gallery({ images, name }) {
   const [index, setIndex] = useState(0);
 
@@ -373,6 +410,11 @@ function Gallery({ images, name }) {
     const el = e.currentTarget;
     setIndex(Math.round(el.scrollLeft / el.clientWidth));
   };
+
+  // Pad the grid out to a full set. Each product currently carries one
+  // photograph; the remaining frames reserve their place so the page reads at
+  // its finished proportions and the shot list is visible.
+  const missing = Math.max(0, GALLERY_TARGET - images.length);
 
   return (
     <div className="pdp-gallery">
@@ -386,13 +428,20 @@ function Gallery({ images, name }) {
             />
           </div>
         ))}
+
+        {Array.from({ length: missing }).map((_, i) => (
+          <div key={`slot-${i}`} className="gallery-frame">
+            <ImageSlot
+              label={GALLERY_SHOTS[(images.length + i) % GALLERY_SHOTS.length]}
+              spec="4:5 · 1200×1500"
+            />
+          </div>
+        ))}
       </div>
 
-      {images.length > 1 && (
-        <p className="eyebrow mobile-only gallery-count">
-          {index + 1} / {images.length}
-        </p>
-      )}
+      <p className="eyebrow mobile-only gallery-count">
+        {index + 1} / {images.length + missing}
+      </p>
     </div>
   );
 }
@@ -456,5 +505,88 @@ function NotFound() {
       </p>
       <Link to="/" className="link-rule">View Everything</Link>
     </main>
+  );
+}
+
+/* Reviews for this garment.
+
+   Filtered from the shared REVIEWS list by product name. A product with no
+   reviews yet still renders the zone, because an empty gap mid-page reads as
+   a bug — and because the owner should be able to see where reviews will
+   appear before the first one is written. */
+function ProductReviews({ product }) {
+  const reviews = REVIEWS.filter(r => r.product === product.name);
+
+  return (
+    <section className="section-tight" style={{ backgroundColor: 'var(--paper-alt)' }}>
+      <div className="container">
+        <p className="eyebrow" style={{ marginBottom: '2rem' }}>
+          In Their Words
+        </p>
+
+        {reviews.length === 0 ? (
+          <SectionSlot
+            title="No reviews yet"
+            note="Reviews for this garment appear here once customers have written them. Each one carries the reviewer's photograph, name and city."
+          />
+        ) : (
+          <div className="review-rail">
+            {reviews.map(r => (
+              <figure key={r.id} className="review-item">
+                <ReviewerPortrait review={r} />
+                <blockquote>
+                  <p style={{
+                    fontFamily: 'var(--font-display)',
+                    fontSize: 'clamp(1.15rem, 2vw, 1.5rem)',
+                    fontStyle: 'italic',
+                    fontWeight: 300,
+                    lineHeight: 1.5,
+                    color: 'var(--ink)',
+                    marginBottom: '1.25rem'
+                  }}>
+                    &ldquo;{r.comment}&rdquo;
+                  </p>
+                </blockquote>
+                <figcaption>
+                  <p className="eyebrow eyebrow-ink" style={{ marginBottom: '0.4rem' }}>
+                    {r.name} &mdash; {r.city}
+                  </p>
+                  {r.verified && (
+                    <p className="eyebrow" style={{ fontSize: '0.5rem', color: 'var(--bronze)' }}>
+                      Verified Purchase
+                    </p>
+                  )}
+                </figcaption>
+              </figure>
+            ))}
+          </div>
+        )}
+      </div>
+    </section>
+  );
+}
+
+/* Square portrait, matching the homepage treatment. Falls back to initials at
+   identical dimensions so adding photographs later shifts nothing. */
+function ReviewerPortrait({ review }) {
+  const [failed, setFailed] = useState(false);
+  const initials = review.name.split(' ').map(w => w[0]).slice(0, 2).join('');
+
+  const box = {
+    width: 52, height: 52, marginBottom: '1.25rem',
+    overflow: 'hidden', backgroundColor: 'var(--paper-deep)',
+    border: '1px solid var(--rule)'
+  };
+
+  if (review.image && !failed) {
+    return <img src={review.image} alt={review.name} onError={() => setFailed(true)} style={{ ...box, objectFit: 'cover', display: 'block' }} />;
+  }
+
+  return (
+    <div aria-hidden="true" style={{ ...box, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+      <span style={{ fontFamily: 'var(--font-display)', fontSize: '1.1rem', color: 'var(--ink-muted)' }}>
+        {initials}
+      </span>
+    </div>
   );
 }

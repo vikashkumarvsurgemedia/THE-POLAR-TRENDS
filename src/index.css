@@ -818,3 +818,82 @@ input::placeholder, textarea::placeholder {
   }
   .size-grid { grid-template-columns: repeat(auto-fit, minmax(92px, 1fr)); }
 }
+
+/* --- Content slots ---------------------------------------------------------
+   Placeholders for assets not yet supplied. Deliberately quiet: paper-deep
+   ground, one hairline, a bronze label. They read as "reserved" rather than
+   "broken", which matters when the page is being shown to a client.
+
+   A faint diagonal hatch marks them as non-final without shouting — it is the
+   drafting convention for an area still to be filled. */
+.slot {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 0.6rem;
+  padding: 1.5rem 1.25rem;
+  text-align: center;
+  background-color: var(--paper-deep);
+  background-image: repeating-linear-gradient(
+    45deg,
+    transparent 0 9px,
+    var(--bronze-ghost) 9px 10px
+  );
+  border: 1px solid var(--rule);
+}
+
+.slot-icon { color: var(--bronze); opacity: 0.75; flex-shrink: 0; }
+
+.slot-label {
+  color: var(--ink-body);
+  font-size: 0.5625rem;
+  line-height: 1.6;
+}
+
+.slot-spec {
+  font-family: var(--font-ui);
+  font-size: 0.6875rem;
+  font-weight: 300;
+  letter-spacing: 0.04em;
+  color: var(--ink-muted);
+  line-height: 1.6;
+  margin: 0;
+}
+
+.slot-band {
+  aspect-ratio: auto;
+  min-height: 180px;
+  padding: clamp(2rem, 5vw, 3.5rem);
+}
+
+/* On the ink ground the hatch needs to lighten rather than darken. */
+.theme-dark .slot {
+  background-color: var(--paper-alt);
+  background-image: repeating-linear-gradient(
+    45deg,
+    transparent 0 9px,
+    rgba(246, 243, 238, 0.05) 9px 10px
+  );
+}
+
+/* Colourway slots sit inline with real swatches, so they match their box. */
+.slot-swatch {
+  width: 58px;
+  height: 74px;
+  aspect-ratio: auto;
+  padding: 0;
+  gap: 0.25rem;
+}
+.slot-swatch .slot-label { font-size: 0.4375rem; letter-spacing: 0.12em; }
+
+/* Reviews on the product page — a rail, not the homepage's single rotator,
+   because a garment may have several and they are all about this one shirt. */
+.review-rail {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: clamp(2rem, 4vw, 3.5rem);
+}
+.review-item { margin: 0; }
+.review-item blockquote { margin: 0; }

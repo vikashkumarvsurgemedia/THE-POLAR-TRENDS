@@ -1,0 +1,57 @@
+name: Deploy preview to GitHub Pages
+
+# Builds the store and publishes it so the client can review it at a live URL.
+# Runs on the redesign branch and on main; can also be triggered by hand.
+on:
+  push:
+    branches: [atelier-redesign, main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+# Never run two deploys at once; cancel a superseded one rather than queueing.
+concurrency:
+  group: pages
+  cancel-in-progress: true
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+
+      - run: npm ci
+
+      - name: Build
+        env:
+          DEPLOY_TARGET: gh-pages
+        run: npm run build
+
+      # GitHub Pages has no server-side rewrite, so a direct hit on
+      # /products/<slug> would 404. Pages serves 404.html for any unmatched
+      # path with the original URL intact, so shipping a copy of index.html
+      # under that name hands the request to the router instead.
+      - name: SPA fallback
+        run: cp dist/index.html dist/404.html
+
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: dist
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - id: deployment
+        uses: actions/deploy-pages@v4
