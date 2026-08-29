@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Search, ShoppingBag, Heart, Menu, X } from 'lucide-react';
+import { useLocation } from 'react-router-dom';
 import { CATEGORIES } from '../data/products';
 
 /* Header.
@@ -40,8 +41,13 @@ export default function Header({
 
   const navItems = CATEGORIES.filter(c => c !== 'All Products');
 
-  // Light type only while transparent over the hero and no panel is open.
-  const onImage = !scrolled && !searchOpen && !mobileMenuOpen;
+  /* The transparent state exists only because the homepage opens on a
+     full-bleed hero photograph. Every other route opens on paper, where light
+     type on a transparent header is invisible — so the header resolves to its
+     solid state immediately off the homepage. */
+  const { pathname } = useLocation();
+  const overHero = pathname === '/';
+  const onImage = overHero && !scrolled && !searchOpen && !mobileMenuOpen;
   const ink = onImage ? '#FBFAF8' : 'var(--ink)';
   const inkMuted = onImage ? 'rgba(251,250,248,0.72)' : 'var(--ink-muted)';
   const hairline = onImage ? 'rgba(251,250,248,0.22)' : 'var(--rule)';

@@ -690,3 +690,131 @@ input::placeholder, textarea::placeholder {
 @media (max-width: 480px) {
   .product-name { font-size: 0.75rem; letter-spacing: 0.09em; }
 }
+
+/* ==========================================================================
+   PRODUCT PAGE
+
+   Layout only — every colour, face and rule comes from the tokens above, so
+   the page inherits the identity rather than restating it.
+   ========================================================================== */
+
+/* Gallery left, buy column right. The 1.55fr split lands the gallery near the
+   60% the reference uses while leaving the buy column wide enough that a size
+   row of five never wraps to three. */
+.pdp-top {
+  display: grid;
+  grid-template-columns: 1.55fr 1fr;
+  gap: clamp(1.5rem, 3.5vw, 4rem);
+  align-items: start;
+  /* Clears the fixed header in full. It stacks announcement (34) + brand row
+     (68) + category rail (~45) = ~147px, so anything under about 10rem puts
+     the gallery behind the nav. */
+  padding-top: clamp(10.5rem, 12vh, 12rem);
+  padding-bottom: clamp(3rem, 6vw, 5rem);
+}
+
+/* Sticky through the gallery. `top` clears the fixed header. */
+.pdp-buy {
+  position: sticky;
+  top: 120px;
+  max-height: calc(100vh - 150px);
+  overflow-y: auto;
+  scrollbar-width: none;
+}
+.pdp-buy::-webkit-scrollbar { display: none; }
+
+.gallery-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: clamp(0.5rem, 1vw, 1rem);
+}
+
+.gallery-frame {
+  position: relative;
+  aspect-ratio: 4 / 5;
+  overflow: hidden;
+  background: var(--paper-alt);
+}
+.gallery-frame img { width: 100%; height: 100%; object-fit: cover; }
+
+/* A single-image product gets one full-width frame rather than a lonely
+   half-width tile with dead space beside it. */
+.gallery-grid:has(.gallery-frame:only-child) { grid-template-columns: 1fr; }
+
+.size-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(104px, 1fr));
+  gap: 0.5rem;
+}
+
+.spec-row {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: clamp(1.5rem, 3vw, 3rem);
+}
+
+.size-table {
+  width: 100%;
+  border-collapse: collapse;
+  min-width: 320px;
+  font-family: var(--font-ui);
+  font-size: 0.8125rem;
+  font-variant-numeric: tabular-nums;
+}
+.size-table th {
+  text-align: left;
+  font-size: 0.5625rem;
+  font-weight: 400;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--ink-muted);
+  padding: 0 1.25rem 0.9rem 0;
+  border-bottom: 1px solid var(--rule-strong);
+}
+.size-table td {
+  padding: 0.9rem 1.25rem 0.9rem 0;
+  border-bottom: 1px solid var(--rule);
+  color: var(--ink-body);
+}
+.size-table tbody tr:last-child td { border-bottom: none; }
+
+.detail-band {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 1px;
+}
+
+.gallery-count {
+  text-align: center;
+  padding-top: 1rem;
+  font-size: 0.5625rem;
+  font-variant-numeric: tabular-nums;
+}
+
+@media (max-width: 900px) {
+  /* One column. The gallery becomes a horizontal snap strip so ten portrait
+     frames don't push Add to Bag a full screen below the fold. */
+  .pdp-top {
+    grid-template-columns: 1fr;
+    /* No category rail on mobile, so the header is shorter here. */
+    padding-top: 7.5rem;
+  }
+  .pdp-buy {
+    position: static;
+    max-height: none;
+    overflow: visible;
+  }
+  .gallery-grid {
+    display: flex;
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    gap: 0;
+    margin: 0 calc(var(--gutter) * -1);
+  }
+  .gallery-frame {
+    flex: 0 0 100%;
+    scroll-snap-align: center;
+    aspect-ratio: 4 / 5;
+  }
+  .size-grid { grid-template-columns: repeat(auto-fit, minmax(92px, 1fr)); }
+}

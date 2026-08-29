@@ -2,7 +2,7 @@
 // Original 4 products use client images, expanded products use placeholder images
 // Client will replace placeholder images with real product photos later
 
-export const PRODUCTS = [
+const RAW_PRODUCTS = [
   // ─── ORIGINAL PRODUCTS (Client's Real Images) ────────────────
   {
     id: 'polar-001',
@@ -533,6 +533,89 @@ export const PRODUCTS = [
     inStock: true
   }
 ];
+
+/* ──────────────────────────────────────────────────────────────────────────
+   Product normalisation
+
+   The catalogue above is what a person authors — the fields that genuinely
+   differ per garment. Everything mechanical is derived here: the URL slug,
+   the gallery array, the chest measurement beside each size label.
+
+   This is what makes the product page a template rather than twenty pages.
+   A new shirt needs only the authored fields; anything omitted either derives
+   a sensible default or collapses cleanly out of the layout. When a CMS is
+   wired up later it writes the same shape, and nothing downstream changes.
+   ────────────────────────────────────────────────────────────────────────── */
+
+// Chest ranges shown beside each size, in the reference's "M · 40–41″" form.
+// Override per product with an explicit `sizeChart` when a cut runs different.
+const DEFAULT_SIZE_CHART = {
+  S:   '38–39”',
+  M:   '40–41”',
+  L:   '42–43”',
+  XL:  '44–45”',
+  XXL: '46–47”'
+};
+
+export function slugify(name) {
+  return String(name)
+    .toLowerCase()
+    .replace(/[’'”"]/g, '')
+    .replace(/[^a-z0-9]+/g, '-')
+    .replace(/^-+|-+$/g, '');
+}
+
+/* Feature chips. Authored per product when there is something specific to
+   say; otherwise inferred from the fields the catalogue already carries, so
+   the row is never empty and never invented out of nothing. */
+function deriveFeatures(p) {
+  if (p.features?.length) return p.features;
+  const out = [];
+  if (/cotton|linen|slub|giza|pima/i.test(p.fabric || '')) out.push({ icon: 'leaf', label: '100% Natural Fibre' });
+  if (p.fit) out.push({ icon: 'ruler', label: p.fit });
+  if (/embroider/i.test(p.embroidery || '')) out.push({ icon: 'needle', label: 'Hand-Finished Embroidery' });
+  if (/pre-?wash|non-shrink/i.test((p.highlights || []).join(' '))) out.push({ icon: 'drop', label: 'Pre-Washed' });
+  return out;
+}
+
+function normalize(p) {
+  const images = p.images?.length ? p.images : [p.image].filter(Boolean);
+  const chart = { ...DEFAULT_SIZE_CHART, ...(p.sizeChart || {}) };
+
+  return {
+    ...p,
+    slug: p.slug || slugify(p.name),
+    images,
+    image: images[0] || p.image,
+    // [{ label: 'M', chest: '40–41”' }] — what the size grid renders.
+    sizeOptions: (p.sizes || []).map(label => ({ label, chest: chart[label] || '' })),
+    features: deriveFeatures(p),
+    colorways: p.colorways || [],
+    detailMedia: p.detailMedia || [],
+    measurements: p.measurements || [],
+    modelNote: p.modelNote || "Our model is 6', chest 40, wearing size M.",
+    care: p.care || 'Machine wash cold, tumble dry low, warm iron.',
+    shipsOn: p.shipsOn || null,
+    inStock: p.inStock !== false
+  };
+}
+
+export const PRODUCTS = RAW_PRODUCTS.map(normalize);
+
+/** Look a product up by its URL slug. Returns undefined when nothing matches,
+ *  which the product route renders as a not-found state. */
+export function getProductBySlug(slug) {
+  return PRODUCTS.find(p => p.slug === slug);
+}
+
+/** Up to `limit` other products from the same edit, for the related row. */
+export function getRelatedProducts(product, limit = 4) {
+  if (!product) return [];
+  const sameEdit = PRODUCTS.filter(p => p.id !== product.id && p.category === product.category);
+  const rest = PRODUCTS.filter(p => p.id !== product.id && p.category !== product.category);
+  return [...sameEdit, ...rest].slice(0, limit);
+}
+
 
 /* Top-level departments used by the header navigation.
    Only "Men's Wear" has stock today — every product in this file is a men's

@@ -16,7 +16,7 @@ import { DEPARTMENTS } from '../data/products';
 
 export default function ProductGrid({
   products, activeCategory, setActiveCategory,
-  onQuickView, onAddToCart, onToggleWishlist, wishlist
+  onAddToCart, onToggleWishlist, wishlist
 }) {
   const filtered = products.filter(p => {
     if (activeCategory === 'All Products') return true;
@@ -40,7 +40,6 @@ export default function ProductGrid({
               <ProductCard
                 key={product.id}
                 product={product}
-                onQuickView={onQuickView}
                 onAddToCart={onAddToCart}
                 onToggleWishlist={onToggleWishlist}
                 isWishlisted={wishlist.includes(product.id)}
