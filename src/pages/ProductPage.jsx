@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useMemo } from 'react';
+import React, { useState, useEffect, useMemo, useRef } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import { Minus, Plus, Heart, ChevronDown, Leaf, Ruler, Droplet, Sparkles } from 'lucide-react';
 import { getProductBySlug, getRelatedProducts, REVIEWS } from '../data/products';
@@ -38,6 +38,24 @@ export default function ProductPage({ onAddToCart, onToggleWishlist, wishlist })
   const [qty, setQty] = useState(1);
   const [sizeError, setSizeError] = useState(false);
 
+  /* The action bar shows only while the real Add to Bag is off screen, so the
+     two are never on screen together. IntersectionObserver rather than a
+     scroll listener: no work on every frame, and it reports correctly on
+     first paint whether the button started in view. */
+  const addBtnRef = useRef(null);
+  const [showBar, setShowBar] = useState(false);
+
+  useEffect(() => {
+    const el = addBtnRef.current;
+    if (!el) return;
+    const io = new IntersectionObserver(
+      ([entry]) => setShowBar(!entry.isIntersecting),
+      { rootMargin: '0px 0px -80px 0px' }
+    );
+    io.observe(el);
+    return () => io.disconnect();
+  }, [slug]);
+
   // Reset selection whenever the route lands on a different garment, otherwise
   // a size chosen on the previous product carries across to this one.
   useEffect(() => {
@@ -59,7 +77,13 @@ export default function ProductPage({ onAddToCart, onToggleWishlist, wishlist })
   const isWishlisted = wishlist.includes(product.id);
 
   const handleAdd = () => {
-    if (!size) { setSizeError(true); return; }
+    if (!size) {
+      setSizeError(true);
+      // Triggered from the action bar the size grid is usually off screen, so
+      // the error would appear somewhere the customer cannot see.
+      document.querySelector('.size-grid')?.scrollIntoView({ behavior: 'instant', block: 'center' });
+      return;
+    }
     onAddToCart({ ...product, selectedSize: size }, qty);
   };
 
@@ -218,6 +242,7 @@ export default function ProductPage({ onAddToCart, onToggleWishlist, wishlist })
             </div>
 
             <button
+              ref={addBtnRef}
               className="btn-primary"
               onClick={handleAdd}
               disabled={!product.inStock}
@@ -392,6 +417,28 @@ export default function ProductPage({ onAddToCart, onToggleWishlist, wishlist })
           </div>
         </section>
       )}
+
+      {/* Persistent Add to Bag. Carries the same size guard as the real
+          button, so it cannot skip the choice. */}
+      <div className="pdp-actionbar" data-shown={showBar} aria-hidden={!showBar}>
+        <div className="ab-meta">
+          <span className="product-name ab-name" style={{ fontSize: '0.6875rem' }}>{product.name}</span>
+          <span className="price" style={{ fontSize: '0.75rem' }}>
+            {inr(product.price)}
+            {size ? <span style={{ color: 'var(--ink-muted)' }}> &middot; Size {size}</span> : null}
+          </span>
+        </div>
+
+        <button
+          className="btn-primary"
+          onClick={handleAdd}
+          disabled={!product.inStock}
+          tabIndex={showBar ? 0 : -1}
+          style={{ cursor: product.inStock ? 'pointer' : 'not-allowed', opacity: product.inStock ? 1 : 0.45 }}
+        >
+          {product.inStock ? (size ? 'Add to Bag' : 'Select a Size') : 'Sold Out'}
+        </button>
+      </div>
     </main>
   );
 }

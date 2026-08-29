@@ -713,15 +713,61 @@ input::placeholder, textarea::placeholder {
   padding-bottom: clamp(3rem, 6vw, 5rem);
 }
 
-/* Sticky through the gallery. `top` clears the fixed header. */
+/* The buy column flows with the page. It does NOT scroll internally.
+
+   It used to: position:sticky with max-height:calc(100vh - 150px) and
+   overflow-y:auto. That clamped a 1187px column into a 570px box and turned
+   it into its own scroll container, so Add to Bag — 614px down the column —
+   sat past the clipped edge and the page scroll could never reach it. The
+   only way to see it was to put the cursor over the column itself.
+
+   Making it sticky without the clamp does not help either: a column taller
+   than the viewport pins its top and leaves the bottom permanently cut off.
+
+   So the column scrolls normally, and the persistent Add to Bag it was meant
+   to provide comes from the action bar below instead — which is the pattern
+   that actually works at any content height. */
 .pdp-buy {
-  position: sticky;
-  top: 120px;
-  max-height: calc(100vh - 150px);
-  overflow-y: auto;
-  scrollbar-width: none;
+  position: static;
+  max-height: none;
+  overflow: visible;
 }
-.pdp-buy::-webkit-scrollbar { display: none; }
+
+/* --- Sticky action bar -----------------------------------------------------
+   Appears once the real Add to Bag scrolls out of view, and only then. Paper
+   ground with a hairline top so it reads as part of the page rather than a
+   floating widget. */
+.pdp-actionbar {
+  position: fixed;
+  left: 0; right: 0;
+  bottom: 0;
+  z-index: 92;
+  display: flex;
+  align-items: center;
+  gap: clamp(1rem, 2.5vw, 2rem);
+  padding: 0.9rem var(--gutter);
+  background: var(--paper);
+  border-top: 1px solid var(--rule);
+  transform: translateY(101%);
+  transition: transform var(--medium) var(--ease);
+}
+.pdp-actionbar[data-shown="true"] { transform: translateY(0); }
+
+.pdp-actionbar .ab-meta { flex: 1; min-width: 0; }
+.pdp-actionbar .ab-name {
+  display: block;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.pdp-actionbar .btn-primary { flex-shrink: 0; }
+
+@media (max-width: 992px) {
+  /* Sits above the fixed mobile nav rather than under it. */
+  .pdp-actionbar { bottom: 57px; }
+  .pdp-actionbar .ab-meta { display: none; }
+  .pdp-actionbar .btn-primary { width: 100%; }
+}
 
 .gallery-grid {
   display: grid;
