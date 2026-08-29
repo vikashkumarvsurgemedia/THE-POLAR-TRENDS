@@ -140,22 +140,14 @@ export default function ProductCard({ product, onQuickView, onAddToCart, onToggl
       {/* Caption block. Centred, airy, and quiet — this is a museum label,
           not a price tag. */}
       <div style={{ padding: '1.35rem 0.25rem 0', textAlign: 'center' }}>
-        <h3
-          style={{
-            fontFamily: 'var(--font-display)',
-            fontSize: '1.15rem',
-            fontWeight: 400,
-            lineHeight: 1.25,
-            letterSpacing: '0.005em',
-            marginBottom: '0.5rem'
-          }}
-        >
+        <h3 className="product-name" style={{ marginBottom: '0.6rem' }}>
           <button
             onClick={() => onQuickView(product)}
             className="stretched-link"
             style={{
               background: 'none', border: 'none', padding: 0, cursor: 'pointer',
-              font: 'inherit', color: 'var(--ink)', textAlign: 'center'
+              font: 'inherit', letterSpacing: 'inherit', textTransform: 'inherit',
+              color: 'var(--ink)', textAlign: 'center'
             }}
           >
             {product.name}

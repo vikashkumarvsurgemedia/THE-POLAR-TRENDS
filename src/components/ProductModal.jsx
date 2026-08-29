@@ -102,11 +102,8 @@ export default function ProductModal({ product, onClose, onAddToCart }) {
             {product.category}
           </div>
 
-          <h2 style={{
-            fontFamily: "var(--font-display)",
-            fontSize: '24px',
-            fontWeight: 600,
-            color: 'var(--text-primary)',
+          <h2 className="product-name" style={{
+            fontSize: '1rem',
             margin: '0 0 12px 0'
           }}>
             {product.name}

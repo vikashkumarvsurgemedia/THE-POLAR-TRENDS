@@ -3,7 +3,6 @@ import Header from './components/Header';
 import Hero from './components/Hero';
 import ProductGrid from './components/ProductGrid';
 import PromoBanners from './components/PromoBanners';
-import FabricStory from './components/FabricStory';
 import VideoReels from './components/VideoReels';
 import Lookbook from './components/Lookbook';
 import Reviews from './components/Reviews';
@@ -107,10 +106,7 @@ export default function App() {
         {/* 1 — The image */}
         <Hero />
 
-        {/* 2 — The claim */}
-        <FabricStory />
-
-        {/* 3 — The collection */}
+        {/* 2 — The collection */}
         <ProductGrid
           products={displayedProducts}
           activeCategory={activeCategory}
@@ -121,16 +117,16 @@ export default function App() {
           wishlist={wishlist}
         />
 
-        {/* 4 — Ways in */}
+        {/* 3 — Ways in */}
         <PromoBanners setActiveCategory={setActiveCategory} />
 
-        {/* 5 — The dark chapter */}
+        {/* 4 — The dark chapter */}
         <Lookbook />
 
-        {/* 6 — Motion */}
+        {/* 5 — The film */}
         <VideoReels />
 
-        {/* 7 — Proof */}
+        {/* 6 — Proof */}
         <Reviews />
       </main>
 

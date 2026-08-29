@@ -589,7 +589,8 @@ export const REVIEWS = [
     date: '2 days ago',
     comment: 'The quality of cotton is unmatched! I bought the Royal Lotus Black shirt and the embroidery work is super crisp. Got endless compliments at a rooftop party.',
     product: 'The Royal Lotus Black Embroidered Shirt',
-    verified: true
+    verified: true,
+    image: ''
   },
   {
     id: 2,
@@ -599,7 +600,8 @@ export const REVIEWS = [
     date: '1 week ago',
     comment: 'The Kashmiri Floral white shirt is pure luxury. The Giza cotton feels cool even in Delhi heat, and the black threadwork gives a high-fashion look.',
     product: 'The Kashmiri Floral White Cotton Shirt',
-    verified: true
+    verified: true,
+    image: ''
   },
   {
     id: 3,
@@ -609,7 +611,8 @@ export const REVIEWS = [
     date: '2 weeks ago',
     comment: 'The sage star-stitch shirt fits like a dream! Softest cotton-linen blend I have ever worn. The Polar Trend really makes the best cotton clothes.',
     product: 'The Sage Star-Stitch Cotton-Linen Shirt',
-    verified: true
+    verified: true,
+    image: ''
   },
   {
     id: 4,
@@ -619,7 +622,8 @@ export const REVIEWS = [
     date: '3 days ago',
     comment: 'Bought the Noir Classic for my husband and he absolutely loves it. The fit is perfect and the cotton quality is outstanding. Already ordered two more!',
     product: 'The Noir Classic Button-Down Shirt',
-    verified: true
+    verified: true,
+    image: ''
   },
   {
     id: 5,
@@ -629,7 +633,8 @@ export const REVIEWS = [
     date: '5 days ago',
     comment: 'The Cloud Nine Linen shirt is my new go-to for summer. Incredibly breathable and the linen blend gives it such a premium texture. Worth every rupee.',
     product: 'The Cloud Nine Linen White Shirt',
-    verified: true
+    verified: true,
+    image: ''
   },
   {
     id: 6,
@@ -639,6 +644,7 @@ export const REVIEWS = [
     date: '1 week ago',
     comment: 'Got the Terracotta Check as a gift for my brother. The colors are even more vibrant in person. The packaging was beautiful too — felt like a luxury unboxing.',
     product: 'The Terracotta Checkered Artisan Shirt',
-    verified: true
+    verified: true,
+    image: ''
   }
 ];

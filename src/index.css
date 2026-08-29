@@ -152,6 +152,16 @@ html {
   scroll-behavior: smooth;
   font-size: 16px;
   -webkit-tap-highlight-color: transparent;
+  /* Horizontal overflow is suppressed here rather than on body. `overflow-x:
+     hidden` on body promotes body to its own scroll container, which is a
+     well-known cause of `position: sticky` silently failing and of the page
+     ending up with two nested scrollers. `clip` suppresses the overflow
+     without creating a scroll container at all.
+
+     `hidden` first as the fallback: Safari only shipped `clip` in 16, and the
+     later declaration wins wherever it is understood. */
+  overflow-x: hidden;
+  overflow-x: clip;
 }
 
 #main, #collection, #reels, #categories, #lookbook {
@@ -164,7 +174,6 @@ body {
   background-color: var(--paper);
   color: var(--ink);
   line-height: 1.65;
-  overflow-x: hidden;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
@@ -657,4 +666,27 @@ input::placeholder, textarea::placeholder {
 :root { --wa-offset: 2rem; }
 @media (max-width: 992px) {
   :root { --wa-offset: 5.25rem; }
+}
+
+/* --- Product name ----------------------------------------------------------
+   Set from the supplied reference ("GHAZAL KNIT POLO IN BLACK"): uppercase
+   geometric sans, regular weight, moderate tracking — not the display serif.
+
+   The distinction is deliberate and worth keeping consistent: Cormorant is the
+   brand's voice and speaks in section headings and pull-quotes; product names
+   are catalogue data, and setting them in sans keeps the two registers apart.
+   Tracking here is looser than body text but tighter than .eyebrow, so a long
+   garment name still reads as a name rather than a label. */
+.product-name {
+  font-family: var(--font-ui);
+  font-size: 0.8125rem;
+  font-weight: 400;
+  letter-spacing: 0.11em;
+  text-transform: uppercase;
+  line-height: 1.55;
+  color: var(--ink);
+}
+
+@media (max-width: 480px) {
+  .product-name { font-size: 0.75rem; letter-spacing: 0.09em; }
 }

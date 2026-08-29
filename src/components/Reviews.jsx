@@ -51,6 +51,12 @@ export default function Reviews() {
           aria-live="polite"
           style={{ animation: 'fadeIn 700ms var(--ease) both' }}
         >
+          {/* Reviewer photograph. Square, not a circle — a round crop is the
+              default avatar shape everywhere on the web and instantly reads as
+              a profile widget rather than editorial. Falls back to initials on
+              paper so the layout holds before the photos arrive. */}
+          <ReviewerPortrait review={review} />
+
           <p
             style={{
               fontFamily: 'var(--font-display)',
@@ -96,5 +102,62 @@ export default function Reviews() {
         </div>
       </div>
     </section>
+  );
+}
+
+/* Reviewer portrait.
+
+   Drop square crops (roughly 400×400, JPG or WebP) into
+   /public/assets/reviewers/ and set the matching `image` field on each entry
+   in the REVIEWS array in src/data/products.js.
+
+   Until then this renders the reviewer's initials on paper, which keeps the
+   vertical rhythm identical whether or not a photo exists — so adding the
+   real pictures later shifts nothing else on the page. */
+function ReviewerPortrait({ review }) {
+  const [failed, setFailed] = React.useState(false);
+  const initials = review.name
+    .split(' ')
+    .map(w => w[0])
+    .slice(0, 2)
+    .join('');
+
+  const box = {
+    width: 62,
+    height: 62,
+    margin: '0 auto 2rem',
+    overflow: 'hidden',
+    backgroundColor: 'var(--paper-deep)',
+    border: '1px solid var(--rule)'
+  };
+
+  if (review.image && !failed) {
+    return (
+      <img
+        src={review.image}
+        alt={review.name}
+        onError={() => setFailed(true)}
+        style={{ ...box, objectFit: 'cover', display: 'block' }}
+      />
+    );
+  }
+
+  return (
+    <div
+      aria-hidden="true"
+      style={{ ...box, display: 'flex', alignItems: 'center', justifyContent: 'center' }}
+    >
+      <span
+        style={{
+          fontFamily: 'var(--font-display)',
+          fontSize: '1.35rem',
+          fontWeight: 400,
+          letterSpacing: '0.06em',
+          color: 'var(--ink-muted)'
+        }}
+      >
+        {initials}
+      </span>
+    </div>
   );
 }

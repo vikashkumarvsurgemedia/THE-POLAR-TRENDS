@@ -1,26 +1,20 @@
-# Brand reel videos
+# Brand film
 
-Drop the short vertical clips here. The reels section (`src/components/VideoReels.jsx`)
-looks for these filenames:
+The section (`src/components/VideoReels.jsx`) plays one landscape film:
 
-| File | Card |
+| File | Notes |
 |---|---|
-| `reel-embroidery-closeup.mp4` | Inside the Embroidery |
-| `reel-kashmiri-floral.mp4` | Pure Whites, Styled |
-| `reel-artisan-check.mp4` | The Artisan Check |
-| `reel-fabric-test.mp4` | The Crush Test |
-| `reel-studio-day.mp4` | A Day at the Studio |
-| `reel-styling.mp4` | Three Ways to Wear It |
+| `brand-film.mp4` | The single hero film on the homepage |
 
 **Specs**
 
-- Aspect ratio **9:16** (vertical, same as an Instagram reel)
-- 1080×1920 is plenty; keep each file **under ~6 MB** so the page stays fast
+- Aspect ratio **16:9** (landscape)
+- 1920×1080; keep it under ~20 MB so the page stays fast
 - **H.264 / MP4** for browser support
-- 10–20 seconds, and make them work **without sound** (they autoplay muted on hover)
+- Add a poster frame by pointing `FILM.poster` at a still
 
-Until a file exists the card falls back to its poster image, so the section
-still renders correctly with no videos present.
+Until the file exists the poster image renders in its place and the section
+still looks correct, so nothing breaks before the film is delivered.
 
-To change the titles, captions, posters or filenames, edit the `REELS` array at
-the top of `src/components/VideoReels.jsx`.
+To change the file path or caption, edit the `FILM` object at the top of
+`src/components/VideoReels.jsx`.
