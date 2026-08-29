@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { Link } from 'react-router-dom';
 import { Heart } from 'lucide-react';
 
 /* Product card.
@@ -13,7 +14,7 @@ import { Heart } from 'lucide-react';
    to Bag is revealed over the image on hover on desktop, and is always
    present on touch, where there is no hover to reveal it. */
 
-export default function ProductCard({ product, onQuickView, onAddToCart, onToggleWishlist, isWishlisted }) {
+export default function ProductCard({ product, onAddToCart, onToggleWishlist, isWishlisted }) {
   const [hovered, setHovered] = useState(false);
   const [added, setAdded] = useState(false);
   // Several catalogue entries still point at placeholder stock URLs, and at
@@ -140,26 +141,18 @@ export default function ProductCard({ product, onQuickView, onAddToCart, onToggl
       {/* Caption block. Centred, airy, and quiet — this is a museum label,
           not a price tag. */}
       <div style={{ padding: '1.35rem 0.25rem 0', textAlign: 'center' }}>
-        <h3
-          style={{
-            fontFamily: 'var(--font-display)',
-            fontSize: '1.15rem',
-            fontWeight: 400,
-            lineHeight: 1.25,
-            letterSpacing: '0.005em',
-            marginBottom: '0.5rem'
-          }}
-        >
-          <button
-            onClick={() => onQuickView(product)}
+        <h3 className="product-name" style={{ marginBottom: '0.6rem' }}>
+          {/* The card's single tab stop, and the whole tile's click target via
+              .stretched-link. A real <Link> rather than a button now that each
+              garment has a URL — middle-click, copy-link and open-in-new-tab
+              all work, and the href is what an ad platform crawls. */}
+          <Link
+            to={`/products/${product.slug}`}
             className="stretched-link"
-            style={{
-              background: 'none', border: 'none', padding: 0, cursor: 'pointer',
-              font: 'inherit', color: 'var(--ink)', textAlign: 'center'
-            }}
+            style={{ color: 'var(--ink)', textAlign: 'center' }}
           >
             {product.name}
-          </button>
+          </Link>
         </h3>
 
         <p

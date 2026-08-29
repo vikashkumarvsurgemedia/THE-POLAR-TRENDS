@@ -147,7 +147,7 @@ export default function CartDrawer({ isOpen, onClose, cartItems, onUpdateQuantit
                     <div style={{ flex: 1, display: 'flex', flexDirection: 'column' }}>
                       <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start' }}>
                         <div>
-                          <div style={{ fontFamily: "var(--font-ui)", fontSize: '14px', color: 'var(--text-primary)', fontWeight: 500 }}>{item.name}</div>
+                          <div className="product-name" style={{ fontSize: '0.6875rem' }}>{item.name}</div>
                           <div style={{ fontFamily: "var(--font-ui)", fontSize: '12px', color: 'var(--text-muted)', marginTop: '4px' }}>Size: {item.selectedSize}</div>
                         </div>
                         <div style={{ fontFamily: "var(--font-display)", fontSize: '14px', fontWeight: 600, color: 'var(--text-primary)' }}>

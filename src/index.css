@@ -152,6 +152,16 @@ html {
   scroll-behavior: smooth;
   font-size: 16px;
   -webkit-tap-highlight-color: transparent;
+  /* Horizontal overflow is suppressed here rather than on body. `overflow-x:
+     hidden` on body promotes body to its own scroll container, which is a
+     well-known cause of `position: sticky` silently failing and of the page
+     ending up with two nested scrollers. `clip` suppresses the overflow
+     without creating a scroll container at all.
+
+     `hidden` first as the fallback: Safari only shipped `clip` in 16, and the
+     later declaration wins wherever it is understood. */
+  overflow-x: hidden;
+  overflow-x: clip;
 }
 
 #main, #collection, #reels, #categories, #lookbook {
@@ -164,7 +174,6 @@ body {
   background-color: var(--paper);
   color: var(--ink);
   line-height: 1.65;
-  overflow-x: hidden;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
@@ -657,4 +666,307 @@ input::placeholder, textarea::placeholder {
 :root { --wa-offset: 2rem; }
 @media (max-width: 992px) {
   :root { --wa-offset: 5.25rem; }
+}
+
+/* --- Product name ----------------------------------------------------------
+   Set from the supplied reference ("GHAZAL KNIT POLO IN BLACK"): uppercase
+   geometric sans, regular weight, moderate tracking — not the display serif.
+
+   The distinction is deliberate and worth keeping consistent: Cormorant is the
+   brand's voice and speaks in section headings and pull-quotes; product names
+   are catalogue data, and setting them in sans keeps the two registers apart.
+   Tracking here is looser than body text but tighter than .eyebrow, so a long
+   garment name still reads as a name rather than a label. */
+.product-name {
+  font-family: var(--font-ui);
+  font-size: 0.8125rem;
+  font-weight: 400;
+  letter-spacing: 0.11em;
+  text-transform: uppercase;
+  line-height: 1.55;
+  color: var(--ink);
+}
+
+@media (max-width: 480px) {
+  .product-name { font-size: 0.75rem; letter-spacing: 0.09em; }
+}
+
+/* ==========================================================================
+   PRODUCT PAGE
+
+   Layout only — every colour, face and rule comes from the tokens above, so
+   the page inherits the identity rather than restating it.
+   ========================================================================== */
+
+/* Gallery left, buy column right. The 1.55fr split lands the gallery near the
+   60% the reference uses while leaving the buy column wide enough that a size
+   row of five never wraps to three. */
+.pdp-top {
+  display: grid;
+  grid-template-columns: 1.55fr 1fr;
+  gap: clamp(1.5rem, 3.5vw, 4rem);
+  align-items: start;
+  /* Clears the fixed header in full. It stacks announcement (34) + brand row
+     (68) + category rail (~45) = ~147px, so anything under about 10rem puts
+     the gallery behind the nav. */
+  padding-top: clamp(10.5rem, 12vh, 12rem);
+  padding-bottom: clamp(3rem, 6vw, 5rem);
+}
+
+/* The buy column flows with the page. It does NOT scroll internally.
+
+   It used to: position:sticky with max-height:calc(100vh - 150px) and
+   overflow-y:auto. That clamped a 1187px column into a 570px box and turned
+   it into its own scroll container, so Add to Bag — 614px down the column —
+   sat past the clipped edge and the page scroll could never reach it. The
+   only way to see it was to put the cursor over the column itself.
+
+   Making it sticky without the clamp does not help either: a column taller
+   than the viewport pins its top and leaves the bottom permanently cut off.
+
+   So the column scrolls normally, and the persistent Add to Bag it was meant
+   to provide comes from the action bar below instead — which is the pattern
+   that actually works at any content height. */
+.pdp-buy {
+  position: static;
+  max-height: none;
+  overflow: visible;
+}
+
+/* --- Sticky action bar -----------------------------------------------------
+   Appears once the real Add to Bag scrolls out of view, and only then. Paper
+   ground with a hairline top so it reads as part of the page rather than a
+   floating widget. */
+.pdp-actionbar {
+  position: fixed;
+  left: 0; right: 0;
+  bottom: 0;
+  z-index: 92;
+  display: flex;
+  align-items: center;
+  gap: clamp(1rem, 2.5vw, 2rem);
+  padding: 0.9rem var(--gutter);
+  background: var(--paper);
+  border-top: 1px solid var(--rule);
+  transform: translateY(101%);
+  transition: transform var(--medium) var(--ease);
+}
+.pdp-actionbar[data-shown="true"] { transform: translateY(0); }
+
+.pdp-actionbar .ab-meta { flex: 1; min-width: 0; }
+.pdp-actionbar .ab-name {
+  display: block;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.pdp-actionbar .btn-primary { flex-shrink: 0; }
+
+@media (max-width: 992px) {
+  /* Sits above the fixed mobile nav rather than under it. */
+  .pdp-actionbar { bottom: 57px; }
+  .pdp-actionbar .ab-meta { display: none; }
+  .pdp-actionbar .btn-primary { width: 100%; }
+}
+
+.gallery-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: clamp(0.5rem, 1vw, 1rem);
+}
+
+.gallery-frame {
+  position: relative;
+  aspect-ratio: 4 / 5;
+  overflow: hidden;
+  background: var(--paper-alt);
+}
+.gallery-frame img { width: 100%; height: 100%; object-fit: cover; }
+
+/* A single-image product gets one full-width frame rather than a lonely
+   half-width tile with dead space beside it. */
+.gallery-grid:has(.gallery-frame:only-child) { grid-template-columns: 1fr; }
+
+.size-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(104px, 1fr));
+  gap: 0.5rem;
+}
+
+.spec-row {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: clamp(1.5rem, 3vw, 3rem);
+}
+
+.size-table {
+  width: 100%;
+  border-collapse: collapse;
+  min-width: 320px;
+  font-family: var(--font-ui);
+  font-size: 0.8125rem;
+  font-variant-numeric: tabular-nums;
+}
+.size-table th {
+  text-align: left;
+  font-size: 0.5625rem;
+  font-weight: 400;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--ink-muted);
+  padding: 0 1.25rem 0.9rem 0;
+  border-bottom: 1px solid var(--rule-strong);
+}
+.size-table td {
+  padding: 0.9rem 1.25rem 0.9rem 0;
+  border-bottom: 1px solid var(--rule);
+  color: var(--ink-body);
+}
+.size-table tbody tr:last-child td { border-bottom: none; }
+
+.detail-band {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 1px;
+}
+
+.gallery-count {
+  text-align: center;
+  padding-top: 1rem;
+  font-size: 0.5625rem;
+  font-variant-numeric: tabular-nums;
+}
+
+@media (max-width: 900px) {
+  /* One column. The gallery becomes a horizontal snap strip so ten portrait
+     frames don't push Add to Bag a full screen below the fold. */
+  .pdp-top {
+    grid-template-columns: 1fr;
+    /* No category rail on mobile, so the header is shorter here. */
+    padding-top: 7.5rem;
+  }
+  .pdp-buy {
+    position: static;
+    max-height: none;
+    overflow: visible;
+  }
+  .gallery-grid {
+    display: flex;
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    gap: 0;
+    margin: 0 calc(var(--gutter) * -1);
+  }
+  .gallery-frame {
+    flex: 0 0 100%;
+    scroll-snap-align: center;
+    aspect-ratio: 4 / 5;
+  }
+  .size-grid { grid-template-columns: repeat(auto-fit, minmax(92px, 1fr)); }
+}
+
+/* --- Content slots ---------------------------------------------------------
+   Placeholders for assets not yet supplied. Deliberately quiet: paper-deep
+   ground, one hairline, a bronze label. They read as "reserved" rather than
+   "broken", which matters when the page is being shown to a client.
+
+   A faint diagonal hatch marks them as non-final without shouting — it is the
+   drafting convention for an area still to be filled. */
+.slot {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 0.6rem;
+  padding: 1.5rem 1.25rem;
+  text-align: center;
+  background-color: var(--paper-deep);
+  background-image: repeating-linear-gradient(
+    45deg,
+    transparent 0 9px,
+    var(--bronze-ghost) 9px 10px
+  );
+  border: 1px solid var(--rule);
+}
+
+.slot-icon { color: var(--bronze); opacity: 0.75; flex-shrink: 0; }
+
+.slot-label {
+  color: var(--ink-body);
+  font-size: 0.5625rem;
+  line-height: 1.6;
+}
+
+.slot-spec {
+  font-family: var(--font-ui);
+  font-size: 0.6875rem;
+  font-weight: 300;
+  letter-spacing: 0.04em;
+  color: var(--ink-muted);
+  line-height: 1.6;
+  margin: 0;
+}
+
+.slot-band {
+  aspect-ratio: auto;
+  min-height: 180px;
+  padding: clamp(2rem, 5vw, 3.5rem);
+}
+
+/* On the ink ground the hatch needs to lighten rather than darken. */
+.theme-dark .slot {
+  background-color: var(--paper-alt);
+  background-image: repeating-linear-gradient(
+    45deg,
+    transparent 0 9px,
+    rgba(246, 243, 238, 0.05) 9px 10px
+  );
+}
+
+/* Colourway slots sit inline with real swatches, so they match their box. */
+.slot-swatch {
+  width: 58px;
+  height: 74px;
+  aspect-ratio: auto;
+  padding: 0;
+  gap: 0.25rem;
+}
+.slot-swatch .slot-label { font-size: 0.4375rem; letter-spacing: 0.12em; }
+
+/* Reviews on the product page — a rail, not the homepage's single rotator,
+   because a garment may have several and they are all about this one shirt. */
+.review-rail {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: clamp(2rem, 4vw, 3.5rem);
+}
+.review-item { margin: 0; }
+.review-item blockquote { margin: 0; }
+
+/* Breadcrumb on the product page. Sits in the header's clearance, above the
+   gallery, so it costs no extra vertical space. */
+.pdp-crumb {
+  display: flex;
+  align-items: center;
+  gap: 0.7rem;
+  /* Measured, not guessed. The fixed header stacks announcement (34) + brand
+     row (68) + category rail (51) = 153px on desktop. At 9rem the breadcrumb
+     landed at 144px and sat behind it, invisible. 11rem clears it with room
+     to breathe. */
+  padding-top: 11rem;
+  padding-bottom: 0;
+}
+.pdp-crumb a { color: var(--ink-muted); transition: color var(--medium) var(--ease); }
+.pdp-crumb a:hover { color: var(--ink); }
+.pdp-crumb .crumb-sep { color: var(--rule-strong); }
+
+/* The gallery row no longer needs to clear the header on its own — the
+   breadcrumb above it does. */
+.pdp-crumb + .pdp-top { padding-top: 1.75rem; }
+
+@media (max-width: 900px) {
+  /* No category rail on mobile — the header is 34 + 68 = 102px there. */
+  .pdp-crumb { padding-top: 7.25rem; }
+  .pdp-crumb + .pdp-top { padding-top: 1.25rem; }
 }

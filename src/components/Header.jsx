@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Search, ShoppingBag, Heart, Menu, X } from 'lucide-react';
+import { Link, useLocation } from 'react-router-dom';
 import { CATEGORIES } from '../data/products';
 
 /* Header.
@@ -40,8 +41,13 @@ export default function Header({
 
   const navItems = CATEGORIES.filter(c => c !== 'All Products');
 
-  // Light type only while transparent over the hero and no panel is open.
-  const onImage = !scrolled && !searchOpen && !mobileMenuOpen;
+  /* The transparent state exists only because the homepage opens on a
+     full-bleed hero photograph. Every other route opens on paper, where light
+     type on a transparent header is invisible — so the header resolves to its
+     solid state immediately off the homepage. */
+  const { pathname } = useLocation();
+  const overHero = pathname === '/';
+  const onImage = overHero && !scrolled && !searchOpen && !mobileMenuOpen;
   const ink = onImage ? '#FBFAF8' : 'var(--ink)';
   const inkMuted = onImage ? 'rgba(251,250,248,0.72)' : 'var(--ink-muted)';
   const hairline = onImage ? 'rgba(251,250,248,0.22)' : 'var(--rule)';
@@ -119,10 +125,19 @@ export default function Header({
 
           {/* Wordmark. Cormorant, wide tracking, no logo mark — the name set
               well is the mark. */}
-          <a
-            href="#main"
+          {/* A route link, not an anchor. As href="#main" this jumped to the
+              top of whatever page you were already on, so from a product page
+              the logo appeared to do nothing — there was no way back home. */}
+          <Link
+            to="/"
             className="brand"
-            onClick={() => setActiveCategory('All Products')}
+            onClick={() => {
+              setActiveCategory('All Products');
+              /* Already home means the route does not change, so the scroll
+                 effect never fires and the logo would appear dead halfway
+                 down the page. Take it to the top here instead. */
+              if (overHero) window.scrollTo({ top: 0, behavior: 'instant' });
+            }}
             style={{
               fontFamily: 'var(--font-display)',
               fontWeight: 400,
@@ -136,7 +151,7 @@ export default function Header({
             }}
           >
             The Polar Trend
-          </a>
+          </Link>
 
           <div style={{ display: 'flex', alignItems: 'center', gap: 4, justifySelf: 'end' }}>
             <button
@@ -148,7 +163,14 @@ export default function Header({
               <Search size={18} strokeWidth={1.25} />
             </button>
 
-            <button className="icon-btn" style={{ ...iconStyle, position: 'relative' }} aria-label={`Wishlist, ${wishlistCount} items`}>
+            {/* Desktop only. The mobile bottom bar already carries Saved, and
+                two wishlist entry points on a phone screen is one more icon
+                competing with the product photography for no added reach. */}
+            <button
+              className="icon-btn desktop-only"
+              style={{ ...iconStyle, position: 'relative' }}
+              aria-label={`Wishlist, ${wishlistCount} items`}
+            >
               <Heart size={18} strokeWidth={1.25} />
               {wishlistCount > 0 && <Dot color={ink} />}
             </button>
@@ -189,9 +211,9 @@ export default function Header({
           {navItems.map(cat => {
             const active = activeCategory === cat;
             return (
-              <a
+              <Link
                 key={cat}
-                href="#collection"
+                to="/#collection"
                 onClick={() => handleNav(cat)}
                 className="eyebrow"
                 style={{
@@ -202,7 +224,7 @@ export default function Header({
                 }}
               >
                 {cat}
-              </a>
+              </Link>
             );
           })}
         </nav>
@@ -254,9 +276,9 @@ export default function Header({
 
           <nav style={{ display: 'flex', flexDirection: 'column', gap: '1.75rem' }}>
             {navItems.map(cat => (
-              <a
+              <Link
                 key={cat}
-                href="#collection"
+                to="/#collection"
                 onClick={() => handleNav(cat)}
                 style={{
                   fontFamily: 'var(--font-display)',
@@ -267,7 +289,7 @@ export default function Header({
                 }}
               >
                 {cat}
-              </a>
+              </Link>
             ))}
           </nav>
 

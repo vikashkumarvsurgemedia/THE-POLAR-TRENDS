@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 import { Home, LayoutGrid, Heart, ShoppingBag } from 'lucide-react';
 
 /* Mobile bottom bar.
@@ -14,9 +15,9 @@ import { Home, LayoutGrid, Heart, ShoppingBag } from 'lucide-react';
 
 export default function MobileBottomBar({ cartCount, wishlistCount, onOpenCart, activeCategory, setActiveCategory }) {
   const items = [
-    { id: 'home',  label: 'Home',    Icon: Home,        href: '#main',       onClick: () => setActiveCategory('All Products') },
-    { id: 'shop',  label: 'Shop',    Icon: LayoutGrid,  href: '#collection', onClick: () => setActiveCategory('All Products') },
-    { id: 'saved', label: 'Saved',   Icon: Heart,       href: '#collection', count: wishlistCount },
+    { id: 'home',  label: 'Home',    Icon: Home,        to: '/',            onClick: () => setActiveCategory('All Products') },
+    { id: 'shop',  label: 'Shop',    Icon: LayoutGrid,  to: '/#collection', onClick: () => setActiveCategory('All Products') },
+    { id: 'saved', label: 'Saved',   Icon: Heart,       to: '/#collection', count: wishlistCount },
     { id: 'bag',   label: 'Bag',     Icon: ShoppingBag, count: cartCount,    onClick: onOpenCart }
   ];
 
@@ -38,7 +39,7 @@ export default function MobileBottomBar({ cartCount, wishlistCount, onOpenCart, 
           its content and each tap target ends up ~26px wide instead of a
           quarter of the screen. */}
       <ul style={{ display: 'flex', listStyle: 'none', margin: 0, padding: 0, width: '100%' }}>
-        {items.map(({ id, label, Icon, href, onClick, count }) => {
+        {items.map(({ id, label, Icon, to, onClick, count }) => {
           const content = (
             <>
               <span style={{ position: 'relative', lineHeight: 0 }}>
@@ -77,8 +78,8 @@ export default function MobileBottomBar({ cartCount, wishlistCount, onOpenCart, 
 
           return (
             <li key={id} style={{ flex: 1, display: 'flex' }}>
-              {href ? (
-                <a href={href} onClick={onClick} style={style}>{content}</a>
+              {to ? (
+                <Link to={to} onClick={onClick} style={style}>{content}</Link>
               ) : (
                 <button onClick={onClick} style={style} aria-label={`${label}, ${count || 0} items`}>
                   {content}
